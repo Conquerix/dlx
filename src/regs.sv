@@ -12,7 +12,7 @@ module regs(input  logic clk,
 
       logic [31:0] regs[31:0];
 
-      always@(negedge reset_n)
+      always@(!reset_n)
         regs[0] <= '0;
 
       always@(posedge clk)

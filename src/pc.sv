@@ -8,7 +8,7 @@ module pc(input  logic        clk,
       logic [31:0] pc;
 
       always@(posedge clk)
-        if(negedge reset_n)
+        if(!reset_n)
           pc <= '0;
         else
           if(IF)
