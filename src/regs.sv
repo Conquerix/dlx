@@ -20,7 +20,7 @@ module regs(input  logic clk,
           begin
             S1 <= regs[Rs1];
             S2 <= regs[Rs2];
-            if(WB && reg_s_enable && Rd != '0)
+            if(WB && Rd != '0)
               regs[Rd] <= reg_s;
 
           end
