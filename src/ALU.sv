@@ -31,23 +31,24 @@ logic carry_comb, z_comb;
 **/
 
 always@(*) begin
+    carry_comb = '0;
     case(I)
-            0: out_comb = op2 << 16;
-            1: {carry_comb,out_comb}  = op1+op2;
-            2: {carry_comb,out_comb}  = op1-op2;
-            3: out_comb  = op1&op2;
-            4: out_comb  = op1|op2;
-            5: out_comb  = op1^op2;
-            6: out_comb  = op1 << op2[2:0];
-            7: out_comb  = op1 >> op2[2:0];
-            8: out_comb  = op1 == 32'0  ? op2 : 32'0;
-            9: out_comb  = op1 != 32'0  ? op2 : 32'0;
-            10: out_comb  = op1 == op2  ? '1  : 32'0;
-            11: out_comb  =(op1 <= op2) ? '1  : 32'0;
-            12: out_comb  = op1 <  op2  ? '1  : 32'0;
-            13: out_comb  = op1 != op2  ? '1  : 32'0;
-            14: out_comb  = op1 >>> op2[2:0];
-            15: out_comb  = op1 + 4;
+            0:  out_comb = op2 << 16;
+            1:  {carry_comb,out_comb}  = op1+op2;
+            2:  {carry_comb,out_comb}  = op1-op2;
+            3:  out_comb               = op1&op2;
+            4:  out_comb               = op1|op2;
+            5:  out_comb               = op1^op2;
+            6:  out_comb               = op1 << op2[2:0];
+            7:  out_comb               = op1 >> op2[2:0];
+            8:  out_comb               = op1 == 32'0  ? op2 : 32'0;
+            9:  out_comb               = op1 != 32'0  ? op2 : 32'0;
+            10: out_comb               = op1 == op2  ? '1  : 32'0;
+            11: out_comb               =(op1 <= op2) ? '1  : 32'0;
+            12: out_comb               = op1 <  op2  ? '1  : 32'0;
+            13: out_comb               = op1 != op2  ? '1  : 32'0;
+            14: out_comb               = op1 >>> op2[2:0];
+            15: out_comb               = op1 + 4;
     endcase
 
     z_comb = (out_comb == 32'b0);
