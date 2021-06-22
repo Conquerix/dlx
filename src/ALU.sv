@@ -27,6 +27,7 @@ logic carry_comb, z_comb;
 *   11. SLE: r <= op1 <= op2 ? 1 : 0
 *   12. SLT: r <= op1 <  op2 ? 1 : 0
 *   13. SNE: r <= op1 != op2 ? 1 : 0
+*   14. SRA: r <= op1 >>> (op2 % 8)
 **/
 
 always@(*) begin
@@ -44,14 +45,15 @@ always@(*) begin
             11: out_comb  =(op1 <= op2) ? '1  : 32'0;
             12: out_comb  = op1 <  op2  ? '1  : 32'0;
             13: out_comb  = op1 != op2  ? '1  : 32'0;
+            14: out_comb  = op1 >>> (op2 % 8);
             default: out_comb = '0;
     endcase
-    
+
     z_comb = (out_comb == 32'b0);
 end
 
 always@(posedge clk)
-    if(EX) 
+    if(EX)
     begin
         res1  <= out_comb;
         carry <= carry_comb;
