@@ -1,13 +1,13 @@
-module ALU_test();
-    
+module ALU_tb();
+
     logic[3:0] I;
     logic EX;
     logic clk;
-    
+
     logic[31:0] E1, E2, S;
     logic carry,z;
 
- 
+
     ALU ALU1(.I(I),
              .EX(EX),
              .clk(clk),
@@ -17,4 +17,5 @@ module ALU_test();
              .carry(carry),
              .z(z));
     
+
 endmodule

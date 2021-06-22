@@ -1,4 +1,4 @@
-module ALU(
+module ALU_test(
     input  logic[3:0] I,
     input  logic EX,
     input  logic clk,
@@ -46,12 +46,12 @@ always@(*) begin
             13: out_comb  = op1 != op2  ? 'b1  : 32'b0;
             default: out_comb = '0;
     endcase
-    
+
     z_comb = (out_comb == 32'b0);
 end
 
 always@(posedge clk)
-    if(EX) 
+    if(EX)
     begin
         res1  <= out_comb;
         carry <= carry_comb;
