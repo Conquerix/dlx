@@ -1,13 +1,18 @@
 module ALU(
     input  logic[3:0] I,
     input  logic EX,
+    input  logic clk,
 
     input  logic[31:0] op1,
     input  logic[31:0] op2,
-    output logic[31:0] res1
+
+
+    output logic[31:0] res1,
+    output logic carry, z
 );
 
-wire[15:0] out;
+logic[31:0] out_comb;
+logic carry_comb, z_comb;
 /**
 *   1.  ADD: r <= op1 + op2
 *   2.  SUB: r <= op1 - op2
@@ -25,24 +30,31 @@ wire[15:0] out;
 **/
 
 always@(*) begin
-        //1
-        out[1]  <= op1+op2;
-        out[2]  <= op1-op2;
-        out[3]  <= op1&op2;
-        out[4]  <= op1|op2;
-        out[5]  <= op1^op2;
-        out[6]  <= op1 << (op2 % '8);
-        out[7]  <= op1 >> (op2 % '8);
-        out[8]  <= op1 == '0   ? op2 : '0;
-        out[9]  <= op1 != '0   ? op2 : '0;
-        out[10] <= op1 == op2  ? '1  : '0;
-        out[11] <=(op1 <= op2) ? '1  : '0;
-        out[12] <= op1 <  op2  ? '1  : '0;
-        out[13] <= op1 != op2  ? '1  : '0;
+    case(I)
+            1: {carry_comb,out_comb}  = op1+op2;
+            2: {carry_comb,out_comb}  = op1-op2;
+            3: out_comb  = op1&op2;
+            4: out_comb  = op1|op2;
+            5: out_comb  = op1^op2;
+            6: out_comb  = op1 << op2[2:0];
+            7: out_comb  = op1 >> op2[2:0];
+            8: out_comb  = op1 == 32'0  ? op2 : 32'0;
+            9: out_comb  = op1 != 32'0  ? op2 : 32'0;
+            10: out_comb  = op1 == op2  ? '1  : 32'0;
+            11: out_comb  =(op1 <= op2) ? '1  : 32'0;
+            12: out_comb  = op1 <  op2  ? '1  : 32'0;
+            13: out_comb  = op1 != op2  ? '1  : 32'0;
+            default: out_comb = '0;
+    endcase
+    
+    z_comb = (out_comb == 32'b0);
 end
 
-// multiplexeur des resultats
-always@(*)
-    res1 <= out[I];
-
+always@(posedge clk)
+    if(EX) 
+    begin
+        res1  <= out_comb;
+        carry <= carry_comb;
+        z     <= z_comb;
+    end
 endmodule
