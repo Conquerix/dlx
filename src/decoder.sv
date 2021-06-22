@@ -8,8 +8,8 @@ module decoder(input logic        clk,
                output logic Iv_alu,
                output logic Pc_alu,
 
-               output logic [0:1] Pc_cmd,
-               output logic [0:1] Pc_val,
+               output logic [1:0] Pc_cmd,
+               output logic [1:0] Pc_val,
 
 
                output logic [3:0] I,
@@ -39,18 +39,18 @@ module decoder(input logic        clk,
             if(i_data_read[31:26] == '0)
               begin
                 case(i_data_read[5:0])
-                  0x20    : I <= 4'd1;
-                  0x24    : I <= 4'd3;
-                  0x25    : I <= 4'd4;
-                  0x28    : I <= 4'd10;
-                  0x2c    : I <= 4'd11;
-                  0x04    : I <= 4'd6;
-                  0x2a    : I <= 4'd12;
-                  0x29    : I <= 4'd13;
-                  0x07    : I <= 4'd14;
-                  0x06    : I <= 4'd7;
-                  0x22    : I <= 4'd2;
-                  0x26    : I <= 4'd5;
+                  'h20: I <= 4'd1;
+                  'h24: I <= 4'd3;
+                  'h25: I <= 4'd4;
+                  'h28    : I <= 4'd10;
+                  'h2c    : I <= 4'd11;
+                  'h04    : I <= 4'd6;
+                  'h2a    : I <= 4'd12;
+                  'h29    : I <= 4'd13;
+                  'h07    : I <= 4'd14;
+                  'h06    : I <= 4'd7;
+                  'h22    : I <= 4'd2;
+                  'h26    : I <= 4'd5;
                   default : I <= 4'd0;
                 endcase
                 Rs1 <= i_data_read[25:21];
@@ -74,16 +74,16 @@ module decoder(input logic        clk,
                   Rs1 <= 0;
                   Rs2 <= 0;
                   Pc_val <= 2'b01;
-                  Iv <= {6'i_data_read[25],i_data_read[25:0]};
+                  Iv <= {6'(i_data_read[25]),i_data_read[25:0]};
                   if(i_data_read[26] == 1)
                     begin
-                      I <= 4d'15;
-                      Rd <= 5d'31;
+                      I <= 4'd15;
+                      Rd <= 5'd31;
                     end
                   else
                     begin
-                      I <= 4d'0;
-                      Rd <= 5d'0;
+                      I <= 4'd0;
+                      Rd <= 5'd0;
                     end
                 end
               else
@@ -98,112 +98,113 @@ module decoder(input logic        clk,
                   Iv_alu <= 1;
                   Iv <= 0;
                   case(i_data_read[31:26])
-                    0x08 :
+                    'h08 :
                       begin
                         I <= 4'd1;
-                          Iv <= {16'i_data_read[15],i_data_read[15:0]};
+                          Iv <= {16'(i_data_read[15]),i_data_read[15:0]};
                       end
-                    0x0c :
+                    'h0c :
                       begin
                         I <= 4'd3;
-                        Iv <= i_data_read[15:0];
+                        Iv <= {16'b0, i_data_read[15:0]};
                       end
-                    0x04 :
+                    'h04 :
                       begin
                         Pc_cmd <= 2'b10;
                         I <= 4'd8;
-                        Iv <= {16'i_data_read[15],i_data_read[15:0]};
+                        Iv <= {16'(i_data_read[15]),i_data_read[15:0]};
                       end
-                    0x05 :
+                    'h05 :
                       begin
                         Pc_cmd <= 2'b10;
                         I <= 4'd9;
-                        Iv <= {16'i_data_read[15],i_data_read[15:0]};
+                        Iv <= {16'(i_data_read[15]),i_data_read[15:0]};
                         Rd <= 0;
                       end
-                    0x13 :
+                    'h13 :
                       begin
                         I <= 4'd15;
                         Rd <= 5'd31;
                         Pc_cmd <= 2'b11;
                         Pc_val <= 2'b11;
-                        Iv <= i_data_read[15:0];
+                        Iv <= {16'b0, i_data_read[15:0]};
                       end
-                    0x12 :
+                    'h12 :
                       begin
                         I <= 4'd0;
                         Pc_cmd <= 2'b11;
                         Pc_val <= 2'b11;
                         Rd <= 0;
-                        Iv <= i_data_read[15:0];
+                        Iv <= {16'b0, i_data_read[15:0]};
                       end
-                    0x0f :
+                    'h0f :
                       begin
                         I <= 4'd0;
-                        Iv <= i_data_read[15:0];
+                        Iv <= {16'b0, i_data_read[15:0]};
                       end
-                    0x23 :
+                    'h23 :
                       begin
                         I <= 4'd1;
                         d_load_enable <= 1;
-                        Iv <= {16'i_data_read[15],i_data_read[15:0]};
+                        Iv <= {16'(i_data_read[15]),i_data_read[15:0]};
                       end
-                    0x0d :
+                    'h0d :
                       begin
                         I <= 4'd4;
-                        Iv <= i_data_read[15:0];
+                        Iv <= {16'b0, i_data_read[15:0]};
                       end
-                    0x18 :
+                    'h18 :
                       begin
                         I <= 4'd10;
-                        Iv <= {16'i_data_read[15],i_data_read[15:0]};
+                        Iv <= {16'(i_data_read[15]),i_data_read[15:0]};
                       end
-                    0x1c :
+                    'h1c :
                       begin
                         I <= 4'd11;
-                        Iv <= {16'i_data_read[15],i_data_read[15:0]};
+                        Iv <= {16'(i_data_read[15]),i_data_read[15:0]};
                       end
-                    0x14 :
+                    'h14 :
                       begin
                         I <= 4'd6;
-                        Iv <= i_data_read[15:0];
+                        Iv <= {16'b0, i_data_read[15:0]};
                       end
-                    0x1a :
+                    'h1a :
                       begin
                         I <= 4'd12;
-                        Iv <= {16'i_data_read[15],i_data_read[15:0]};
+                        Iv <= {16'(i_data_read[15]),i_data_read[15:0]};
                       end
-                    0x19 :
+                    'h19 :
                       begin
                         I <= 4'd13;
-                        Iv <= {16'i_data_read[15],i_data_read[15:0]};
+                        Iv <= {16'(i_data_read[15]),i_data_read[15:0]};
                       end
-                    0x17 :
+                    'h17 :
                       begin
                         I <= 4'd14;
-                        Iv <= i_data_read[15:0];
+                        Iv <= {16'b0, i_data_read[15:0]};
                       end
-                    0x16 :
+                    'h16 :
                       begin
                         I <= 4'd7;
-                        Iv <= i_data_read[15:0];
+                        Iv <= {16'b0, i_data_read[15:0]};
                       end
-                    0x0a :
+                    'h0a :
                       begin
                         I <= 4'd2;
-                        Iv <= {16'i_data_read[15],i_data_read[15:0]};
+                        Iv <= {16'(i_data_read[15]),i_data_read[15:0]};
                       end
-                    0x2b :
+                    'h2b :
                       begin
                         I <= 4'd1;
-                        Iv <= {16'i_data_read[15],i_data_read[15:0]};
+                        Iv <= {16'(i_data_read[15]),i_data_read[15:0]};
                         d_write_enable <= 1;
                         Rd <= 5'd0;
                       end
-                    0x0e :
+                    'h0e :
                       begin
                         I <= 4'd5;
-                        Iv <= i_data_read[15:0];
+                        Iv <= {16'b0, i_data_read[15:0]};
                       end
+                  endcase
                 end
 endmodule
