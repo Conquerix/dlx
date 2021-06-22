@@ -29,13 +29,6 @@ module regs(input  logic clk,
 
       always@(posedge clk)
           begin
-<<<<<<< HEAD
-            S1 <= regs[Rs1];
-            S2 <= regs[Rs2];
-            if(WB && Rd != '0)
-              regs[Rd] <= reg_s;
-
-=======
         if(WB && reg_s_enable)
           regs[Rd] <= reg_s;
             if(Rs1)
@@ -46,6 +39,5 @@ module regs(input  logic clk,
               P2 <= regs[Rs2];
             else
               P2 <= 0;
->>>>>>> fac6419c1e35fcbb302bbc0fdc5c1ca719342edd
           end
 endmodule
