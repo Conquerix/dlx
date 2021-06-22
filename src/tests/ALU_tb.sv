@@ -16,6 +16,27 @@ module ALU_tb();
              .res1(E1),
              .carry(carry),
              .z(z));
+<<<<<<< HEAD
 
+=======
+    always @(posedge clk) begin
+        
+        I <= I + 1;
+    end
+
+    always begin
+        #5ns
+        clk <= !clk;
+    end
+    initial begin
+        clk <= 0;
+        E1 <= 11;
+        E2 <= 2;
+        I <= 1;
+        
+        EX <= 1;
+        
+    end
+>>>>>>> 6196e9f830e1f782b19e66035bdd353588c6df4c
 
 endmodule
