@@ -1,6 +1,9 @@
 module regs(input  logic clk,
+            // phase d'ecriture
             input  logic WB,
+            // signal d'ecriture 
             input  logic reg_s_enable,
+
       // Numéros des registres
             input  logic [4:0]  Rs1,
             input  logic [4:0]  Rs2,
@@ -10,17 +13,17 @@ module regs(input  logic clk,
             output logic [31:0] S1,
             output logic [31:0] S2);
 
-      logic [31:0] regs[31:0];
+      logic [31:0] regs[32];
 
-      always@(!reset_n)
-        regs[0] <= '0;
+      always@(*)
+        regs[0] = '0;
 
       always@(posedge clk)
-        if(WB)
           begin
             S1 <= regs[Rs1];
             S2 <= regs[Rs2];
-            if(reg_s_enable && Rd != 0)
+            if(WB && reg_s_enable && Rd != '0)
               regs[Rd] <= reg_s;
+
           end
 endmodule
