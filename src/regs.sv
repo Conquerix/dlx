@@ -23,3 +23,4 @@ module regs(input  logic clk,
             if(reg_s_enable && Rd != 0)
               regs[Rd] <= reg_s;
           end
+endmodule
