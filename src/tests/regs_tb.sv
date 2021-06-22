@@ -17,32 +17,33 @@ module regs_tb();
     clk <= !clk;
   end
 
-  always@(posedge clk)
-    begin
-      #13ns
-      Rs1 <= 'd1;
-      Rs2 <= 'd24;
-      Rd  <= 'd7;
-      reg_s  <= 'd111111;
-      #10ns
-      reg_s  <= 'd222222;
-      #10ns
-      reg_s  <= 'd333333;
-      #10ns
-      reg_s  <= 'd444444;
-      #10ns
-      reg_s  <= 'd555555;
-      #10ns
-      reg_s  <= 'd666666;
-      #10ns
-      reg_s  <= 'd777777;
-      #10ns
-      reg_s  <= 'd888888;
-      #10ns
-      reg_s  <= 'd999999;
-    end
-
   initial
     begin
-      clk <= 0;
+      #5ns
+      WB <= 1;
+      #13ns
+      Rs1    <= 'd1;
+      Rs2    <= 'd24;
+      Rd     <= 'd7;
+      reg_s  <= 'd111111;
+      #10ns
+      Rs1    <= 'd7;
+      Rs2    <= 'd0;
+      Rd     <= 'd3;
+      reg_s  <= 'd222222;
+      #10ns
+      Rs1    <= 'd13;
+      Rs2    <= 'd31;
+      Rd     <= 'd13;
+      reg_s  <= 'd333333;
+      #10ns
+      Rs1    <= 'd3;
+      Rs2    <= 'd3;
+      Rd     <= 'd10;
+      reg_s  <= 'd444444;
+      #10ns
+      Rs1    <= 'd7;
+      Rs2    <= 'd3;
+      Rd     <= 'd7;
+      reg_s  <= 'd555555;
     end
