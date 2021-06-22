@@ -32,6 +32,7 @@ logic carry_comb, z_comb;
 
 always@(*) begin
     case(I)
+            0: out_comb = op2 << 16;
             1: {carry_comb,out_comb}  = op1+op2;
             2: {carry_comb,out_comb}  = op1-op2;
             3: out_comb  = op1&op2;
@@ -45,9 +46,8 @@ always@(*) begin
             11: out_comb  =(op1 <= op2) ? '1  : 32'0;
             12: out_comb  = op1 <  op2  ? '1  : 32'0;
             13: out_comb  = op1 != op2  ? '1  : 32'0;
-            14: out_comb  = op1 >>> (op2 % 8);
+            14: out_comb  = op1 >>> op2[2:0];
             15: out_comb  = op1 + 4;
-            default: out_comb = op1;
     endcase
 
     z_comb = (out_comb == 32'b0);

@@ -39,19 +39,19 @@ module decoder(input logic        clk,
             if(i_data_read[31:26] == '0)
               begin
                 case(i_data_read[5:0])
-                  0x20    : I <= 4d'1;
-                  0x24    : I <= 4d'3;
-                  0x25    : I <= 4d'4;
-                  0x28    : I <= 4d'10;
-                  0x2c    : I <= 4d'11;
-                  0x04    : I <= 4d'6;
-                  0x2a    : I <= 4d'12;
-                  0x29    : I <= 4d'13;
-                  0x07    : I <= 4d'14;
-                  0x06    : I <= 4d'7;
-                  0x22    : I <= 4d'2;
-                  0x26    : I <= 4d'5;
-                  default : I <= 4d'0;
+                  0x20    : I <= 4'd1;
+                  0x24    : I <= 4'd3;
+                  0x25    : I <= 4'd4;
+                  0x28    : I <= 4'd10;
+                  0x2c    : I <= 4'd11;
+                  0x04    : I <= 4'd6;
+                  0x2a    : I <= 4'd12;
+                  0x29    : I <= 4'd13;
+                  0x07    : I <= 4'd14;
+                  0x06    : I <= 4'd7;
+                  0x22    : I <= 4'd2;
+                  0x26    : I <= 4'd5;
+                  default : I <= 4'd0;
                 endcase
                 Rs1 <= i_data_read[25:21];
                 Rs2 <= i_data_read[20:16];
@@ -64,9 +64,9 @@ module decoder(input logic        clk,
                 d_load_enable <= '0;
               end
             else
-              if(i_data_read[31:27] == 5b'00001)
+              if(i_data_read[31:27] == 5'b00001)
                 begin
-                  Pc_cmd <= 2b'10;
+                  Pc_cmd <= 2'b10;
                   Pc_alu <= 1;
                   Iv_alu <= 0;
                   d_write_enable <= 0;
@@ -100,79 +100,109 @@ module decoder(input logic        clk,
                   case(i_data_read[31:26])
                     0x08 :
                       begin
-                        I = 4d'1;
+                        I = 4'd1;
                         assign Iv = i_data_read[15:0];
                       end
                     0x0c :
                       begin
-
+                        I = 4'd3;
+                        Iv = i_data_read[15:0];
                       end
                     0x04 :
                       begin
-
+                        Pc_cmd = 2'b10;
+                        I = 4'd8;
+                        assign Iv = i_data_read[15:0];
                       end
                     0x05 :
                       begin
-
+                        Pc_cmd = 2'b10;
+                        I = 4'd9;
+                        assign Iv = i_data_read[15:0];
+                        Rd = 0;
                       end
                     0x13 :
                       begin
-
+                        I = 4'd15;
+                        Rd = 5'd31;
+                        Pc_cmd = 2'b11;
+                        Pc_val = 2'b11;
+                        Iv = i_data_read[15:0];
                       end
                     0x12 :
                       begin
-
+                        I = 4'd0;
+                        Pc_cmd = 2'b11;
+                        Pc_val = 2'b11;
+                        Rd = 0;
+                        Iv = i_data_read[15:0];
                       end
                     0x0f :
                       begin
-
+                        I = 4'd0;
+                        Iv = i_data_read[15:0];
                       end
                     0x23 :
                       begin
-
+                        I = 4'd1;
+                        d_load_enable = 1;
+                        assign Iv = i_data_read[15:0];
                       end
                     0x0d :
                       begin
-
+                        I = 4'd4;
+                        Iv = i_data_read[15:0];
                       end
                     0x18 :
                       begin
-
+                        I = 4'd10;
+                        assign Iv = i_data_read[15:0];
                       end
                     0x1c :
                       begin
-
+                        I = 4'd11;
+                        assign Iv = i_data_read[15:0];
                       end
                     0x14 :
                       begin
-
+                        I = 4'd6;
+                        Iv = i_data_read[15:0];
                       end
                     0x1a :
                       begin
-
+                        I = 4'd12;
+                        assign Iv = i_data_read[15:0];
                       end
                     0x19 :
                       begin
-
+                        I = 4'd13;
+                        assign Iv = i_data_read[15:0];
                       end
                     0x17 :
                       begin
-
+                        I = 4'd14;
+                        Iv = i_data_read[15:0];
                       end
                     0x16 :
                       begin
-
+                        I = 4'd7;
+                        Iv = i_data_read[15:0];
                       end
                     0x0a :
                       begin
-
+                        I = 4'd2;
+                        assign Iv = i_data_read[15:0];
                       end
                     0x2b :
                       begin
-
+                        I = 4'd1;
+                        assign Iv = i_data_read[15:0];
+                        d_write_enable = 1;
+                        Rd = 5'd0;
                       end
                     0x0e :
                       begin
-
+                        I = 4'd5;
+                        Iv = i_data_read[15:0];
                       end
                 end
