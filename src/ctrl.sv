@@ -24,7 +24,7 @@ end
 
 always @(posedge clk) begin
     if(!reset_n)
-        state <= '0;
+        state <= sIF;
     else
         state <= n_state;
 end

@@ -32,7 +32,6 @@ module ALU_tb();
         I <= 1;
         
         EX <= 1;
-        
     end
 
 endmodule
