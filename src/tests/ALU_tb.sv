@@ -16,6 +16,6 @@ module ALU_tb();
              .res1(E1),
              .carry(carry),
              .z(z));
-    
+
 
 endmodule
