@@ -9,7 +9,7 @@ module regs_tb();
   logic [31:0] S1;
   logic [31:0] S2;
 
-  regs regs1(.clk(clk),.Rs1(Rs1),.Rs2(Rs2),.reg_s(reg_s),.S1(S1),.S2(S2));
+  regs regs1(.clk(clk),.WB(WB),.Rs1(Rs1),.Rs2(Rs2),.Rd(Rd),.reg_s(reg_s),.S1(S1),.S2(S2));
 
   always
   begin
@@ -19,6 +19,7 @@ module regs_tb();
 
   initial
     begin
+      clk <= 0;
       #5ns
       WB <= 1;
       #13ns
@@ -47,3 +48,4 @@ module regs_tb();
       Rd     <= 'd7;
       reg_s  <= 'd555555;
     end
+endmodule
