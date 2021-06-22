@@ -1,8 +1,6 @@
 module regs(input  logic clk,
             // phase d'ecriture
             input  logic WB,
-            // signal d'ecriture 
-            input  logic reg_s_enable,
 
       // Numéros des registres
             input  logic [4:0]  Rs1,
