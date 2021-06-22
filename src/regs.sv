@@ -11,17 +11,33 @@ module regs(input  logic clk,
             output logic [31:0] S1,
             output logic [31:0] S2);
 
-      logic [31:0] regs[32];
+      logic [31:0] regs[31:0];
+      logic [31:0] P1,P2;
 
       always@(*)
-        regs[0] = '0;
+      begin
+        if(Rd == Rs1)
+          S1 <= reg_s;
+        else
+          S1 <= P1;
+        if(Rd == Rs2)
+          S2 <= reg_s;
+        else
+          S2 <= P2;
+      end
+
 
       always@(posedge clk)
           begin
-            S1 <= regs[Rs1];
-            S2 <= regs[Rs2];
-            if(WB && reg_s_enable && Rd != '0)
-              regs[Rd] <= reg_s;
-
+        if(WB && reg_s_enable)
+          regs[Rd] <= reg_s;
+            if(Rs1)
+              P1 <= regs[Rs1];
+            else
+              P1 <= 0;
+            if(Rs2)
+              P2 <= regs[Rs2];
+            else
+              P2 <= 0;
           end
 endmodule
