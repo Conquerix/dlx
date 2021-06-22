@@ -46,7 +46,8 @@ always@(*) begin
             12: out_comb  = op1 <  op2  ? '1  : 32'0;
             13: out_comb  = op1 != op2  ? '1  : 32'0;
             14: out_comb  = op1 >>> (op2 % 8);
-            default: out_comb = '0;
+            15: out_comb  = op1 + 4;
+            default: out_comb = op1;
     endcase
 
     z_comb = (out_comb == 32'b0);
