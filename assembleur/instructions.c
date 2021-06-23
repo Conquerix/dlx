@@ -82,14 +82,14 @@ op_t make_op(int value, int typeflag, int line) {
             }
             return MAKE_REG(op);
 
-        case OP_IMM: 
-            if(op & ~0xffff != 0) {
+        case OP_IMM:
+            if((op & ~0xffff) != 0) {
                  fprintf(stderr, "erreur a la ligne %d: immediat %d trop grand \n", line, op);
                 return INVALID_OPERAND;
             }
             return MAKE_IMM(op);
-        case OP_VAL: 
-            if(op & ~0xffffff != 0) {
+        case OP_VAL:
+            if((op & ~0x03ffffff) != 0) {
                  fprintf(stderr, "erreur a la ligne %d: valeur %d trop grande \n", line, op);
                 return INVALID_OPERAND;
             }

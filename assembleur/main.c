@@ -1,28 +1,40 @@
 #include <stdio.h>
-
+#include <time.h>
+#include <unistd.h>
 
 #include "instructions.h"
 
+// la sortie doit être ecrite en hexa et non en binaire ssi out_hex=1 
+int out_hex = 1;
 
 void no_args() {
     printf("DLXASM 0.0.\nutilisation:\tdlxasm [entree] [sortie]\n");
     exit(0);
 }
 
-void checkargs(int argc, const char** argv);
-
-int main(int argc, const char** argv) {
-    /*
+void checkargs(int argc, const char** argv) {
 /// arguments...
     if(argc == 1)
         no_args();
     
-    for(int i = 0;  i < argc; i++)
-        if(!strcmp(argv[i], "-h"))
+    int n_files = argc-1;
+
+    for(int i = 0;  i < argc; i++) {
+        if(     !strcmp(argv[i], "-h"))
             no_args();
+        else if(!srtcmp(argv[i], "-x")) {
+            out_hex = 1;
+            --n_files;
+        }
+        else if(!srtcmp(argv[i], "-b")) {
+            out_hex = 0;
+            --n_files;
+        }
+    }
 
 
-    if(argc != 3)
+
+    if(n_files != 3)
         fprintf(stderr, "erreur: mauvaise utilisation\n"); 
 
 
@@ -33,43 +45,57 @@ int main(int argc, const char** argv) {
         fprintf(stderr, "%s: fichier introuvable\n");
         exit(0);
     }
+}
 
-/// pars
+int main(int argc, const char** argv) {
+    begun_time = clock();
+
+    checkargs(argc,argv);
+
+/// debut de l'assemblage
+    int errors = 0;
+
+/// parsage
     Instruction* instruction_list;
     int n_instructions;
 
+
     // 0 si tout s'est bien passe
-    int result = parse(input, &instruction_list, &n_instructions);
+    int errors = parse(input, &instruction_list, &n_instructions);
     
     fclose(input);
 
-    printf("parsage effectue, %d instructions lues\n", n_instructions);
 
+    printf("parsage effectue, %d instructions lues, %d erreurs\n", n_instructions);
 
-    FILE* output = fopen(argv[2], "wb+");
-*/
-int n_instructions = 4;
-Instruction instruction_list[1] = {
-    {"ORI", make_op(1, OP_REG, 0), make_op(0, OP_REG), 0, make_op(10, OP_IMM, 0)},
-} ;
+    if(errors)
+        return 1;
 
-int result = 0;
-    int error = 0;
+// decodage et ecriture
+    FILE* output;
+    
+    if(out_hex)   
+        output = fopen(argv[2], "w+");
+    else
+        output = fopen(argv[2], "wb+");
 
     if(!result) {
         for(int i = 0; i < n_instructions; i++) {
             instruction_t instruction = convert(instruction_list[i]);
             
             if(instruction == INVALID_INSTRUCTION) {
-                
+                errors++;
             }
 
-            //fwrite(&i, 1,4, output);
-            printf("%x",i);
+            fwrite(&i, 1,4, output);
+            //printf("%x",i);
         }
     }
+    fclose(output);
 
-    return 0;
+    printf("assemblage terminee (%d erreurs, %d ms)", errors, clock()-begun_time);
+
+    return errors != 0;
 
 }
 // int parse(FILE*,Instruction** list,int*);
