@@ -14,13 +14,13 @@ enum logic[2:0] {sIF,sID,sEX,sMEM,sWB} state, n_state;
 
 always@(*)  begin
     case(state)
-        sIF: n_state = sID;
-        sID: n_state = sEX;
-        sEX: n_state = sMEM;
-       sMEM: n_state = sWB;
+        sIF:     n_state = sID;
+        sID:     n_state = sEX;
+        sEX:     n_state = sMEM;
+        sMEM:    n_state = sWB;
         default: n_state = sIF; // sWB
     endcase
-end 
+end
 
 always @(posedge clk) begin
     if(!reset_n)
@@ -32,13 +32,13 @@ end
 always @(*) begin
     {IF,ID,EX,MEM,WB} = '0;
     case(state)
-        sIF:  IF  = '1;
-        sID:  ID  = '1;
-        sEX:  EX  = '1;
-        sMEM: MEM = '1;
+        sIF:      IF  = '1;
+        sID:      ID  = '1;
+        sEX:      EX  = '1;
+        sMEM:     MEM = '1;
         default:  WB  = '1; // sWB
     endcase
-    
+
 end
 
 endmodule
