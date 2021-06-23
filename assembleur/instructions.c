@@ -148,11 +148,11 @@ instruction_t buildRinstruction(uint32_t opcode, uint32_t Rd,uint32_t Rs1,uint32
     return opcode | (Rd << 11) | (Rs2 << 16) | (Rs1 << 21);
 }
 instruction_t buildIinstruction(uint32_t opcode, uint32_t Rd,uint32_t Rs1, uint32_t imm) {
-    return opcode | (Rd << 11) | (Rs2 << 16) | (Rs1 << 21);
+    return (imm) | (Rd << 16) | (Rs1 << 21) | (opcode << 26);
 
 }
 instruction_t buildJinstruction(uint32_t opcode, uint32_t val) {
-
+    return (val) | (opcode << 26);
 }
 
 instruction_t convert(Instruction in) {
@@ -165,6 +165,7 @@ instruction_t convert(Instruction in) {
     }
 
     int n_operands = get_n_operands(in);
+    
 
     if(icode->n_operans != n_operands) {
         fprintf(stderr, "erreur a la ligne %d: %s requiert %d operandes (%d donnees).\n", in.line, icode->opname, icode->n_operans, n_operands);

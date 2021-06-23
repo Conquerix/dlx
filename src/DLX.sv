@@ -23,7 +23,6 @@ module DLX
 // signaux du decodeur
   logic        d_load_enable;
   logic        d_write_enable_d;
-  logic        d_write_enable;
   logic        Iv_alu;
   logic        Pc_alu;
   logic [1:0]  Pc_cmd;
@@ -65,8 +64,8 @@ module DLX
   pc pc1(.clk(clk),
          .reset_n(reset_n),
          .IF(IF),
-         .pc_cmd(pc_cmd),
-         .pc_v(PC_in),
+         .pc_cmd(Pc_cmd),
+         .pc_v(Pc_in),
          .i_address(i_address));
 
   decoder decoder1(.clk(clk),
@@ -98,34 +97,34 @@ ctrl ctrl1(.clk(clk),
 
 // multiplexeurs d'entré à l'ALU
     if(Pc_alu)
-      V1 <= PC_out;
+      V1 = i_address;
     else
-      V1 <= S1;
+      V1 = S1;
 
     if(Iv_alu)
-      V2 <= IV;
+      V2 = Iv;
     else
-      V2 <= S2;
+      V2 = S2;
 
 // multiplexeur d'entrée aux registres
   if(d_load_enable)
-    regs_in <= d_data_read;
+    regs_in = d_data_read;
   else
-    regs_in <= ALU_out;
+    regs_in = ALU_out;
 
 // multiplexeur d'entré du PC
   case(Pc_val)
-    0'b00: Pc_in <= ALU_out;
-    0'b01: Pc_in <= Iv;
-    0'b10: Pc_in <= S2;
-    0'b11: Pc_in <= S1;
+    0'b00: Pc_in = ALU_out;
+    0'b01: Pc_in = Iv;
+    0'b10: Pc_in = S2;
+    0'b11: Pc_in = S1;
   endcase
 
 // on écrit dans la mémoire uniquement au cycle MEM
   if(MEM)
-    d_write_enable <= d_write_enable_d;
+    d_write_enable = d_write_enable_d;
   else
-    d_write_enable <= 0;
+    d_write_enable = 0;
 
   end
 endmodule // DLX

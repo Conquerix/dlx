@@ -38,12 +38,12 @@ always@(*) begin
             5:  out_comb               =  op1^op2;
             6:  out_comb               =  op1 << op2[2:0];
             7:  out_comb               =  op1 >> op2[2:0];
-            8:  out_comb               =  op1 == 32'0  ? op2 : 32'0;
-            9:  out_comb               =  op1 != 32'0  ? op2 : 32'0;
-            10: out_comb               =  op1 == op2   ? '1  : 32'0;
-            11: out_comb               = (op1 <= op2)  ? '1  : 32'0;
-            12: out_comb               =  op1 <  op2   ? '1  : 32'0;
-            13: out_comb               =  op1 != op2   ? '1  : 32'0;
+            8:  out_comb               =  op1 == 32'b0  ? op2 : 32'b0;
+            9:  out_comb               =  op1 != 32'b0  ? op2 : 32'b0;
+            10: out_comb               =  op1 == op2   ? '1  : 32'b0;
+            11: out_comb               = (op1 <= op2)  ? '1  : 32'b0;
+            12: out_comb               =  op1 <  op2   ? '1  : 32'b0;
+            13: out_comb               =  op1 != op2   ? '1  : 32'b0;
             14: out_comb               =  op1 >>> op2[2:0];
             15: out_comb               =  op1 + 4;
     endcase

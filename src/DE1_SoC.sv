@@ -1,5 +1,3 @@
-`default_nettype none
-
   module DE1_SoC
     #(parameter ROM_ADDR_WIDTH=10, parameter RAM_ADDR_WIDTH=10)
     (

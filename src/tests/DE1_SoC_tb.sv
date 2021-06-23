@@ -30,7 +30,7 @@ module DE1_SoC_tb();
   logic [7:0] VGA_B;
   logic 	    VGA_SYNC;
 
-  DE1_Soc SoC1(.clock_50(clock_50),
+  DE1_SoC SoC1(.clock_50(clock_50),
                .hex0(hex0),
                .hex1(hex1),
                .hex2(hex2),
@@ -59,9 +59,9 @@ module DE1_SoC_tb();
   initial
     begin
       clock_50 <= 0;
-      sw  <= 3'b1001100111;
-      key <= 3'b100;
+      sw  <= 10'b1001100111;
+      key <= 4'b0100;
       #26ns
-      key <= 3'b101;
+      key <= 4'b0101;
     end
 endmodule

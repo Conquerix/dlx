@@ -13,7 +13,7 @@ module rom
    initial
      begin
 	// initialisation de la ROM avec le fichier d'initialisation
-	$readmemh("../rom/rom_data.txt", rom);
+	$readmemh("../../rom/rom_data.txt", rom);
      end
    `else
    (* ram_init_file = "../rom/rom_data.mif" *) logic [DATA_WIDTH-1:0] rom[2**ADDR_WIDTH-1:0];
