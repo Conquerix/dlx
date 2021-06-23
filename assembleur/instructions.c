@@ -1,15 +1,18 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdlib.h>
+#include <assert.h>
+#include <ctype.h>
 
 #include "instructions.h"
 
 #define N_INSTRUCTIONS 33
 
 
-#define MAKE_REG(x) x | 0x80'00'00'00
-#define MAKE_IMM(x) x | 0x40'00'00'00
-#define MAKE_VAL(x) x | 0x20'00'00'00
+#define MAKE_REG(x) x | 0x80000000
+#define MAKE_IMM(x) x | 0x40000000
+#define MAKE_VAL(x) x | 0x20000000
 
 #define OP2REG(x) x & 0x01ff
 #define OP2IMM(x) x & 0xffff
@@ -89,13 +92,15 @@ op_t make_op(int value, int typeflag, int line) {
             }
             return MAKE_IMM(op);
         case OP_VAL:
-            if((op & ~0x03ffffff) != 0) {
-                 fprintf(stderr, "erreur a la ligne %d: valeur %d trop grande \n", line, op);
-                return INVALID_OPERAND;
-            }
-            op = MAKE_VAL(op);
+            // marche pas car op peut etre negatif...
+            //if((op & ~0x03ffffff) != 0) {
+            //    fprintf(stderr, "erreur a la ligne %d: valeur %d trop grande \n", line, op);
+            //    return INVALID_OPERAND;
+            //}
+            return MAKE_VAL(op);
 
-        default: assert(0);
+        default: 
+            printf("que se passe-t-il ?? make_op(int value=%d,int typeflag=%d,int line=%d);\n", value,typeflag,line);
     }
 }
 
@@ -125,10 +130,10 @@ Icode* find(Instruction in) {
 
     for(int i = 0; i <= N_INSTRUCTIONS; ++i) {
         
-        Instruction* it = &itable[i];
+        Icode* it = &itable[i];
 
         if(!strcmp(it->opname, normalised.opname)) {
-            return &it;
+            return it;
         }
     }
     // instruction invalide !
@@ -177,7 +182,7 @@ instruction_t convert(Instruction in) {
         case R:
             return buildRinstruction(icode->opcode, OP2REG(in.op1),OP2REG(in.op2),OP2REG(in.op3));
         case I:
-            return buildIinstruction(icode->opcode, OP2IMM(in.op1),OP2IMM(in.op2));
+            return buildIinstruction(icode->opcode, OP2REG(in.op1),OP2REG(in.op2),OP2IMM(in.op2));
         case J:
             return buildJinstruction(icode->opcode, OP2VAL(in.op1));
     }
