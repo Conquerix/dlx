@@ -58,6 +58,7 @@ module DE1_SoC_tb();
 
   initial
     begin
+      clock_50 <= 0;
       sw  <= 3'b1001100111;
       key <= 3'b100;
       #26ns
