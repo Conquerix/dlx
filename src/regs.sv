@@ -16,28 +16,28 @@ module regs(input  logic clk,
 
       always@(*)
       begin
-        if(Rd == Rs1)
-          S1 = reg_s;
+        if(Rs1 != '0)
+          P1 = regs[Rs1];
         else
-          S1 = P1;
-        if(Rd == Rs2)
-          S2 = reg_s;
+          P1 = 0;
+        if(Rs2 != '0)
+          P2 = regs[Rs2];
         else
-          S2 = P2;
+          P2 = 0;
+    //    if(Rd == Rs1)
+    //      S1 = reg_s;
+    //    else
+    //      S1 = P1;
+    //    if(Rd == Rs2)
+    //      S2 = reg_s;
+    //    else
+    //      S2 = P2;
+        S1 = P1;
+        S2 = P2;
       end
 
 
       always@(posedge clk)
-        begin
-          if(Rs1 != '0)
-            P1 <= regs[Rs1];
-          else
-            P1 <= 0;
-          if(Rs2 != '0)
-            P2 <= regs[Rs2];
-          else
-             P2 <= 0;
          if(WB)
           regs[Rd] <= reg_s;
-        end
 endmodule
