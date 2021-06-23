@@ -22,7 +22,14 @@ SEQ:    	 R	0x28	Rd = (Rs1 == Rs2 ? 1 : 0)
 SNE:    	 R	0x29	Rd = (Rs1 != Rs2 ? 1 : 0)
 SLT:    	 R	0x2a	Rd = (Rs1 < Rs2 ? 1 : 0)
 
+// 0 operands
+JR: 	  	 I	0x12	PC = Rs1
+JALR:   	 I	0x13	R31 = PC + 4 ; PC = Rs1
 
+// 1
+LHI:    	 I	0x0f	Rd = extend(immediate) << 16
+
+// 2 operands
 SUBI:   	 I	0x0a	Rd = Rs1 - sign_extend(immediate)
 SW: 	     I	0x2b	MEM[Rs1 + sign_extend(immediate)] = Rd
 XORI:   	 I	0x0e	Rd = Rs1 ^ extend(immediate)
@@ -32,9 +39,6 @@ LW: 	     I	0x23	Rd = MEM[Rs1 + sign_extend(immediate)]
 ORI:    	 I	0x0d	Rd = Rs1 | extend(immediate)
 BEQZ:   	 I	0x04	PC += (Rs1 == 0 ? sign_extend(immediate) : 0)
 BNEZ:   	 I	0x05	PC += (Rs1 != 0 ? sign_extend(immediate) : 0)
-JALR:   	 I	0x13	R31 = PC + 4 ; PC = Rs1
-JR: 	  	 I	0x12	PC = Rs1
-LHI:    	 I	0x0f	Rd = extend(immediate) << 16
 SEQI:   	 I	0x18	Rd = (Rs1 == sign_extend(immediate) ? 1 : 0)
 SLEI:   	 I	0x1c	Rd = (Rs1 <= sign_extend(immediate) ? 1 : 0)
 SLLI:   	 I	0x14	Rd = Rs1 << (extend(immediate) % 8)

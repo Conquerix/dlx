@@ -7,47 +7,68 @@
 #define N_INSTRUCTIONS 33
 
 
+#define MAKE_REG(x) x | 0x80'00'00'00
+#define MAKE_IMM(x) x | 0x40'00'00'00
+#define MAKE_VAL(x) x | 0x20'00'00'00
+
+#define OP2REG(x) x & 0x01ff
+#define OP2IMM(x) x & 0xffff
+#define OP2VAL(x) x & 0xffffff
+
+
 typedef struct {
     const char* opname;
     enum {R,I,J} format;
     uint8_t opcode;
+    int n_operans;
 } Icode;
 
 Icode itable[N_INSTRUCTIONS] =  {
-    {"J",   J,0x02},
-    {"JAL", J,0x03},
-    {"SLL", R,0x04},
-    {"SRL", R,0x06},
-    {"SRA", R,0x07},
-    {"ADD", R,0x20},
-    {"AND", R,0x24},
-    {"OR",  R,0x25},
-    {"SUB", R,0x22},
-    {"XOR", R,0x26},
-    {"SLE", R,0x2c},
-    {"SEQ", R,0x28},
-    {"SNE", R,0x29},
-    {"SLT", R,0x2a},
-    {"SUBI",I,0x0a},
-    {"SW",  I,0x2b},
-    {"XORI",I,0x0e},
-    {"ADDI",I,0x08},
-    {"ANDI",I,0x0c},
-    {"LW",  I,0x23},
-    {"ORI", I,0x0d},
-    {"BEQZ",I,0x04},
-    {"BNEZ",I,0x05},
-    {"JALR",I,0x13},
-    {"JR",  I,0x12},
-    {"LHI", I,0x0f},
-    {"SEQI",I,0x18},
-    {"SLEI",I,0x1c},
-    {"SLLI",I,0x14},
-    {"SLTI",I,0x1a},
-    {"SNEI",I,0x19},
-    {"SRAI",I,0x17},
-    {"SRLI",I,0x16},
+    {"J",   J,0x02,1},
+    {"JAL", J,0x03,1},
+    {"SLL", R,0x04,3},
+    {"SRL", R,0x06,3},
+    {"SRA", R,0x07,3},
+    {"ADD", R,0x20,3},
+    {"AND", R,0x24,3},
+    {"OR",  R,0x25,3},
+    {"SUB", R,0x22,3},
+    {"XOR", R,0x26,3},
+    {"SLE", R,0x2c,3},
+    {"SEQ", R,0x28,3},
+    {"SNE", R,0x29,3},
+    {"SLT", R,0x2a,3},
+    {"SUBI",I,0x0a,2},
+    {"SW",  I,0x2b,2},
+    {"XORI",I,0x0e,2},
+    {"ADDI",I,0x08,2},
+    {"ANDI",I,0x0c,2},
+    {"LW",  I,0x23,2},
+    {"ORI", I,0x0d,2},
+    {"BEQZ",I,0x04,2},
+    {"BNEZ",I,0x05,2},
+    {"JALR",I,0x13,0},
+    {"JR",  I,0x12,0},
+    {"LHI", I,0x0f,1},
+    {"SEQI",I,0x18,2},
+    {"SLEI",I,0x1c,2},
+    {"SLLI",I,0x14,2},
+    {"SLTI",I,0x1a,2},
+    {"SNEI",I,0x19,2},
+    {"SRAI",I,0x17,2},
+    {"SRLI",I,0x16,2},
 };
+
+int get_n_operands(Instruction i) {
+    if(i.op1 == NO_OPERAND)
+        return 0;
+    if(i.op2 == NO_OPERAND)
+        return 1;
+    if(i.op3 == NO_OPERAND)
+        return 2;
+    return 3;
+}
+
 
 
 op_t make_op(int value, int typeflag, int line) {
@@ -114,6 +135,26 @@ Icode* find(Instruction in) {
     return NULL;
 }
 
+/*
+
+I           [31:26]	    I[25:21]	I[20:16]	I[15:11]	I[10:6]	    I[5:0]
+R	        0x0	        Rs1	        Rs2	        Rd	        Inutilisé	Opcode
+I	        Opcode	    Rs1	        Rd          immediate	immediate	immediate
+J	        Opcode	    value	    value	    value	    value       value
+
+*/
+
+instruction_t buildRinstruction(uint32_t opcode, uint32_t Rd,uint32_t Rs1,uint32_t Rs2) {
+    return opcode | (Rd << 11) | (Rs2 << 16) | (Rs1 << 21);
+}
+instruction_t buildIinstruction(uint32_t opcode, uint32_t Rd,uint32_t Rs1, uint32_t imm) {
+    return opcode | (Rd << 11) | (Rs2 << 16) | (Rs1 << 21);
+
+}
+instruction_t buildJinstruction(uint32_t opcode, uint32_t val) {
+
+}
+
 instruction_t convert(Instruction in) {
     Icode* icode = find(in);
 
@@ -123,18 +164,20 @@ instruction_t convert(Instruction in) {
         return INVALID_INSTRUCTION;
     }
 
+    int n_operands = get_n_operands(in);
+
+    if(icode->n_operans != n_operands) {
+        fprintf(stderr, "erreur a la ligne %d: %s requiert %d operandes (%d donnees).\n", in.line, icode->opname, icode->n_operans, n_operands);
+
+        return INVALID_INSTRUCTION;
+    }
 
     switch(icode->format) {
         case R:
-            if(in.op3 == NO_OPERAND) {
-                fprintf(stderr, "erreur a la ligne %d: %s requiert 3 operandes.\n", in.line, icode->opname);
-
-                return INVALID_INSTRUCTION;
-            }
-            return buildRinstruction(icode->opcode, in.op1 & 31);
+            return buildRinstruction(icode->opcode, OP2REG(in.op1),OP2REG(in.op2),OP2REG(in.op3));
         case I:
-
-
-        
+            return buildIinstruction(icode->opcode, OP2IMM(in.op1),OP2IMM(in.op2));
+        case J:
+            return buildJinstruction(icode->opcode, OP2VAL(in.op1));
     }
 }
