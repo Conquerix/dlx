@@ -102,7 +102,7 @@ instruction_t convert(Instruction i);
  * si besoin, affiche une erreur en cas de depassement
  * 
  */
-op_t make_op(int value, int typeflag);
+op_t make_op(int value, int typeflag, int line);
 
 
 
