@@ -22,14 +22,14 @@ SEQ:    	 R	0x28	Rd = (Rs1 == Rs2 ? 1 : 0)
 SNE:    	 R	0x29	Rd = (Rs1 != Rs2 ? 1 : 0)
 SLT:    	 R	0x2a	Rd = (Rs1 < Rs2 ? 1 : 0)
 
-// 0 operands
+// 1 operands
 JR: 	  	 I	0x12	PC = Rs1
 JALR:   	 I	0x13	R31 = PC + 4 ; PC = Rs1
 
-// 1
+// 2
 LHI:    	 I	0x0f	Rd = extend(immediate) << 16
 
-// 2 operands
+// 3 operands
 SUBI:   	 I	0x0a	Rd = Rs1 - sign_extend(immediate)
 SW: 	     I	0x2b	MEM[Rs1 + sign_extend(immediate)] = Rd
 XORI:   	 I	0x0e	Rd = Rs1 ^ extend(immediate)

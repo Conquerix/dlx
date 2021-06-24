@@ -43,6 +43,13 @@ int parse(FILE* file, Instruction** list, int* n){
   // 2eme passage...
   fillLabelTable(file);
 
+  printf("Table de labels (%d):\n", n_labels);
+  
+  for(int i = 0; i < n_labels; i++) {
+    Label* l = &label_table[i];
+
+    printf("%s:\t%d\n", l->name,l->address);
+  }
 
   // 3eme passage...
   return read_instructions(file,*list);
@@ -53,13 +60,20 @@ int parse(FILE* file, Instruction** list, int* n){
 // ou -1 so le label n'est pas repertorie
 int label_adress(const char* name) {
   // parcours sequenciel
+
+
   for(int i = 0; i < n_labels; i++) {
+  printf("int label_adress(const char* name='%s')::i = %d;n_label=%d\n", name, i,n_labels);
     
     Label* l = &label_table[i];
+
+  printf("int label_adress(const char* name='%s')::l = %d\n", name, l);
+  printf("COMP: '%s' ; '%s'\n", l->name, name);
 
     if(!strcmp(l->name, name))
       return l->address;
   }
+  printf("label_adress(const char* name='%s') return = %d\n", name, -1);
   return -1;
 }
 void label_push_back(const char* name, int instruction_pointer) {
@@ -113,7 +127,10 @@ op_t parse_op(char* str_op, int instruction_pointer, int line) {
   }
   else {
     // on cherche si l'op est un label
+
+    printf("eussouuuuuuu\n");
     int _label_address = label_adress(str);
+    printf("chonklooooooo\n");
 
     if(_label_address != -1) {// trouve ! 
       int address = _label_address - instruction_pointer;
@@ -238,7 +255,6 @@ int read_instructions(FILE* file, Instruction* list) {
     
     if(firstword[strlen(firstword) - 1] == ':') {
       // label
-      n_labels++;
 
       // il peut y avoir une instruction sur la meme ligne
       // donc on ne peut pas passer a la ligne suivante
@@ -264,7 +280,7 @@ int read_instructions(FILE* file, Instruction* list) {
     printf("eussou6\n");
 
     for(int i = 0; i < 3; i++) {
-      printf("%s\n", token);
+      printf("BOUCLE LIGNE 283\ttoken=%s;i=%d\n", token,i);
 
       // token = NULL ssi on a deja lu tous les arguments
       // donc parse_op(NULL) renvoi NO_OPERAND
@@ -273,8 +289,6 @@ int read_instructions(FILE* file, Instruction* list) {
 
       printf("????\n");
 
-      if(ops[i] == INVALID_OPERAND)
-        errors++;
 
       token = strtok(NULL, ",");
       printf("zfeerv\n");

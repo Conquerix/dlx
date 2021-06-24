@@ -68,7 +68,13 @@ int main(int argc, const char** argv) {
     fclose(input);
 
 
-    printf("parsage effectue, %d instructions lues, %d erreurs\n", n_instructions);
+    printf("parsage effectue, %d instructions lues, %d erreurs\n", n_instructions, errors);
+
+    printf("instructions parsees (%d):\n", n_instructions);
+    for(int i = 0; i < n_instructions; i++) {
+        Instruction in = instruction_list[i];
+        printf("%d\t%s %d %d %d\n", in.line,in.opname,in.op1,in.op2,in.op3);
+    }
 
     if(errors)
         return 1;
