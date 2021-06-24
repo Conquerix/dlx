@@ -9,5 +9,7 @@ boucle: ADD  $4,$1,$2    ; R4 = R1 + R2
         OR   $2,$0,$4    ; R2 = R4
         ADDI $3,$3,-1    ; R3 = R3 + (-1)
         BNEZ $3,boucle   ; Si R3 != 0, on saute à boucle
-
+        
 fin:    J    fin         ;   Boucle inifinie à la fin
+
+    

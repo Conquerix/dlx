@@ -30,6 +30,9 @@ int parse(FILE* file, Instruction** list, int* n){
 
   // 1er passage
   countInstructions(file);
+
+  
+
   // on alloue maintenant les listes
   *list = malloc(sizeof(Instruction) * n_instructions);
   *n = n_instructions;
@@ -102,17 +105,24 @@ op_t parse_op(char* str_op, int instruction_pointer, int line) {
   int value = 0;
   int type = OP_IMM;
 
+  printf("parse_op(char* str_op='%s', int instruction_pointer=%d, int line=%d);\n", str_op, instruction_pointer,line); 
+
   if(str[0] == '$') {
     ++str;
     type = OP_REG;
   }
   else {
-    int address = label_adress(str) - instruction_pointer;
-    if(address != -1) // trouve ! {
+    // on cherche si l'op est un label
+    int _label_address = label_adress(str);
+
+    if(_label_address != -1) {// trouve ! 
+      int address = _label_address - instruction_pointer;
+     
       type  = OP_VAL;
       value = address;
       return make_op(value, type, line);
-    } 
+    }
+  }
   if(!sscanf(str, "%d", &value)) {
     fprintf(stderr, "erreur a la ligne %d: operande '%s' invalide\n", line, str_op);
     return INVALID_OPERAND;
@@ -133,14 +143,16 @@ void countInstructions(FILE* file) {
   n_labels = 0;
   
   char buffer[1024];
+  int line_c = 0;
   
   while(fgets(buffer, 1023, file) != NULL) {
     char* line = remove_indents_and_comments(buffer);
     
+    // lire le 1er mot de la ligne
     char firstword[512];
     int n = sscanf(line, "%s", firstword);
     
-    if(!n) // ligne vide
+    if(n <= 0) // ligne vide
       continue;
 
     if(firstword[strlen(firstword) - 1] == ':') {
@@ -152,7 +164,7 @@ void countInstructions(FILE* file) {
       line = remove_indents_and_comments(line + strlen(firstword));
       n = sscanf(line, "%s", firstword);
       
-      if(!n) // ligne vide
+      if(n <= 0) // ligne vide
         continue;
     }
 
@@ -175,7 +187,7 @@ void fillLabelTable(FILE* file) {
     char firstword[512];
     int n = sscanf(line, "%s", firstword);
     
-    if(!n) // ligne vide
+    if(n <= 0) // ligne vide
       continue;
 
     int firstword_size = strlen(firstword);
@@ -191,34 +203,37 @@ void fillLabelTable(FILE* file) {
       line = remove_indents_and_comments(line + strlen(firstword));
       n = sscanf(line, "%s", firstword);
       
-      if(!n) // ligne vide
+      if(n <= 0) // ligne vide
         continue;
     }
 
     // ici, la ligne contient une instruction
-    instruction_pointer++;
+    instruction_pointer += 4;
   }
 }
 
 
 int read_instructions(FILE* file, Instruction* list) {
+  fseek(file, 0, SEEK_SET);
   char buffer[1024];
   int it = 0;
   int line_number = 0;
 
   int errors = 0;
+
   
   while(fgets(buffer, 1023, file) != NULL) {
+
     line_number++;
     
     char* line = remove_indents_and_comments(buffer);
     
     char firstword[512];
     int n = sscanf(line, "%s", firstword);
-    
-    if(!n) // ligne vide
-      continue;
 
+    
+    if(n <= 0) // ligne vide
+      continue;
   // 3eme phase : on ignore les labels
     
     if(firstword[strlen(firstword) - 1] == ':') {
@@ -230,7 +245,7 @@ int read_instructions(FILE* file, Instruction* list) {
       line = remove_indents_and_comments(line + strlen(firstword));
       n = sscanf(line, "%s", firstword);
       
-      if(!n) // ligne vide
+      if(n <= 0) // ligne vide
         continue;
     }
 
@@ -239,30 +254,47 @@ int read_instructions(FILE* file, Instruction* list) {
     list[it].line = line_number;
 
     line += strlen(firstword);
+    printf("eussou5: %s\n", firstword);
     
     /// on parse a present les arguments
     op_t ops[3];
 
     char* token = strtok(line, ",");
+    
+    printf("eussou6\n");
+
     for(int i = 0; i < 3; i++) {
+      printf("%s\n", token);
+
       // token = NULL ssi on a deja lu tous les arguments
       // donc parse_op(NULL) renvoi NO_OPERAND
       ops[i] = parse_op(token, it, line_number);
+
+
+      printf("????\n");
+
       if(ops[i] == INVALID_OPERAND)
         errors++;
 
       token = strtok(NULL, ",");
+      printf("zfeerv\n");
     }
 
     list[it].op1 = ops[0];
     list[it].op2 = ops[1];
     list[it].op3 = ops[2];
+
+    printf("eussou7\n");
+
+
+    printf("ligne %d: %s %d %d %d\n", line_number, list[it].opname, list[it].op1, list[it].op2, list[it].op3);
     
-    printf("%d\n", line);
+    printf("%d\n", line_number);
     
     it++;
   }
 
+  printf("FIN D LA FONCTION\n");
 
   return errors;
 }
