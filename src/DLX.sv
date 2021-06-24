@@ -38,7 +38,6 @@ module DLX
 // signaux de l'ALU
   logic [31:0] V1,V2;
   logic [31:0] ALU_out;
-  logic        CF,ZF;
 
 // signaux du PC
   logic [31:0] Pc_in;
@@ -48,9 +47,7 @@ module DLX
            .clk(clk),
            .op1(V1),
            .op2(V2),
-           .res1(ALU_out),
-           .carry(CF),
-           .z(ZF));
+           .res1(ALU_out));
 
   regs regs1(.clk(clk),
              .WB(WB),

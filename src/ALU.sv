@@ -5,10 +5,8 @@ module ALU(
     input  logic [31:0] op1,
     input  logic [31:0] op2,
 
-    output logic        carry, z,
     output logic [31:0] res1);
 
-logic        carry_comb, z_comb;
 logic [31:0] out_comb;
 /**
 *   1.  ADD: r <= op1 + op2
@@ -50,15 +48,9 @@ always@(*) begin
             17: out_comb               =  op1 != 32'b0  ? op2    : 32'b100;
 
     endcase
-
-    z_comb = (out_comb == 32'b0);
 end
 
 always@(posedge clk)
     if(EX)
-    begin
         res1  <= out_comb;
-        carry <= carry_comb;
-        z     <= z_comb;
-    end
 endmodule
