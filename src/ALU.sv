@@ -1,7 +1,7 @@
 module ALU(
     input  logic        EX,
     input  logic        clk,
-    input  logic [3:0]  I,
+    input  logic [4:0]  I,
     input  logic [31:0] op1,
     input  logic [31:0] op2,
 
@@ -38,14 +38,17 @@ always@(*) begin
             5:  out_comb               =  op1^op2;
             6:  out_comb               =  op1 << op2[2:0];
             7:  out_comb               =  op1 >> op2[2:0];
-            8:  out_comb               =  op1 == 32'b0  ? op2 : 32'b0;
-            9:  out_comb               =  op1 != 32'b0  ? op2 : 32'b0;
-            10: out_comb               =  op1 == op2   ? 32'b1  : 32'b0;
-            11: out_comb               = (op1 <= op2)  ? 32'b1  : 32'b0;
-            12: out_comb               =  op1 <  op2   ? 32'b1  : 32'b0;
-            13: out_comb               =  op1 != op2   ? 32'b1  : 32'b0;
+            8:  out_comb               =  op1 == 32'b0  ? op2    : 32'b0;
+            9:  out_comb               =  op1 != 32'b0  ? op2    : 32'b0;
+            10: out_comb               =  op1 == op2    ? 32'b1  : 32'b0;
+            11: out_comb               = (op1 <= op2)   ? 32'b1  : 32'b0;
+            12: out_comb               =  op1 <  op2    ? 32'b1  : 32'b0;
+            13: out_comb               =  op1 != op2    ? 32'b1  : 32'b0;
             14: out_comb               =  op1 >>> op2[2:0];
             15: out_comb               =  op1 + 4;
+            16: out_comb               =  op1 == 32'b0  ? op2    : 32'b100;
+            17: out_comb               =  op1 != 32'b0  ? op2    : 32'b100;
+
     endcase
 
     z_comb = (out_comb == 32'b0);

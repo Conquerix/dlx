@@ -27,7 +27,7 @@ module DLX
   logic        Pc_alu;
   logic [1:0]  Pc_cmd;
   logic [1:0]  Pc_val;
-  logic [3:0]  I;
+  logic [4:0]  I;
   logic [4:0]  Rs1,Rs2,Rd;
   logic [31:0] Iv;
 
