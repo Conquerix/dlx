@@ -1,6 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
+
+#include "instructions.h"
 #include "parser.h"
 
 typedef struct {
@@ -16,7 +19,7 @@ void countInstructions(FILE* file);
 int label_adress(const char* name);
 char* remove_indents_and_comments(char* str);
 void fillLabelTable(FILE* file);
-int read_instructions(FILE* file, Instruction* list, int* n);
+int read_instructions(FILE* file, Instruction* list);
 
 // parse le fichier en entier,
 // ecrit n = le nombre d'instructions dans le fichier
@@ -60,10 +63,9 @@ void label_push_back(const char* name, int instruction_pointer) {
     char* cpy = malloc(strlen(name));
     strcpy(cpy, name);
 
-    label_table[label_i] = {
-        .name = cpy,
-        .address = instruction_pointer,
-    };
+    label_table[label_i].name = cpy,
+    label_table[label_i].address = instruction_pointer,
+  
 
     label_i++;
 }
@@ -86,14 +88,15 @@ char* remove_indents_and_comments(char* str) {
 // parse une operande
 // si str = NULL, renvoie NO_OPERAND  
 // s'il s'agit d'un label, retourne l'adresse RELATIVE correspondante
-op_t parse_op(char* str, int instruction_pointer, int line) {
-  if(str == NULL)
+op_t parse_op(char* str_op, int instruction_pointer, int line) {
+  if(str_op == NULL)
     return NO_OPERAND;
 
   
-  str = remove_indents_and_comments(str);
+  str_op = remove_indents_and_comments(str_op);
+  char* str = str_op;
   // supprimer les eventuels espaces apres l'op
-  int s = strchr(str, ' ');
+  char* s = strchr(str, ' ');
   if(s) *s = 0;
 
   int value = 0;
@@ -110,10 +113,12 @@ op_t parse_op(char* str, int instruction_pointer, int line) {
       value = address;
       return make_op(value, type, line);
     } 
+  if(!sscanf(str, "%d", &value)) {
+    fprintf(stderr, "erreur a la ligne %d: operande '%s' invalide\n", line, str_op);
+    return INVALID_OPERAND;
   }
-  
-  if()
-  
+
+  return make_op(value, type, line);
 
 }
 
@@ -129,7 +134,7 @@ void countInstructions(FILE* file) {
   
   char buffer[1024];
   
-  while(fgets(file, buffer, 1023) != NULL) {
+  while(fgets(buffer, 1023, file) != NULL) {
     char* line = remove_indents_and_comments(buffer);
     
     char firstword[512];
@@ -138,13 +143,13 @@ void countInstructions(FILE* file) {
     if(!n) // ligne vide
       continue;
 
-    if(firstword[len(firstword) - 1] == ':') {
+    if(firstword[strlen(firstword) - 1] == ':') {
       // label
       n_labels++;
 
       // il peut y avoir une instruction sur la meme ligne
       // donc on ne peut pas passer a la ligne suivante
-      line = remove_indents_and_comments(line + len(firstword));
+      line = remove_indents_and_comments(line + strlen(firstword));
       n = sscanf(line, "%s", firstword);
       
       if(!n) // ligne vide
@@ -164,7 +169,7 @@ void fillLabelTable(FILE* file) {
 
   int instruction_pointer = 0;
   
-  while(fgets(file, buffer, 1023) != NULL) {
+  while(fgets(buffer, 1023, file) != NULL) {
     char* line = remove_indents_and_comments(buffer);
     
     char firstword[512];
@@ -173,7 +178,7 @@ void fillLabelTable(FILE* file) {
     if(!n) // ligne vide
       continue;
 
-    int firstword_size = len(firstword);
+    int firstword_size = strlen(firstword);
 
     if(firstword[firstword_size - 1] == ':') {
       // c'est un label
@@ -183,7 +188,7 @@ void fillLabelTable(FILE* file) {
       label_push_back(firstword, instruction_pointer);
       // il peut y avoir une instruction sur la meme ligne
       // donc on ne peut pas passer a la ligne suivante
-      line = remove_indents_and_comments(line + len(firstword));
+      line = remove_indents_and_comments(line + strlen(firstword));
       n = sscanf(line, "%s", firstword);
       
       if(!n) // ligne vide
@@ -196,16 +201,14 @@ void fillLabelTable(FILE* file) {
 }
 
 
-int read_instructions(FILE* file, Instruction* list, int* n) {
-  fseek(file, 0, SEEK_SET);
+int read_instructions(FILE* file, Instruction* list) {
   char buffer[1024];
-  
   int it = 0;
   int line_number = 0;
 
   int errors = 0;
   
-  while(fgets(file, buffer, 1023) != NULL) {
+  while(fgets(buffer, 1023, file) != NULL) {
     line_number++;
     
     char* line = remove_indents_and_comments(buffer);
@@ -218,13 +221,13 @@ int read_instructions(FILE* file, Instruction* list, int* n) {
 
   // 3eme phase : on ignore les labels
     
-    if(firstword[len(firstword) - 1] == ':') {
+    if(firstword[strlen(firstword) - 1] == ':') {
       // label
       n_labels++;
 
       // il peut y avoir une instruction sur la meme ligne
       // donc on ne peut pas passer a la ligne suivante
-      line = remove_indents_and_comments(line + len(firstword));
+      line = remove_indents_and_comments(line + strlen(firstword));
       n = sscanf(line, "%s", firstword);
       
       if(!n) // ligne vide
@@ -240,22 +243,22 @@ int read_instructions(FILE* file, Instruction* list, int* n) {
     /// on parse a present les arguments
     op_t ops[3];
 
-    char* token = strtok(line, ',');
+    char* token = strtok(line, ",");
     for(int i = 0; i < 3; i++) {
       // token = NULL ssi on a deja lu tous les arguments
       // donc parse_op(NULL) renvoi NO_OPERAND
-      ops[i] = parse_op(token, it);
+      ops[i] = parse_op(token, it, line_number);
       if(ops[i] == INVALID_OPERAND)
         errors++;
 
-      token = strtok(NULL, ',');
+      token = strtok(NULL, ",");
     }
 
     list[it].op1 = ops[0];
     list[it].op2 = ops[1];
     list[it].op3 = ops[2];
     
-    
+    printf("%d\n", line);
     
     it++;
   }

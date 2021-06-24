@@ -1,8 +1,11 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
+#include <string.h>
 
 #include "instructions.h"
+#include "parser.h"
 
 // la sortie doit être ecrite en hexa et non en binaire ssi out_hex=1 
 int out_hex = 1;
@@ -22,11 +25,11 @@ void checkargs(int argc, const char** argv) {
     for(int i = 0;  i < argc; i++) {
         if(     !strcmp(argv[i], "-h"))
             no_args();
-        else if(!srtcmp(argv[i], "-x")) {
+        else if(!strcmp(argv[i], "-x")) {
             out_hex = 1;
             --n_files;
         }
-        else if(!srtcmp(argv[i], "-b")) {
+        else if(!strcmp(argv[i], "-b")) {
             out_hex = 0;
             --n_files;
         }
@@ -34,21 +37,13 @@ void checkargs(int argc, const char** argv) {
 
 
 
-    if(n_files != 3)
+    if(n_files != 2)
         fprintf(stderr, "erreur: mauvaise utilisation\n"); 
 
-
-/// fichier source 
-    FILE* input  = fopen(argv[1], "r");
-
-    if(!input) {
-        fprintf(stderr, "%s: fichier introuvable\n");
-        exit(0);
-    }
 }
 
 int main(int argc, const char** argv) {
-    begun_time = clock();
+    clock_t begin_time = clock();
 
     checkargs(argc,argv);
 
@@ -59,9 +54,16 @@ int main(int argc, const char** argv) {
     Instruction* instruction_list;
     int n_instructions;
 
+/// fichier source 
+    FILE* input  = fopen(argv[1], "r");
+
+    if(!input) {
+        fprintf(stderr, "%s: fichier introuvable\n");
+        exit(0);
+    }
 
     // 0 si tout s'est bien passe
-    int errors = parse(input, &instruction_list, &n_instructions);
+    errors = parse(input, &instruction_list, &n_instructions);
     
     fclose(input);
 
@@ -79,21 +81,23 @@ int main(int argc, const char** argv) {
     else
         output = fopen(argv[2], "wb+");
 
-    if(!result) {
+    if(!errors) {
         for(int i = 0; i < n_instructions; i++) {
             instruction_t instruction = convert(instruction_list[i]);
             
             if(instruction == INVALID_INSTRUCTION) {
                 errors++;
             }
-
-            fwrite(&i, 1,4, output);
+            if(out_hex)
+                fprintf(output, "%.4x\n", i);
+            else
+                fwrite(&i, 1,4, output);
             //printf("%x",i);
         }
     }
     fclose(output);
 
-    printf("assemblage terminee (%d erreurs, %d ms)", errors, clock()-begun_time);
+    printf("assemblage terminee (%d erreurs, %d ms)", errors, clock()-begin_time);
 
     return errors != 0;
 

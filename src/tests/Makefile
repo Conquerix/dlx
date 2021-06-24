@@ -3,7 +3,7 @@
 TB = DE1_SoC_tb
 
 simu:
-	vsim $(TB)
+	vsim -debugDB $(TB)
 
 compile:
 	vlog +acc +define+SIMULATION $(TB).sv ../*.sv
