@@ -74,7 +74,7 @@ module decoder(input logic        clk,
                   Rs1            <= 0;
                   Rs2            <= 0;
                   Pc_val         <= 2'b01;
-                  Iv             <= {6'(i_data_read[25]),i_data_read[25:0]};
+                  Iv             <= {6{i_data_read[25]},i_data_read[25:0]};
                   if(i_data_read[26] == 1)
                     begin
                       I  <= 4'd15;
@@ -101,7 +101,7 @@ module decoder(input logic        clk,
                     'h08 :
                       begin
                         I  <= 4'd1;
-                        Iv <= {16'(i_data_read[15]),i_data_read[15:0]};
+                        Iv <= {16{i_data_read[15]},i_data_read[15:0]};
                       end
                     'h0c :
                       begin
@@ -112,13 +112,13 @@ module decoder(input logic        clk,
                       begin
                         Pc_cmd <= 2'b10;
                         I      <= 4'd8;
-                        Iv     <= {16'(i_data_read[15]),i_data_read[15:0]};
+                        Iv     <= {16{i_data_read[15]},i_data_read[15:0]};
                       end
                     'h05 :
                       begin
                         Pc_cmd <= 2'b10;
                         I      <= 4'd9;
-                        Iv     <= {16'(i_data_read[15]),i_data_read[15:0]};
+                        Iv     <= {16{i_data_read[15]},i_data_read[15:0]};
                         Rd     <= 0;
                       end
                     'h13 :
@@ -146,7 +146,7 @@ module decoder(input logic        clk,
                       begin
                         I             <= 4'd1;
                         d_load_enable <= 1;
-                        Iv            <= {16'(i_data_read[15]),i_data_read[15:0]};
+                        Iv            <= {16{i_data_read[15]},i_data_read[15:0]};
                       end
                     'h0d :
                       begin
@@ -156,12 +156,12 @@ module decoder(input logic        clk,
                     'h18 :
                       begin
                         I  <= 4'd10;
-                        Iv <= {16'(i_data_read[15]),i_data_read[15:0]};
+                        Iv <= {16{i_data_read[15]},i_data_read[15:0]};
                       end
                     'h1c :
                       begin
                         I  <= 4'd11;
-                        Iv <= {16'(i_data_read[15]),i_data_read[15:0]};
+                        Iv <= {16{i_data_read[15]},i_data_read[15:0]};
                       end
                     'h14 :
                       begin
@@ -171,12 +171,12 @@ module decoder(input logic        clk,
                     'h1a :
                       begin
                         I  <= 4'd12;
-                        Iv <= {16'(i_data_read[15]),i_data_read[15:0]};
+                        Iv <= {16{i_data_read[15]},i_data_read[15:0]};
                       end
                     'h19 :
                       begin
                         I  <= 4'd13;
-                        Iv <= {16'(i_data_read[15]),i_data_read[15:0]};
+                        Iv <= {16{i_data_read[15]},i_data_read[15:0]};
                       end
                     'h17 :
                       begin
@@ -191,12 +191,12 @@ module decoder(input logic        clk,
                     'h0a :
                       begin
                         I  <= 4'd2;
-                        Iv <= {16'(i_data_read[15]),i_data_read[15:0]};
+                        Iv <= {16{i_data_read[15]},i_data_read[15:0]};
                       end
                     'h2b :
                       begin
                         I              <= 4'd1;
-                        Iv             <= {16'(i_data_read[15]),i_data_read[15:0]};
+                        Iv             <= {16{i_data_read[15]},i_data_read[15:0]};
                         d_write_enable <= 1;
                         Rd             <= 5'd0;
                       end
