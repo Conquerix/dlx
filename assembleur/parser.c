@@ -16,9 +16,9 @@ int n_instructions = 0, n_labels = 0, label_i;
 Label* label_table = NULL;
 
 void countInstructions(FILE* file);
-int label_adress(const char* name);
+int label_address(const char* name);
 char* remove_indents_and_comments(char* str);
-void fillLabelTable(FILE* file);
+int fillLabelTable(FILE* file);
 int read_instructions(FILE* file, Instruction* list);
 
 // parse le fichier en entier,
@@ -43,13 +43,14 @@ int parse(FILE* file, Instruction** list, int* n){
   // 2eme passage...
   fillLabelTable(file);
 
-  printf("Table de labels (%d):\n", n_labels);
-  
-  for(int i = 0; i < n_labels; i++) {
-    Label* l = &label_table[i];
+ // printf("Table de labels (%d):\n", n_labels);
+ // 
+ // for(int i = 0; i < n_labels; i++) {
+ //   Label* l = &label_table[i];
+ //
+ //   printf("%s:\t%d\n", l->name,l->address);
+ // }
 
-    printf("%s:\t%d\n", l->name,l->address);
-  }
 
   // 3eme passage...
   return read_instructions(file,*list);
@@ -58,25 +59,28 @@ int parse(FILE* file, Instruction** list, int* n){
 
 // retourne l'adresse du label
 // ou -1 so le label n'est pas repertorie
-int label_adress(const char* name) {
+int label_address(const char* name) {
   // parcours sequenciel
 
 
-  for(int i = 0; i < n_labels; i++) {
-  printf("int label_adress(const char* name='%s')::i = %d;n_label=%d\n", name, i,n_labels);
-    
+  for(int i = 0; i < label_i; i++) {
     Label* l = &label_table[i];
-
-  printf("int label_adress(const char* name='%s')::l = %d\n", name, l);
-  printf("COMP: '%s' ; '%s'\n", l->name, name);
 
     if(!strcmp(l->name, name))
       return l->address;
   }
-  printf("label_adress(const char* name='%s') return = %d\n", name, -1);
   return -1;
 }
-void label_push_back(const char* name, int instruction_pointer) {
+
+// retourne 1 ssi il y a eu une erreur
+int label_push_back(const char* name, int instruction_pointer, int line_c) {
+  
+    if(label_address(name) != -1) {
+      fprintf(stderr, "erreur a la ligne %d: le label '%s' est deja defini\n", line_c, name);
+      return 1;
+    }
+  
+
     char* cpy = malloc(strlen(name));
     strcpy(cpy, name);
 
@@ -85,16 +89,24 @@ void label_push_back(const char* name, int instruction_pointer) {
   
 
     label_i++;
+
+    return 0;
 }
 
 // retourne un pointeur vers le debut de la nouvelle ligne
 // et modifie str pour supprimer les commentaires
 char* remove_indents_and_comments(char* str) {
-  char* comment = strchr(str, ';');
+  char* end = strchr(str, ';');
   
   char* begin = str;
 
-  if(comment != NULL)   *comment = '\0';
+  if(end != NULL)   *end = '\0';
+  
+  end = strchr(str, '\n');
+
+  if(end != NULL)   *end = '\0';
+
+
 
   while(*begin == ' ' || *begin == '\t')
     begin++;
@@ -119,18 +131,13 @@ op_t parse_op(char* str_op, int instruction_pointer, int line) {
   int value = 0;
   int type = OP_IMM;
 
-  printf("parse_op(char* str_op='%s', int instruction_pointer=%d, int line=%d);\n", str_op, instruction_pointer,line); 
-
   if(str[0] == '$') {
     ++str;
     type = OP_REG;
   }
   else {
     // on cherche si l'op est un label
-
-    printf("eussouuuuuuu\n");
-    int _label_address = label_adress(str);
-    printf("chonklooooooo\n");
+    int _label_address = label_address(str);
 
     if(_label_address != -1) {// trouve ! 
       int address = _label_address - instruction_pointer;
@@ -144,8 +151,8 @@ op_t parse_op(char* str_op, int instruction_pointer, int line) {
     fprintf(stderr, "erreur a la ligne %d: operande '%s' invalide\n", line, str_op);
     return INVALID_OPERAND;
   }
-
-  return make_op(value, type, line);
+  op_t op = make_op(value, type, line);
+  return op;
 
 }
 
@@ -191,14 +198,19 @@ void countInstructions(FILE* file) {
 }
 
 //  2emee etape de lecture du fichier
-void fillLabelTable(FILE* file) {
+// retourn le nombre d'erreurs
+int fillLabelTable(FILE* file) {
   fseek(file, 0, SEEK_SET);
     char buffer[1024];
   
+  int errors = 0;
 
   int instruction_pointer = 0;
+  int line_c = 0;
   
   while(fgets(buffer, 1023, file) != NULL) {
+    line_c++;
+
     char* line = remove_indents_and_comments(buffer);
     
     char firstword[512];
@@ -214,7 +226,7 @@ void fillLabelTable(FILE* file) {
       firstword[firstword_size - 1] = '\0';
 
       // label
-      label_push_back(firstword, instruction_pointer);
+      errors += label_push_back(firstword, instruction_pointer, line_c);
       // il peut y avoir une instruction sur la meme ligne
       // donc on ne peut pas passer a la ligne suivante
       line = remove_indents_and_comments(line + strlen(firstword));
@@ -227,6 +239,8 @@ void fillLabelTable(FILE* file) {
     // ici, la ligne contient une instruction
     instruction_pointer += 4;
   }
+
+  return errors;
 }
 
 
@@ -270,45 +284,30 @@ int read_instructions(FILE* file, Instruction* list) {
     list[it].line = line_number;
 
     line += strlen(firstword);
-    printf("eussou5: %s\n", firstword);
     
     /// on parse a present les arguments
     op_t ops[3];
 
     char* token = strtok(line, ",");
-    
-    printf("eussou6\n");
 
     for(int i = 0; i < 3; i++) {
-      printf("BOUCLE LIGNE 283\ttoken=%s;i=%d\n", token,i);
 
       // token = NULL ssi on a deja lu tous les arguments
       // donc parse_op(NULL) renvoi NO_OPERAND
-      ops[i] = parse_op(token, it, line_number);
+      ops[i] = parse_op(token, 4*it, line_number);
 
-
-      printf("????\n");
+      if(ops[i] == INVALID_OPERAND)
+        errors++; 
 
 
       token = strtok(NULL, ",");
-      printf("zfeerv\n");
     }
 
     list[it].op1 = ops[0];
     list[it].op2 = ops[1];
     list[it].op3 = ops[2];
-
-    printf("eussou7\n");
-
-
-    printf("ligne %d: %s %d %d %d\n", line_number, list[it].opname, list[it].op1, list[it].op2, list[it].op3);
-    
-    printf("%d\n", line_number);
     
     it++;
   }
-
-  printf("FIN D LA FONCTION\n");
-
   return errors;
 }

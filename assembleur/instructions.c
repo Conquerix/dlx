@@ -10,9 +10,9 @@
 #define N_INSTRUCTIONS 33
 
 
-#define MAKE_REG(x) x | 0x80000000
-#define MAKE_IMM(x) x | 0x40000000
-#define MAKE_VAL(x) x | 0x20000000
+#define MAKE_REG(x) x/* | 0x80000000*/
+#define MAKE_IMM(x) x/* | 0x40000000*/
+#define MAKE_VAL(x) x/* | 0x20000000*/
 
 #define OP2REG(x) x & 0x01ff
 #define OP2IMM(x) x & 0xffff
@@ -52,7 +52,7 @@ Icode itable[N_INSTRUCTIONS] =  {
     {"BNEZ",I,0x05,2},
     {"JALR",I,0x13,1},
     {"JR",  I,0x12,1},
-    {"LHI", I,0x0f,2},
+    {"LHI", I,0x0f,1},
     {"SEQI",I,0x18,3},
     {"SLEI",I,0x1c,3},
     {"SLLI",I,0x14,3},
@@ -79,17 +79,9 @@ op_t make_op(int value, int typeflag, int line) {
     
     switch(typeflag) {
         case OP_REG: 
-            if(op > 31) {
-                 fprintf(stderr, "erreur a la ligne %d: registre invalide R%d \n", line, op);
-                return INVALID_OPERAND;
-            }
             return MAKE_REG(op);
 
         case OP_IMM:
-            if((op & ~0xffff) != 0) {
-                 fprintf(stderr, "erreur a la ligne %d: immediat %d trop grand \n", line, op);
-                return INVALID_OPERAND;
-            }
             return MAKE_IMM(op);
         case OP_VAL:
             // marche pas car op peut etre negatif...
@@ -101,6 +93,7 @@ op_t make_op(int value, int typeflag, int line) {
 
         default: 
             printf("que se passe-t-il ?? make_op(int value=%d,int typeflag=%d,int line=%d);\n", value,typeflag,line);
+            return INVALID_OPERAND;
     }
 }
 
@@ -150,18 +143,22 @@ J	        Opcode	    value	    value	    value	    value       value
 */
 
 instruction_t buildRinstruction(uint32_t opcode, uint32_t Rd,uint32_t Rs1,uint32_t Rs2) {
-    return opcode | (Rd << 11) | (Rs2 << 16) | (Rs1 << 21);
+    instruction_t ret = opcode | (Rd << 11) | (Rs2 << 16) | (Rs1 << 21);
+    return ret;
 }
 instruction_t buildIinstruction(uint32_t opcode, uint32_t Rd,uint32_t Rs1, uint32_t imm) {
-    return (imm) | (Rd << 16) | (Rs1 << 21) | (opcode << 26);
-
+    instruction_t ret = (imm) | (Rd << 16) | (Rs1 << 21) | (opcode << 26);
+    return ret;
 }
 instruction_t buildJinstruction(uint32_t opcode, uint32_t val) {
-    return (val) | (opcode << 26);
+    instruction_t ret = (val) | (opcode << 26);
+    return ret;
 }
 
 instruction_t convert(Instruction in) {
     Icode* icode = find(in);
+
+//    printf("%d\t%s %d %d %d --> %s(%.2x): ", in.line,in.opname,in.op1,in.op2,in.op3,        icode->opname, icode->opcode);
 
     if(!icode) {
         fprintf(stderr, "erreur a la ligne %d: operation '%s' inconnue\n", in.line, in.opname);
@@ -182,7 +179,19 @@ instruction_t convert(Instruction in) {
         case R:
             return buildRinstruction(icode->opcode, OP2REG(in.op1),OP2REG(in.op2),OP2REG(in.op3));
         case I:
-            return buildIinstruction(icode->opcode, OP2REG(in.op1),OP2REG(in.op2),OP2IMM(in.op2));
+            switch(n_operands) {
+                case 3:
+                    return buildIinstruction(icode->opcode, OP2REG(in.op1),OP2REG(in.op2),OP2IMM(in.op3));
+                case 2:
+                    return buildIinstruction(icode->opcode, 0, OP2REG(in.op1),OP2IMM(in.op2));
+                case 1:
+                    if(!strcmp(icode->opname, "LHI"))
+                        return buildIinstruction(icode->opcode, 0, 0,OP2IMM(in.op1));
+                    else
+                        return buildIinstruction(icode->opcode, 0, OP2IMM(in.op1),0);
+                default:
+                    assert(0);
+            }
         case J:
             return buildJinstruction(icode->opcode, OP2VAL(in.op1));
     }

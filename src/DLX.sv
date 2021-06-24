@@ -63,7 +63,7 @@ module DLX
 
   pc pc1(.clk(clk),
          .reset_n(reset_n),
-         .IF(IF),
+         .WB(WB),
          .pc_cmd(Pc_cmd),
          .pc_v(Pc_in),
          .i_address(i_address));

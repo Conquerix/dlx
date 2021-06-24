@@ -61,7 +61,7 @@ module DE1_SoC_tb();
       clock_50 <= 0;
       sw  <= 10'b1001100111;
       key <= 4'b0100;
-      #26ns
+      #6ns
       key <= 4'b0101;
     end
 endmodule

@@ -42,6 +42,20 @@ void checkargs(int argc, const char** argv) {
 
 }
 
+
+
+char* printnumber(int n) {
+    static FILE* file =NULL;
+    if(!file) file = fopen("numbers.txt", "r");
+    fseek(file, 0, SEEK_SET);
+    char* ret = malloc(256);
+
+    for(int i = 0; i < n-1; i++)
+        fgets(ret, 255, file);
+    
+    return fgets(ret, 255, file);
+}
+
 int main(int argc, const char** argv) {
     clock_t begin_time = clock();
 
@@ -67,14 +81,13 @@ int main(int argc, const char** argv) {
     
     fclose(input);
 
-
-    printf("parsage effectue, %d instructions lues, %d erreurs\n", n_instructions, errors);
-
-    printf("instructions parsees (%d):\n", n_instructions);
-    for(int i = 0; i < n_instructions; i++) {
-        Instruction in = instruction_list[i];
-        printf("%d\t%s %d %d %d\n", in.line,in.opname,in.op1,in.op2,in.op3);
+    if(errors) {
+        if(errors == 1)
+            printf("parsage effectue, %d instructions lues, une erreur\n", n_instructions);
+        else
+            printf("parsage effectue, %d instructions lues, %d erreurs\n", n_instructions, errors);
     }
+
 
     if(errors)
         return 1;
@@ -95,15 +108,15 @@ int main(int argc, const char** argv) {
                 errors++;
             }
             if(out_hex)
-                fprintf(output, "%.4x\n", i);
+                fprintf(output, "%.8x\n", instruction);
             else
-                fwrite(&i, 1,4, output);
+                fwrite(&instruction, 1,4, output);
             //printf("%x",i);
         }
     }
     fclose(output);
 
-    printf("assemblage terminee (%d erreurs, %d ms)", errors, clock()-begin_time);
+    printf("assemblage termine (%d erreurs, %.3f ms)\n", errors, (clock()-begin_time) / 1000.f);
 
     return errors != 0;
 

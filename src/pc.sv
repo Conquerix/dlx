@@ -1,6 +1,6 @@
 module pc(input  logic        clk,
           input  logic        reset_n,
-          input  logic        IF,
+          input  logic        WB,
           input  logic [1:0]  pc_cmd,
           input  logic [31:0] pc_v,
           output logic [31:0] i_address);
@@ -11,7 +11,7 @@ module pc(input  logic        clk,
         if(!reset_n)
           pc <= '0;
         else
-          if(IF)
+          if(WB)
             begin
               if(pc_cmd[1] == 1)
                 if(pc_cmd[0] == 1)

@@ -82,8 +82,8 @@ typedef struct {
 
 
 
-#define NO_OPERAND (op_t)-1
-#define INVALID_OPERAND (op_t)-2
+#define NO_OPERAND (op_t)0x7fffffff
+#define INVALID_OPERAND (op_t)0x7ffffffe
 #define INVALID_INSTRUCTION (instruction_t)-1
 
 // op type flag
