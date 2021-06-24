@@ -1,0 +1,400 @@
+un
+deux
+trois
+quatre
+cinq
+six
+sept
+huit
+neuf
+dix
+onze
+douze
+treize
+quatorze
+quinze
+seize
+dix-sept
+dix-huit
+dix-neuf
+vingt
+vingt et un
+vingt-deux
+vingt-trois
+vingt-quatre
+vingt-cinq
+vingt-six
+vingt-sept
+vingt-huit
+vingt-neuf
+trente
+trente et un
+trente-deux
+trente-trois
+trente-quatre
+trente-cinq
+trente-six
+trente-sept
+trente-huit
+trente-neuf
+quarante
+quarante et un
+le sens de la vie
+quarante-trois
+quarante-quatre
+quarante-cinq
+quarante-six
+quarante-sept
+quarante-huit
+quarante-neuf
+cinquante
+cinquante et un
+cinquante-deux
+cinquante-trois
+cinquante-quatre
+cinquante-cinq
+cinquante-six
+cinquante-sept
+cinquante-huit
+cinquante-neuf
+soixante
+soixante et un
+soixante-deux
+soixante-trois
+soixante-quatre
+soixante-cinq
+soixante-six
+soixante-sept
+soixante-huit
+soixante-neuf
+soixante-dix
+soixante et onze
+soixante-douze
+soixante-treize
+soixante-quatorze
+soixante-quinze
+soxante-seize
+soxante-dix-sept
+soxante-dix-huit
+soixante-dix-neuf
+quatre-vingts
+quatre-vingt-un
+quatre-vingt-deux
+quatre-vingt-trois
+quatre-vingt-quatre
+quatre-vingt-cinq
+quatre-vingt-six
+quatre-vingt-sept
+quatre-vingt-huit
+quatre-vingt-neuf
+quatre-vingt-dix
+quatre-vingt-onze
+quatre-vingt-douze
+quatre-vingt-treize
+quatre-vingt-quatorze
+quatre-vingt-quinze
+quatre-vingt-seize
+quatre-vingt-dix-sept
+quatre-vingt-dix-huit
+quatre-vingt-dix-neuf
+cent
+cent un
+cent deux
+cent trois
+cent quatre
+cent cinq
+cent six
+cent sept
+cent huit
+cent neuf
+cent dix
+cent onze
+cent douze
+cent treize
+cent quatorze
+cent quinze
+cent seize
+cent dix-sept
+cent dix-huit
+cent dix-neuf
+cent vingt
+cent vingt et un
+cent vingt-deux
+cent vingt-trois
+cent vingt-quatre
+cent vingt-cinq
+cent vingt-six
+cent vingt-sept
+cent vingt-huit
+cent vingt-neuf
+cent trente
+cent trente et un
+cent trente-deux
+cent trente-trois
+cent trente-quatre
+cent trente-cinq
+cent trente-six
+cent trente-sept
+cent trente-huit
+cent trente-neuf
+cent quarante
+cent quarante et un
+cent quarante-deux
+cent quarante-trois
+cent quarante-quatre
+cent quarante-cinq
+cent quarante-six
+cent quarante-sept
+cent quarante-huit
+cent quarante-neuf
+cent cinquante
+cent cinquante et un
+cent cinquante-deux
+cent cinquante-trois
+cent cinquante-quatre
+cent cinquante-cinq
+cent cinquante-six
+cent cinquante-sept
+cent cinquante-huit
+cent cinquante-neuf
+cent soixante
+cent soixante et un
+cent soixante-deux
+cent soixante-trois
+cent soixante-quatre
+cent soixante-cinq
+cent soixante-six
+cent soixante-sept
+cent soixante-huit
+cent soixante-neuf
+cent soixante-dix
+cent soixante et onze
+cent soixante-douze
+cent soixante-treize
+cent soixante-quatorze
+cent soixante-quinze
+cent soxante-seize
+cent soxante-dix-sept
+cent soxante-dix-huit
+cent soixante-dix-neuf
+cent quatre-vingts
+cent quatre-vingt-un
+cent quatre-vingt-deux
+cent quatre-vingt-trois
+cent quatre-vingt-quatre
+cent quatre-vingt-cinq
+cent quatre-vingt-six
+cent quatre-vingt-sept
+cent quatre-vingt-huit
+cent quatre-vingt-neuf
+cent quatre-vingt-dix
+cent quatre-vingt-onze
+cent quatre-vingt-douze
+cent quatre-vingt-treize
+cent quatre-vingt-quatorze
+cent quatre-vingt-quinze
+cent quatre-vingt-seize
+cent quatre-vingt-dix-sept
+cent quatre-vingt-dix-huit
+cent quatre-vingt-dix-neuf
+deux cents
+deux cent un
+deux cent deux
+deux cent trois
+deux cent quatre
+deux cent cinq
+deux cent six
+deux cent sept
+deux cent huit
+deux cent neuf
+deux cent dix
+deux cent onze
+deux cent douze
+deux cent treize
+deux cent quatorze
+deux cent quinze
+deux cent seize
+deux cent dix-sept
+deux cent dix-huit
+deux cent dix-neuf
+deux cent vingt
+deux cent vingt et un
+deux cent vingt-deux
+deux cent vingt-trois
+deux cent vingt-quatre
+deux cent vingt-cinq
+deux cent vingt-six
+deux cent vingt-sept
+deux cent vingt-huit
+deux cent vingt-neuf
+deux cent trente
+deux cent trente et un
+deux cent trente-deux
+deux cent trente-trois
+deux cent trente-quatre
+deux cent trente-cinq
+deux cent trente-six
+deux cent trente-sept
+deux cent trente-huit
+deux cent trente-neuf
+deux cent quarante
+deux cent quarante et un
+deux cent quarante-deux
+deux cent quarante-trois
+deux cent quarante-quatre
+deux cent quarante-cinq
+deux cent quarante-six
+deux cent quarante-sept
+deux cent quarante-huit
+deux cent quarante-neuf
+deux cent cinquante
+deux cent cinquante et un
+deux cent cinquante-deux
+deux cent cinquante-trois
+deux cent cinquante-quatre
+deux cent cinquante-cinq
+deux cent cinquante-six
+deux cent cinquante-sept
+deux cent cinquante-huit
+deux cent cinquante-neuf
+deux cent soixante
+deux cent soixante et un
+deux cent soixante-deux
+deux cent soixante-trois
+deux cent soixante-quatre
+deux cent soixante-cinq
+deux cent soixante-six
+deux cent soixante-sept
+deux cent soixante-huit
+deux cent soixante-neuf
+deux cent soixante-dix
+deux cent soixante et onze
+deux cent soixante-douze
+deux cent soixante-treize
+deux cent soixante-quatorze
+deux cent soixante-quinze
+deux cent soxante-seize
+deux cent soxante-dix-sept
+deux cent soxante-dix-huit
+deux cent soixante-dix-neuf
+deux cent quatre-vingts
+deux cent quatre-vingt-un
+deux cent quatre-vingt-deux
+deux cent quatre-vingt-trois
+deux cent quatre-vingt-quatre
+deux cent quatre-vingt-cinq
+deux cent quatre-vingt-six
+deux cent quatre-vingt-sept
+deux cent quatre-vingt-huit
+deux cent quatre-vingt-neuf
+deux cent quatre-vingt-dix
+deux cent quatre-vingt-onze
+deux cent quatre-vingt-douze
+deux cent quatre-vingt-treize
+deux cent quatre-vingt-quatorze
+deux cent quatre-vingt-quinze
+deux cent quatre-vingt-seize
+deux cent quatre-vingt-dix-sept
+deux cent quatre-vingt-dix-huit
+deux cent quatre-vingt-dix-neuf
+trois cents
+trois cent un
+trois cent deux
+trois cent trois
+trois cent quatre
+trois cent cinq
+trois cent six
+trois cent sept
+trois cent huit
+trois cent neuf
+trois cent dix
+trois cent onze
+trois cent douze
+trois cent treize
+trois cent quatorze
+trois cent quinze
+trois cent seize
+trois cent dix-sept
+trois cent dix-huit
+trois cent dix-neuf
+trois cent vingt
+trois cent vingt et un
+trois cent vingt-deux
+trois cent vingt-trois
+trois cent vingt-quatre
+trois cent vingt-cinq
+trois cent vingt-six
+trois cent vingt-sept
+trois cent vingt-huit
+trois cent vingt-neuf
+trois cent trente
+trois cent trente et un
+trois cent trente-deux
+trois cent trente-trois
+trois cent trente-quatre
+trois cent trente-cinq
+trois cent trente-six
+trois cent trente-sept
+trois cent trente-huit
+trois cent trente-neuf
+trois cent quarante
+trois cent quarante et un
+trois cent quarante-deux
+trois cent quarante-trois
+trois cent quarante-quatre
+trois cent quarante-cinq
+trois cent quarante-six
+trois cent quarante-sept
+trois cent quarante-huit
+trois cent quarante-neuf
+trois cent cinquante
+trois cent cinquante et un
+trois cent cinquante-deux
+trois cent cinquante-trois
+trois cent cinquante-quatre
+trois cent cinquante-cinq
+trois cent cinquante-six
+trois cent cinquante-sept
+trois cent cinquante-huit
+trois cent cinquante-neuf
+trois cent soixante
+trois cent soixante et un
+trois cent soixante-deux
+trois cent soixante-trois
+trois cent soixante-quatre
+trois cent soixante-cinq
+trois cent soixante-six
+trois cent soixante-sept
+trois cent soixante-huit
+trois cent soixante-neuf
+trois cent soixante-dix
+trois cent soixante et onze
+trois cent soixante-douze
+trois cent soixante-treize
+trois cent soixante-quatorze
+trois cent soixante-quinze
+trois cent soxante-seize
+trois cent soxante-dix-sept
+trois cent soxante-dix-huit
+trois cent soixante-dix-neuf
+trois cent quatre-vingts
+trois cent quatre-vingt-un
+trois cent quatre-vingt-deux
+trois cent quatre-vingt-trois
+trois cent quatre-vingt-quatre
+trois cent quatre-vingt-cinq
+trois cent quatre-vingt-six
+trois cent quatre-vingt-sept
+trois cent quatre-vingt-huit
+trois cent quatre-vingt-neuf
+trois cent quatre-vingt-dix
+trois cent quatre-vingt-onze
+trois cent quatre-vingt-douze
+trois cent quatre-vingt-treize
+trois cent quatre-vingt-quatorze
+trois cent quatre-vingt-quinze
+trois cent quatre-vingt-seize
+trois cent quatre-vingt-dix-sept
+trois cent quatre-vingt-dix-huit
+trois cent quatre-vingt-dix-neuf
+quatre cents
