@@ -2,10 +2,13 @@
 
 TB = DE1_SoC_tb
 
+all: compile simu
+
 simu:
 	vsim -debugDB $(TB)
 
 compile:
+	../../dlxasm prog.asm ../../rom/rom_data.txt
 	vlog +acc +define+SIMULATION $(TB).sv ../*.sv
 
 work:
