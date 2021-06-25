@@ -1,5 +1,4 @@
 module ALU(
-    input  logic        EX,
     input  logic        clk,
     input  logic [4:0]  I,
     input  logic [31:0] op1,
@@ -50,6 +49,7 @@ always@(*) begin
 end
 
 always@(posedge clk)
-    if(EX)
+    begin
         res1  <= out_comb;
+    end
 endmodule

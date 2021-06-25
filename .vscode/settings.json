@@ -1,0 +1,5 @@
+{
+    "verilog.linting.linter": "verilator",
+    "verilog.linting.verilator.runAtFileLocation": true,
+    "verilog.linting.iverilog.runAtFileLocation": true
+}
