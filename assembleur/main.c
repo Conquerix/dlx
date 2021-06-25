@@ -11,7 +11,7 @@
 int out_hex = 1;
 
 void no_args() {
-    printf("DLXASM 0.0.\nutilisation:\tdlxasm [entree] [sortie]\n");
+    printf("DLXASM 1.0\nutilisation:\tdlxasm [entree] [sortie]\n");
     exit(0);
 }
 
@@ -44,17 +44,19 @@ void checkargs(int argc, const char** argv) {
 
 
 
-char* printnumber(int n) {
-    static FILE* file =NULL;
-    if(!file) file = fopen("numbers.txt", "r");
-    fseek(file, 0, SEEK_SET);
-    char* ret = malloc(256);
-
-    for(int i = 0; i < n-1; i++)
-        fgets(ret, 255, file);
-    
-    return fgets(ret, 255, file);
-}
+//char* printnumber(int n) {
+//    static FILE* file =NULL;
+//    if(!file) file = fopen("numbers.txt", "r");
+//    fseek(file, 0, SEEK_SET);
+//    char* ret = malloc(256);
+//
+//    for(int i = 0; i < n-1; i++)
+//        fgets(ret, 255, file);
+//    char* str = fgets(ret, 255, file);
+//    char* end = strchr(str,'\n');
+//    if(end) *end = 0;
+//    return str;
+//}
 
 int main(int argc, const char** argv) {
     clock_t begin_time = clock();
@@ -82,10 +84,7 @@ int main(int argc, const char** argv) {
     fclose(input);
 
     if(errors) {
-        if(errors == 1)
-            printf("parsage effectue, %d instructions lues, une erreur\n", n_instructions);
-        else
-            printf("parsage effectue, %d instructions lues, %d erreurs\n", n_instructions, errors);
+        printf("parsage effectue, %d instructions lues, %d erreurs\n", n_instructions, errors);
     }
 
 

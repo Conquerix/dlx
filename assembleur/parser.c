@@ -106,6 +106,10 @@ char* remove_indents_and_comments(char* str) {
 
   if(end != NULL)   *end = '\0';
 
+  end = strchr(str, '#');
+
+  if(end != NULL)   *end = '\0';
+
 
 
   while(*begin == ' ' || *begin == '\t')
