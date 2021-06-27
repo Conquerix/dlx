@@ -1,27 +1,22 @@
 module pc(input  logic        clk,
           input  logic        reset_n,
-          input  logic        Pc_inc,
-          input  logic [1:0]  pc_cmd,
-          input  logic [31:0] pc_v,
-          output logic [31:0] i_address);
+          input  logic        pc_set,
+          input  logic [31:0] pc_in,
+          output logic [31:0] Pc_out);
 
-      logic [31:0] pc;
+    // registre interne
+      logic [31:0] pc_reg;
 
-      always@(posedge clk)
+      always@(posedge clk) begin
         if(!reset_n)
-          pc <= '0;
-        else
-          if(Pc_inc)
-            begin
-              if(pc_cmd[1] == 1)
-                if(pc_cmd[0] == 1)
-                  pc <= pc_v;
-                else
-                  pc <= pc + pc_v;
-              else
-                pc <= pc + 4;
-            end
+          pc_reg = 0;
+        else 
+        begin
+          if(pc_set)
+            pc_reg = pc_in + 4;
+          else
+            pc_reg = Pc_out + 4;
+        end
+      end
 
-      always@(*)
-          i_address = pc;
 endmodule

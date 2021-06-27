@@ -16,99 +16,81 @@ module DLX
    output logic [31:0] i_address
    );
 
-// signaux du decodeur
-  logic        d_load_enable;
-  logic        d_write_enable_d;
-  logic        Iv_alu;
-  logic        Pc_alu;
-  logic [1:0]  Pc_cmd;
-  logic [1:0]  Pc_val;
-  logic [4:0]  I;
-  logic [4:0]  Rs1,Rs2;
-  logic [4:0]  Rd_1,Rd_2,Rd_3;
-  logic [31:0] Iv;
-
 // signaux des registres
-  logic [31:0] S1,S2;
-  logic [31:0] regs_in;
 
-// signaux de l'ALU
-  logic [31:0] V1,V2;
-  logic [31:0] ALU_out_0;
-  logic [31:0] ALU_out_1;
-  logic [31:0] ALU_out_2;
+// signaux ID
+  logic [31:0] PC_ID;
+  logic [4:0]  Rs1_ID;
+  logic [4:0]  Rs2_ID;
+  logic [31:0] S1_ID;
+  logic [31:0] S2_ID;
 
-// signaux du PC
-  logic [31:0] Pc_in;
+// signaux EX
+  logic        Pc_cmd_ex_EX;
+  logic        d_write_enable_EX;
+  logic        d_load_enable_EX;
+  logic        Iv_alu_EX;
+  logic        Pc_alu_EX;
+  logic [4:0]  I_EX;
+  logic [4:0]  Rd_EX;
+  logic [31:0] Iv_EX;
+  logic [31:0] S1_EX;
+  logic [31:0] S2_EX;
+  logic [31:0] PC_EX;
+  logic        pc_cmd_EX;
+  logic [31:0] pc_in_EX;
 
-  ALU ALU1(.I(I),
-           .clk(clk),
-           .op1(V1),
-           .op2(V2),
-           .res1(ALU_out));
+// signaux MEM
 
-  regs regs1(.clk(clk),
-             .Rs1(Rs1),
-             .Rs2(Rs2),
-             .Rd(Rd),
-             .reg_s(regs_in),
-             .S1(S1),
-             .S2(S2));
+  logic [31:0] ALU_out_MEM;
+  logic        d_write_enable_MEM;
+  logic        d_load_enable_MEM;
+  logic [4:0]  Rd_MEM;
+  logic [4:0]  Rs3_MEM;
+  logic [31:0] S3_MEM;
 
-  pc pc1(.clk(clk),
-         .reset_n(reset_n),
-         .pc_cmd(Pc_cmd),
-         .pc_v(Pc_in),
-         .i_address(i_address));
+  logic [4:0]  Rd_MEM_backward;
+  logic [31:0] ALU_out_MEM_backward;
+  
+// signaux WB
+  logic [31:0] reg_in_WB;
 
-  decoder decoder1(.clk(clk),
-                   .reset_n(reset_n),
-                   .i_data_read(i_data_read),
-                   .d_write_enable(d_write_enable_d),
-                   .d_load_enable(d_load_enable),
-                   .Iv_alu(Iv_alu),
-                   .Pc_alu(Pc_alu),
-                   .Pc_cmd(Pc_cmd),
-                   .Pc_val(Pc_val),
-                   .I(I),
-                   .Rs1(Rs1),
-                   .Rs2(Rs2),
-                   .Rd(Rd),
-                   .Iv(Iv));
+// signaux WB
+  logic        d_write_enable_WB;
+  logic        d_load_enable_WB;
+  logic [4:0]  Rd_WB;
+  logic [4:0]  Rs3_WB;
+  logic [31:0] S3_WB;
 
-  always @(*)
-    begin
+    regs regs1(.clk(clk),
+               .Rs1(Rs1_ID),
+               .Rs2(Rs2_ID),
+               .Rs3(Rs3_WB),
+               .S1(S1_ID),
+               .S2(S2_ID),
+               .S3(S3_MEM),
+               .Rd(Rd_WB),
+               .reg_in(reg_in_WB));
 
-// multiplexeurs d'entré à l'ALU
-    if(Pc_alu)
-      V1 = i_address;
-    else
-      V1 = S1;
+    IF IF1(.clk(clk), .reset_n(reset_n));
 
-    if(Iv_alu)
-      V2 = Iv;
-    else
-      V2 = S2;
+    MEM MEM1(.clk(clk),
+             .reset_n(reset_n),
+             .d_data_valid(d_data_valid),
+             .d_data_read(d_data_read),
+             .d_address(d_address),
+             .d_data_write(d_data_write),
+             .d_write_enable(d_write_enable),
+             .ALU_out_MEM(ALU_out_MEM),
+             .ALU_out_MEM_backward(ALU_out_MEM_backward),
+             .Rd_MEM_backward(Rd_MEM_backward),
+             .d_load_enable_MEM(d_load_enable_MEM),
+             .d_write_enable_MEM(d_write_enable_MEM),
+             .Rd_MEM(Rd_MEM),            
+             .d_load_enable_WB(d_load_enable_WB),
+             .Rd_WB(Rd_WB),
+             .Rs3_MEM(Rs3_MEM),
+             .S3_MEM(S3_MEM));
 
-// multiplexeur d'entrée aux registres
-  if(d_load_enable)
-    regs_in = d_data_read;
-  else
-    regs_in = ALU_out;
 
-// multiplexeur d'entré du PC
-  case(Pc_val)
-    0'b00: Pc_in = ALU_out;
-    0'b01: Pc_in = Iv;
-    0'b10: Pc_in = S2;
-    0'b11: Pc_in = S1;
-  endcase
-
-// on écrit dans la mémoire uniquement au cycle MEM
-
-//    d_write_enable = d_write_enable_d;
-//  else
-//    d_write_enable = 0;
-
-  end
 endmodule // DLX

@@ -3,38 +3,44 @@ module regs(input  logic clk,
       // Numéros des registres
             input  logic [4:0]  Rs1,
             input  logic [4:0]  Rs2,
+            input  logic [4:0]  Rs3,
             input  logic [4:0]  Rd,
 
-            input  logic [31:0] reg_s,
+            input  logic [31:0] reg_in,
             output logic [31:0] S1,
-            output logic [31:0] S2);
+            output logic [31:0] S2,
+            output logic [31:0] S3);
 
       logic [31:0] regs[31:0];
-      logic [31:0] P1,P2;
+      logic [31:0] P1,P2,P3;
 
       always@(*)
       begin
         if(Rs1 != '0)
-          P1 = regs[Rs1];
+          S1 = 0;
+        else if(Rd == Rs1)
+          S1 = reg_in;
         else
-          P1 = 0;
+          S1 = regs[Rs1];
+
+
         if(Rs2 != '0)
-          P2 = regs[Rs2];
+          S2 = 0;
+        else if(Rd == Rs2)
+          S2 = reg_in;
         else
-          P2 = 0;
+          S2 = regs[Rs2];
 
 
-        if(Rd == Rs1)
-          S1 = reg_s;
+        if(Rs3 != '0)
+          S3 = 0;
+        else if(Rd == Rs3)
+          S3 = reg_in;
         else
-          S1 = P1;
-        if(Rd == Rs2)
-          S2 = reg_s;
-        else
-          S2 = P2;
+          S3 = regs[Rs3];
       end
 
 
       always@(posedge clk)
-          regs[Rd] <= reg_s;
+          regs[Rd] <= reg_in;
 endmodule
