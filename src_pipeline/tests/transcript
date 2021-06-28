@@ -12,15 +12,11 @@
 # //  is prohibited from disclosure under the Trade Secrets Act,
 # //  18 U.S.C. Section 1905.
 # //
-# ** Warning: License feature 'msimviewer' will expire in 3 days.
+# ** Warning: License feature 'msimviewer' will expire in 2 days.
 # vsim -debugDB DE1_SoC_tb 
-# Start time: 18:43:29 on Jun 27,2021
-# ** Warning: (vsim-4308) Enabling visibility using +acc is recommended with debug flow.
-# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
-# ** Note: (vsim-8611) Generating debug db.
-# ** Warning: (vopt-4308) Enabling visibility using +acc is recommended with debug flow.
-# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=2.
-# ** Warning: License feature 'msimhdlsim' will expire in 3 days.
+# Start time: 09:35:54 on Jun 28,2021
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# ** Warning: License feature 'msimhdlsim' will expire in 2 days.
 # Loading sv_std.std
 # Loading work.DE1_SoC_tb(fast)
 # Loading work.DE1_SoC(fast)
@@ -37,8 +33,10 @@
 # Loading work.ALU(fast)
 # Loading work.MEM(fast)
 # Loading work.WB(fast)
-# ** Note: (vsim-8900) Creating design debug database vsim.dbg.
+# ** Note: (vsim-8716) Reusing existing debug database vsim.dbg.
 add wave -position insertpoint sim:/DE1_SoC_tb/SoC1/dlx/*
+add wave -position insertpoint  \
+sim:/DE1_SoC_tb/SoC1/dlx/regs1/regs
 run
 # ** Warning: (vsim-7) Failed to open readmem file "ram_data.txt" in read mode.
 # No such file or directory. (errno = ENOENT)    : ../ram.sv(62)
@@ -49,5 +47,119 @@ run
 run
 run
 run
-# End time: 18:45:06 on Jun 27,2021, Elapsed time: 0:01:37
-# Errors: 0, Warnings: 3
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+add wave -position insertpoint /DE1_SoC_tb/SoC1/rom_instructions/rdata
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# Loading work.DE1_SoC_tb(fast)
+# Loading work.DE1_SoC(fast)
+# Loading work.gene_reset(fast)
+# Loading work.ram(fast)
+# Loading work.rom(fast)
+# Loading work.DLX(fast)
+# Loading work.regs(fast)
+# Loading work.IF(fast)
+# Loading work.pc(fast)
+# Loading work.ID(fast)
+# Loading work.decoder(fast)
+# Loading work.EX(fast)
+# Loading work.ALU(fast)
+# Loading work.MEM(fast)
+# Loading work.WB(fast)
+# ** Note: (vsim-8716) Reusing existing debug database vsim.dbg.
+run
+# ** Warning: (vsim-7) Failed to open readmem file "ram_data.txt" in read mode.
+# No such file or directory. (errno = ENOENT)    : ../ram.sv(62)
+#    Time: 0 ns  Iteration: 0  Instance: /DE1_SoC_tb/SoC1/ram_data
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# Loading work.DE1_SoC_tb(fast)
+# Loading work.DE1_SoC(fast)
+# Loading work.gene_reset(fast)
+# Loading work.ram(fast)
+# Loading work.rom(fast)
+# Loading work.DLX(fast)
+# Loading work.regs(fast)
+# Loading work.IF(fast)
+# Loading work.pc(fast)
+# Loading work.ID(fast)
+# Loading work.decoder(fast)
+# Loading work.EX(fast)
+# Loading work.ALU(fast)
+# Loading work.MEM(fast)
+# Loading work.WB(fast)
+# ** Note: (vsim-8716) Reusing existing debug database vsim.dbg.
+add wave -position insertpoint sim:/DE1_SoC_tb/SoC1/dlx/IF1/*
+run
+# ** Warning: (vsim-7) Failed to open readmem file "ram_data.txt" in read mode.
+# No such file or directory. (errno = ENOENT)    : ../ram.sv(62)
+#    Time: 0 ns  Iteration: 0  Instance: /DE1_SoC_tb/SoC1/ram_data
+run
+run
+run
+add wave -position insertpoint sim:/DE1_SoC_tb/SoC1/dlx/EX1/*
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# Loading work.DE1_SoC_tb(fast)
+# Loading work.DE1_SoC(fast)
+# Loading work.gene_reset(fast)
+# Loading work.ram(fast)
+# Loading work.rom(fast)
+# Loading work.DLX(fast)
+# Loading work.regs(fast)
+# Loading work.IF(fast)
+# Loading work.pc(fast)
+# Loading work.ID(fast)
+# Loading work.decoder(fast)
+# Loading work.EX(fast)
+# Loading work.ALU(fast)
+# Loading work.MEM(fast)
+# Loading work.WB(fast)
+# ** Note: (vsim-8716) Reusing existing debug database vsim.dbg.
+run
+# ** Warning: (vsim-7) Failed to open readmem file "ram_data.txt" in read mode.
+# No such file or directory. (errno = ENOENT)    : ../ram.sv(62)
+#    Time: 0 ns  Iteration: 0  Instance: /DE1_SoC_tb/SoC1/ram_data
+run
+run
+run
+run
+run
+run

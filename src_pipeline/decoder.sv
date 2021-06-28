@@ -33,8 +33,10 @@ module decoder(input logic        clk,
               Rs2            = '0;
               Rd             = '0;
               Iv             = '0;
-              
-            if(i_data_read[31:26] == '0)
+            if(!reset_n) begin
+              // garder les valeurs par defaut
+            end
+            else if(i_data_read[31:26] == '0)
               begin
                 case(i_data_read[5:0])
                   'h20    : I = 5'd1;

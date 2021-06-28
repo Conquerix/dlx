@@ -12,7 +12,6 @@ module regs(input  logic clk,
             output logic [31:0] S3);
 
       logic [31:0] regs[31:0];
-      logic [31:0] P1,P2,P3;
 
       always@(*)
       begin

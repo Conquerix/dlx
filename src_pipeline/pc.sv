@@ -7,15 +7,18 @@ module pc(input  logic        clk,
     // registre interne
       logic [31:0] pc_reg;
 
+      always@(*)
+        Pc_out = pc_reg;
+
       always@(posedge clk) begin
         if(!reset_n)
-          pc_reg = 0;
+          pc_reg <= 0;
         else 
         begin
           if(pc_set)
-            pc_reg = pc_in + 4;
+            pc_reg <= pc_in + 4;
           else
-            pc_reg = Pc_out + 4;
+            pc_reg <= pc_reg + 4;
         end
       end
 

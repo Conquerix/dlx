@@ -18,9 +18,10 @@ o-quiet -auto_acc_if_foreign -work work -debugdb
 tCvgOpt 0 Stats "none"
 n@_opt
 OL;O;2020.3;71
+R0
 vALU
 Z1 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
-Z2 !s110 1624812206
+Z2 !s110 1624865750
 !i10b 1
 !s100 FN=iSfnFCNck1O13ijzhf0
 Z3 !s11b Dg1SIo80bB@j0V0VzS_@n1
@@ -30,20 +31,20 @@ R0
 w1624632174
 8../ALU.sv
 F../ALU.sv
-!i122 12
+!i122 14
 L0 1 49
 Z4 VDg1SIo80bB@j0V0VzS_@n1
 Z5 OL;L;2020.3;71
 r1
 !s85 0
 31
-Z6 !s108 1624812206.000000
-Z7 !s107 ../WB.sv|../rom.sv|../regs.sv|../ram.sv|../pc.sv|../MEM.sv|../IF.sv|../ID.sv|../gene_reset.sv|../EX.sv|../DLX.sv|../decodeur7seg.sv|../decoder.sv|../DE1_SoC.sv|../ALU.sv|DE1_SoC_tb.sv|
-Z8 !s90 +acc|+define+SIMULATION|DE1_SoC_tb.sv|../ALU.sv|../DE1_SoC.sv|../decoder.sv|../decodeur7seg.sv|../DLX.sv|../EX.sv|../gene_reset.sv|../ID.sv|../IF.sv|../MEM.sv|../pc.sv|../ram.sv|../regs.sv|../rom.sv|../WB.sv|
+Z6 !s108 1624865750.000000
+!s107 ../WB.sv|../rom.sv|../regs.sv|../ram.sv|../pc.sv|../MEM.sv|../IF.sv|../ID.sv|../gene_reset.sv|../EX.sv|../DLX.sv|../decodeur7seg.sv|../decoder.sv|../DE1_SoC.sv|../ALU.sv|DE1_SoC_tb.sv|
+Z7 !s90 +acc|+define+SIMULATION|DE1_SoC_tb.sv|../ALU.sv|../DE1_SoC.sv|../decoder.sv|../decodeur7seg.sv|../DLX.sv|../EX.sv|../gene_reset.sv|../ID.sv|../IF.sv|../MEM.sv|../pc.sv|../ram.sv|../regs.sv|../rom.sv|../WB.sv|
 !i113 0
-Z9 o+acc -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
-Z10 !s92 +acc +define+SIMULATION -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
-Z11 tCvgOpt 0
+Z8 o+acc -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z9 !s92 +acc +define+SIMULATION -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z10 tCvgOpt 0
 n@a@l@u
 vDE1_SoC
 R1
@@ -54,10 +55,10 @@ R3
 IH<mh]m_4I9l8JefN11<U90
 S1
 R0
-Z12 w1624606698
+Z11 w1624606698
 8../DE1_SoC.sv
 F../DE1_SoC.sv
-!i122 12
+!i122 14
 L0 1 86
 R4
 R5
@@ -65,12 +66,12 @@ r1
 !s85 0
 31
 R6
+Z12 !s107 ../WB.sv|../rom.sv|../regs.sv|../ram.sv|../pc.sv|../MEM.sv|../IF.sv|../ID.sv|../gene_reset.sv|../EX.sv|../DLX.sv|../decodeur7seg.sv|../decoder.sv|../DE1_SoC.sv|../ALU.sv|DE1_SoC_tb.sv|
 R7
-R8
 !i113 0
+R8
 R9
 R10
-R11
 n@d@e1_@so@c
 vDE1_SoC_tb
 R1
@@ -84,7 +85,7 @@ R0
 Z13 w1624606699
 8DE1_SoC_tb.sv
 FDE1_SoC_tb.sv
-!i122 12
+!i122 14
 L0 1 67
 R4
 R5
@@ -92,12 +93,12 @@ r1
 !s85 0
 31
 R6
+R12
 R7
-R8
 !i113 0
+R8
 R9
 R10
-R11
 n@d@e1_@so@c_tb
 vdecoder
 R1
@@ -111,7 +112,7 @@ R0
 w1624810308
 8../decoder.sv
 F../decoder.sv
-!i122 12
+!i122 14
 L0 1 191
 R4
 R5
@@ -119,12 +120,12 @@ r1
 !s85 0
 31
 R6
+R12
 R7
-R8
 !i113 0
+R8
 R9
 R10
-R11
 vdecodeur7seg
 R1
 R2
@@ -134,10 +135,10 @@ R3
 IZbN7<3=Rmk[]2ZzS60F`31
 S1
 R0
-R12
+R11
 8../decodeur7seg.sv
 F../decodeur7seg.sv
-!i122 12
+!i122 14
 L0 1 24
 R4
 R5
@@ -145,12 +146,12 @@ r1
 !s85 0
 31
 R6
+R12
 R7
-R8
 !i113 0
+R8
 R9
 R10
-R11
 vDLX
 R1
 R2
@@ -163,7 +164,7 @@ R0
 w1624812196
 8../DLX.sv
 F../DLX.sv
-!i122 12
+!i122 14
 L0 1 171
 R4
 R5
@@ -171,12 +172,12 @@ r1
 !s85 0
 31
 R6
+R12
 R7
-R8
 !i113 0
+R8
 R9
 R10
-R11
 n@d@l@x
 vEX
 R1
@@ -190,7 +191,7 @@ R0
 w1624811917
 8../EX.sv
 F../EX.sv
-!i122 12
+!i122 14
 L0 1 108
 R4
 R5
@@ -198,12 +199,12 @@ r1
 !s85 0
 31
 R6
+R12
 R7
-R8
 !i113 0
+R8
 R9
 R10
-R11
 n@e@x
 vgene_reset
 R1
@@ -214,10 +215,10 @@ R3
 I^gncVdmZ_nH[eK1ehhQR71
 S1
 R0
-R12
+R11
 8../gene_reset.sv
 F../gene_reset.sv
-!i122 12
+!i122 14
 L0 1 16
 R4
 R5
@@ -225,12 +226,12 @@ r1
 !s85 0
 31
 R6
+R12
 R7
-R8
 !i113 0
+R8
 R9
 R10
-R11
 vID
 R1
 R2
@@ -243,7 +244,7 @@ R0
 w1624812167
 8../ID.sv
 F../ID.sv
-!i122 12
+!i122 14
 L0 1 119
 R4
 R5
@@ -251,12 +252,12 @@ r1
 !s85 0
 31
 R6
+R12
 R7
-R8
 !i113 0
+R8
 R9
 R10
-R11
 n@i@d
 vIF
 R1
@@ -270,7 +271,7 @@ R0
 w1624630563
 8../IF.sv
 F../IF.sv
-!i122 12
+!i122 14
 L0 1 44
 R4
 R5
@@ -278,12 +279,12 @@ r1
 !s85 0
 31
 R6
+R12
 R7
-R8
 !i113 0
+R8
 R9
 R10
-R11
 n@i@f
 vMEM
 R1
@@ -297,7 +298,7 @@ R0
 w1624811267
 8../MEM.sv
 F../MEM.sv
-!i122 12
+!i122 14
 L0 1 56
 R4
 R5
@@ -305,12 +306,12 @@ r1
 !s85 0
 31
 R6
+R12
 R7
-R8
 !i113 0
+R8
 R9
 R10
-R11
 n@m@e@m
 vpc
 R1
@@ -324,7 +325,7 @@ R0
 w1624809518
 8../pc.sv
 F../pc.sv
-!i122 12
+!i122 14
 L0 1 25
 R4
 R5
@@ -332,12 +333,12 @@ r1
 !s85 0
 31
 R6
+R12
 R7
-R8
 !i113 0
+R8
 R9
 R10
-R11
 vram
 R1
 R2
@@ -350,7 +351,7 @@ R0
 R13
 8../ram.sv
 F../ram.sv
-!i122 12
+!i122 14
 L0 5 77
 R4
 R5
@@ -358,12 +359,12 @@ r1
 !s85 0
 31
 R6
+R12
 R7
-R8
 !i113 0
+R8
 R9
 R10
-R11
 vregs
 R1
 R2
@@ -376,7 +377,7 @@ R0
 w1624811414
 8../regs.sv
 F../regs.sv
-!i122 12
+!i122 14
 L0 1 45
 R4
 R5
@@ -384,12 +385,12 @@ r1
 !s85 0
 31
 R6
+R12
 R7
-R8
 !i113 0
+R8
 R9
 R10
-R11
 vrom
 R1
 R2
@@ -402,7 +403,7 @@ R0
 R13
 8../rom.sv
 F../rom.sv
-!i122 12
+!i122 14
 L0 1 30
 R4
 R5
@@ -410,12 +411,12 @@ r1
 !s85 0
 31
 R6
+R12
 R7
-R8
 !i113 0
+R8
 R9
 R10
-R11
 vWB
 R1
 R2
@@ -428,7 +429,7 @@ R0
 w1624809103
 8../WB.sv
 F../WB.sv
-!i122 12
+!i122 14
 L0 1 14
 R4
 R5
@@ -436,10 +437,10 @@ r1
 !s85 0
 31
 R6
+R12
 R7
-R8
 !i113 0
+R8
 R9
 R10
-R11
 n@w@b
