@@ -50,6 +50,7 @@ module DLX
   logic        d_write_enable_MEM;
   logic        d_load_enable_MEM;
   logic [4:0]  Rd_MEM;
+  logic [4:0]  Rs2_MEM;
   logic [4:0]  Rs3_MEM;
   logic [31:0] S3_MEM;
 
@@ -125,6 +126,7 @@ module DLX
            .S1_EX(S1_EX),
            .S2_EX(S2_EX),
            .PC_EX(PC_EX),
+           .Rs2_MEM(Rs2_MEM),
            .ALU_out_MEM(ALU_out_MEM),
            .ALU_out_MEM_backward(ALU_out_MEM_backward),
            .Rd_MEM_backward(Rd_MEM_backward),
@@ -148,6 +150,7 @@ module DLX
              .Rd_MEM(Rd_MEM),            
              .d_load_enable_WB(d_load_enable_WB),
              .Rd_WB(Rd_WB),
+             .Rs2_MEM(Rs2_MEM),
              .Rs3_MEM(Rs3_MEM),
              .S3_MEM(S3_MEM),
              .ALU_out_WB(ALU_out_WB));

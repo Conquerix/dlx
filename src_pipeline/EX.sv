@@ -32,7 +32,9 @@ module EX(
         output logic [31:0] ALU_out_MEM,
         output logic        d_write_enable_MEM,
         output logic        d_load_enable_MEM,
-        output logic [4:0]  Rd_MEM);
+        output logic [4:0]  Rd_MEM,
+        output logic [4:0]  Rs2_MEM
+        );
 
     logic [31:0] ALU_op1, ALU_op2, ALU_res;
 
@@ -70,6 +72,7 @@ module EX(
             ALU_out_MEM        <= '0;
             d_write_enable_MEM <= '0;
             d_load_enable_MEM  <= '0;
+            Rs2_MEM            <= '0;
             Rd_MEM             <= '0;
         end
         else
@@ -77,6 +80,7 @@ module EX(
             ALU_out_MEM        <= ALU_res;
             d_write_enable_MEM <= d_write_enable_EX;
             d_load_enable_MEM  <= d_load_enable_EX;
+            Rs2_MEM            <= Rs2_EX;
             Rd_MEM             <= Rd_EX;
         end 
     end
@@ -97,12 +101,12 @@ module EX(
     // multiplexeurs en entré de l'ALU
     // pour prendre en compte les valeurssim:/DE1_SoC_tb/SoC1/dlx/ALU_out_WB
 
-        if(Rs1_EX == Rd_MEM_backward)
+        if(Rs1_EX == Rd_MEM_backward && Rs1_EX != 0)
             reg1 = ALU_out_MEM_backward;
         else 
             reg1 = S1_EX;
 
-        if(Rs2_EX == Rd_MEM_backward)
+        if(Rs2_EX == Rd_MEM_backward && Rs2_EX != 0)
             reg2 = ALU_out_MEM_backward;
         else 
             reg2 = S2_EX;
