@@ -96,7 +96,7 @@ module EX(
         // JR et companie
 
         /// signal  de modification de la valeur du PC
-            pc_cmd_EX = Pc_cmd_ex_EX & ALU_ZF;
+            pc_cmd_EX = Pc_cmd_ex_EX & (!ALU_ZF);
 
     // multiplexeurs en entré de l'ALU
     // pour prendre en compte les valeurssim:/DE1_SoC_tb/SoC1/dlx/ALU_out_WB

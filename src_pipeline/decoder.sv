@@ -95,14 +95,14 @@ module decoder(input logic        clk,
                       begin
                         Pc_cmd_EX = 1;
                         Pc_add    = 1;
-                        I         = 5'd16;
+                        I         = 5'd8;
                         Iv        = {{16{i_data_read[15]}},i_data_read[15:0]};
                       end
                     'h05 : // BNEZ : Pc_add
                       begin
                         Pc_cmd_EX = 1;
                         Pc_add    = 1;
-                        I         = 5'd17;
+                        I         = 5'd9;
                         Iv        = {{16{i_data_read[15]}},i_data_read[15:0]};
                       end
                     'h13 : // JALR : pas de Pc_add

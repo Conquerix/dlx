@@ -45,5 +45,10 @@ always@(*) begin
     endcase
     
     ZF = (res == 0);
+    
+    if(I == 8)
+        ZF = (op1 != 0);
+    else if(I == 9)
+        ZF = (op1 == 0);
 end
 endmodule
