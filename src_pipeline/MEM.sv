@@ -48,7 +48,7 @@ always @(posedge clk) begin
     else begin
         d_load_enable_WB  <= d_load_enable_MEM;
         Rd_WB             <= Rd_MEM;
-        ALU_out_WB        <= ALU_out_WB;
+        ALU_out_WB        <= ALU_out_MEM;
     end
 end
 
