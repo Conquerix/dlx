@@ -48,7 +48,8 @@ module EX(
         .res(ALU_res),
         .ZF(ALU_ZF));
 
-    // multiplexeurs d'entré à l'ALU
+    // multiplexeurs d'entré à l'ALUpc_in_EX = 0;
+
     always @(*) begin
         if(Pc_alu_EX)
             ALU_op1 = PC_EX;
@@ -81,18 +82,14 @@ module EX(
 
     // additionneur
     always@(*) begin
-        pc_in_EX = 0;
+        
+        pc_in_EX = PC_EX + Iv_EX;
 
-        if(Pc_cmd_ex_EX & ALU_ZF)
-            pc_in_EX = PC_EX + Iv_EX;
-
-        pc_cmd_EX = Pc_cmd_ex_EX;
-    end
+        pc_cmd_EX = Pc_cmd_ex_EX & ALU_ZF;
 
     // multiplexeurs en entré de l'ALU
-    // pour prendre en compte les valeurs
-    // non encore enregistrées dans les registres
-    always@(*) begin
+    // pour prendre en compte les valeurssim:/DE1_SoC_tb/SoC1/dlx/ALU_out_WB
+
         if(Rs1_EX == Rd_MEM_backward)
             reg1 = ALU_out_MEM_backward;
         else 
@@ -104,5 +101,4 @@ module EX(
             reg2 = S2_EX;
 
     end
-
 endmodule

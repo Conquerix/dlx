@@ -3,7 +3,7 @@ module ID(input logic         clk,
           input logic [31:0]  i_data_read,
 
 /////////////////////////////////////// signaux qui remontent le temps
-          input logic         nullify,
+          input logic         pc_cmd_EX,
           /// ce signal indique qu'un saut 
           /// est pris à partir du bloc EX
           ///
@@ -24,7 +24,7 @@ module ID(input logic         clk,
 
 /////////////////////////////////////// signaux qui redescendent le temps
           input  logic [31:0] PC_ID,
-          output logic        pc_cmd_ex_ex,
+          output logic        Pc_cmd_ex_EX,
           output logic        d_write_enable_EX,
           output logic        d_load_enable_EX,
           output logic        Iv_alu_EX,
@@ -48,7 +48,7 @@ module ID(input logic         clk,
     logic [4:0]  Rd_ID;
     logic [31:0] Iv_ID;
 
-    //logic [31:0] S1_EX0,S2_EX0;/// S1,S2 avant correction avec la phase MEM
+    logic [31:0] S1_EX0,S2_EX0;/// S1,S2 avant correction avec la phase MEM
 
 
     decoder decoder1(.clk(clk),
@@ -70,7 +70,7 @@ module ID(input logic         clk,
 
     /// bascule D sur tous les signaux...
     always @(posedge clk) begin
-        if(!reset_n || nullify) begin
+        if(!reset_n || pc_cmd_EX) begin
             d_write_enable_EX   <= 0;
             d_load_enable_EX    <= 0;
             Iv_alu_EX           <= 0;
@@ -78,7 +78,7 @@ module ID(input logic         clk,
             Rd_EX               <= 0;
             I_EX                <= 0;
             Iv_EX               <= 0;
-            pc_cmd_ex_ex        <= 0;
+            Pc_cmd_ex_EX        <= 0;
             Rs1_EX              <= 0;
             Rs2_EX              <= 0;
             
@@ -91,29 +91,20 @@ module ID(input logic         clk,
             Rd_EX               <= Rd_ID;
             I_EX                <= I_ID;
             Iv_EX               <= Iv_ID;
-            pc_cmd_ex_ex        <= Pc_cmd_ex_ID;
+            Pc_cmd_ex_EX        <= Pc_cmd_ex_ID;
             Rs1_EX              <= Rs1_ID;
             Rs2_EX              <= Rs2_ID;
         end
     end
 
     always@(*) begin
-        /// additionneur + multiplexeur
+        /// additionneur
         if(Pc_add)
             pc_in_ID = PC_ID + Iv_ID;
         else
             pc_in_ID = S1_ID;
 
 
-            if(Rd_MEM == Rs1_EX)
-                S1_EX = ALU_out_MEM;
-            else
-                S1_EX = S1_EX0;
-          
-            if(Rd_MEM == Rs2_EX)
-                S2_EX = ALU_out_MEM;
-            else
-                S2_EX = S2_EX0;
     end
 
 endmodule
