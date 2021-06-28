@@ -95,8 +95,12 @@ module DLX
            .Rs2_ID(Rs2_ID),
            .S1_ID(S1_ID),
            .S2_ID(S2_ID),
-           .PC_ID(PC_ID),
-           .Pc_cmd_ex_EX(Pc_cmd_ex_EX),
+           .PC_ID(PC_ID), 
+           
+           // l'instruction doit etre nullifiée si on se rend compte qu'il faut jump 
+           // lors de l'EX
+           .nullify(Pc_cmd_ex_EX),
+           
            .d_write_enable_EX(d_write_enable_EX),
            .d_load_enable_EX(d_load_enable_EX),
            .Iv_alu_EX(Iv_alu_EX),
