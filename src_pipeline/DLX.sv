@@ -86,7 +86,11 @@ module DLX
     ID ID1(.clk(clk),
            .reset_n(reset_n),
            .i_data_read(i_data_read),
-           .pc_cmd_EX(pc_cmd_EX),
+
+           // l'instruction doit etre nullifiée si on se rend compte qu'il faut jump 
+           // lors de l'EX
+           .nullify(pc_cmd_EX),
+
            .Rd_MEM(Rd_MEM),
            .ALU_out_MEM(ALU_out_MEM),
            .Pc_cmd_id(pc_cmd_ID),
@@ -96,11 +100,7 @@ module DLX
            .S1_ID(S1_ID),
            .S2_ID(S2_ID),
            .PC_ID(PC_ID), 
-           
-           // l'instruction doit etre nullifiée si on se rend compte qu'il faut jump 
-           // lors de l'EX
-           .nullify(Pc_cmd_ex_EX),
-           
+           .pc_cmd_ex_ex(Pc_cmd_ex_EX),
            .d_write_enable_EX(d_write_enable_EX),
            .d_load_enable_EX(d_load_enable_EX),
            .Iv_alu_EX(Iv_alu_EX),
