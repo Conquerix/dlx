@@ -3,8 +3,7 @@
 CC := GCC
 
 all: asm
-	build/asm main.s main
-	
+	build/asm ../tests_asm/code2.asm code.txt	
 
 clean:
 	rm -rf build/*

@@ -1,0 +1,10 @@
+Starting Build
+lundi 28 juin 2021, 17:29:14 (UTC+0200)
+etas_smartest_info running cat command:mri.h
+
+etas_smartest_info running cat command:mri.c
+
+etas_smartest_info running cat command:master_release_info.c
+
+etas_smartest_info run nm on all object files
+

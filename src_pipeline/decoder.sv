@@ -63,7 +63,7 @@ module decoder(input logic        clk,
                   Pc_cmd_ID      = 1;
                   Pc_alu         = 1;
                   Iv             = {{6{i_data_read[25]}},i_data_read[25:0]};
-                  if(i_data_read[26] == 1)
+                  if(i_data_read[26] == 1) // JAL
                     begin
                       I  = 5'd15;
                       Rd = 5'd31;
@@ -109,13 +109,13 @@ module decoder(input logic        clk,
                       begin
                         I         = 5'd15;
                         Rd        = 5'd31;
-                        Pc_cmd_ID = 1;
+                        Pc_cmd_EX = 1;
                         Iv        = {16'b0, i_data_read[15:0]};
                       end
                     'h12 : // JR   : pas de Pc_add
                       begin
                         I      = 5'd0;
-                        Pc_cmd_ID = 1;
+                        Pc_cmd_EX = 1;
                         Iv     = {16'b0, i_data_read[15:0]};
                       end
                     'h0f :

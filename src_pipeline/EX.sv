@@ -85,20 +85,9 @@ module EX(
         end 
     end
 
-    // additionneur
     always@(*) begin
 
-        // la nouvelle valeur du pc ssi l'instruction est un jmp ET le resultat de l'ALU est non nul
-        if(Pc_add_EX)
-            pc_in_EX = PC_EX + Iv_EX;
-        else
-            pc_in_EX = S1_EX;
-        // JR et companie
-
-        /// signal  de modification de la valeur du PC
-            pc_cmd_EX = Pc_cmd_ex_EX & (!ALU_ZF);
-
-    // multiplexeurs en entré de l'ALU
+            // multiplexeurs en entré de l'ALU
     // pour prendre en compte les valeurssim:/DE1_SoC_tb/SoC1/dlx/ALU_out_WB
 
         if(Rs1_EX == Rd_MEM_backward && Rs1_EX != 0)
@@ -111,5 +100,14 @@ module EX(
         else 
             reg2 = S2_EX;
 
+        // la nouvelle valeur du pc ssi l'instruction est un jmp ET le resultat de l'ALU est non nul
+        if(Pc_add_EX)
+            pc_in_EX = PC_EX + Iv_EX;
+        else
+            pc_in_EX = reg1;
+        // JR et companie
+
+        /// signal  de modification de la valeur du PC
+            pc_cmd_EX = Pc_cmd_ex_EX & !(ALU_ZF & Pc_add_EX);
     end
 endmodule
