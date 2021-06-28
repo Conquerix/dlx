@@ -105,15 +105,15 @@ module ID(input logic         clk,
             pc_in_ID = S1_ID;
 
 
-          //  if(Rd_MEM == Rs1_EX)
-          //      S1_EX = ALU_out_MEM;
-          //  else
-          //      S1_EX = S1_EX0;
-          //
-          //  if(Rd_MEM == Rs2_EX)
-          //      S2_EX = ALU_out_MEM;
-          //  else
-          //      S2_EX = S2_EX0;
+            if(Rd_MEM == Rs1_EX)
+                S1_EX = ALU_out_MEM;
+            else
+                S1_EX = S1_EX0;
+          
+            if(Rd_MEM == Rs2_EX)
+                S2_EX = ALU_out_MEM;
+            else
+                S2_EX = S2_EX0;
     end
 
 endmodule
