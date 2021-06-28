@@ -1,3 +1,12 @@
+
+
+
+
+_boucle:
+        BEQZ $0, _boucle
+
+_fin:   J _fin
+
 # Petit programme calculant les 10 premiers termes de fibo
 
 debut:  ORI  $1,$0,1     # R1 = R0 | 1  (= 1)

@@ -24,7 +24,7 @@ module ID(input logic         clk,
 
 /////////////////////////////////////// signaux qui redescendent le temps
           input  logic [31:0] PC_ID,
-          output logic        Pc_cmd_ex_EX,
+          output logic        nullify,
           output logic        d_write_enable_EX,
           output logic        d_load_enable_EX,
           output logic        Iv_alu_EX,
@@ -78,7 +78,7 @@ module ID(input logic         clk,
             Rd_EX               <= 0;
             I_EX                <= 0;
             Iv_EX               <= 0;
-            Pc_cmd_ex_EX        <= 0;
+            nullify             <= 0;
             Rs1_EX              <= 0;
             Rs2_EX              <= 0;
             
@@ -91,7 +91,7 @@ module ID(input logic         clk,
             Rd_EX               <= Rd_ID;
             I_EX                <= I_ID;
             Iv_EX               <= Iv_ID;
-            Pc_cmd_ex_EX        <= Pc_cmd_ex_ID;
+            nullify             <= Pc_cmd_ex_ID;
             Rs1_EX              <= Rs1_ID;
             Rs2_EX              <= Rs2_ID;
         end
