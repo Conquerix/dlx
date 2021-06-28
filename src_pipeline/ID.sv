@@ -3,7 +3,7 @@ module ID(input logic         clk,
           input logic [31:0]  i_data_read,
 
 /////////////////////////////////////// signaux qui remontent le temps
-          input logic         pc_cmd_EX,
+          input logic         nullify,
           /// ce signal indique qu'un saut 
           /// est pris à partir du bloc EX
           ///
@@ -24,7 +24,7 @@ module ID(input logic         clk,
 
 /////////////////////////////////////// signaux qui redescendent le temps
           input  logic [31:0] PC_ID,
-          output logic        nullify,
+          output logic        pc_cmd_ex_ex,
           output logic        d_write_enable_EX,
           output logic        d_load_enable_EX,
           output logic        Iv_alu_EX,
@@ -48,7 +48,7 @@ module ID(input logic         clk,
     logic [4:0]  Rd_ID;
     logic [31:0] Iv_ID;
 
-    logic [31:0] S1_EX0,S2_EX0;/// S1,S2 avant correction avec la phase MEM
+    //logic [31:0] S1_EX0,S2_EX0;/// S1,S2 avant correction avec la phase MEM
 
 
     decoder decoder1(.clk(clk),
@@ -70,7 +70,7 @@ module ID(input logic         clk,
 
     /// bascule D sur tous les signaux...
     always @(posedge clk) begin
-        if(!reset_n || pc_cmd_EX) begin
+        if(!reset_n || nullify) begin
             d_write_enable_EX   <= 0;
             d_load_enable_EX    <= 0;
             Iv_alu_EX           <= 0;
@@ -78,7 +78,7 @@ module ID(input logic         clk,
             Rd_EX               <= 0;
             I_EX                <= 0;
             Iv_EX               <= 0;
-            nullify             <= 0;
+            pc_cmd_ex_ex        <= 0;
             Rs1_EX              <= 0;
             Rs2_EX              <= 0;
             
@@ -91,7 +91,7 @@ module ID(input logic         clk,
             Rd_EX               <= Rd_ID;
             I_EX                <= I_ID;
             Iv_EX               <= Iv_ID;
-            nullify             <= Pc_cmd_ex_ID;
+            pc_cmd_ex_ex        <= Pc_cmd_ex_ID;
             Rs1_EX              <= Rs1_ID;
             Rs2_EX              <= Rs2_ID;
         end
