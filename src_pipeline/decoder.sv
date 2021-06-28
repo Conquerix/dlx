@@ -36,7 +36,7 @@ module decoder(input logic        clk,
             if(!reset_n) begin
               // garder les valeurs par defaut
             end
-            else if(i_data_read[31:26] == '0)
+            else if(i_data_read[31:26] == '0) // instructions R
               begin
                 case(i_data_read[5:0])
                   'h20    : I = 5'd1;
@@ -58,11 +58,10 @@ module decoder(input logic        clk,
                 Rd             = i_data_read[15:11];
               end
             else
-              if(i_data_read[31:27] == 5'b00001)
+              if(i_data_read[31:27] == 5'b00001) // instructions J (j'imagine ?? ...)
                 begin
-                  Pc_cmd_ID = 1;
+                  Pc_cmd_ID      = 1;
                   Pc_alu         = 1;
-                  Pc_add         = 1;
                   Iv             = {{6{i_data_read[25]}},i_data_read[25:0]};
                   if(i_data_read[26] == 1)
                     begin
@@ -75,7 +74,7 @@ module decoder(input logic        clk,
                       Rd = 5'd0;
                     end
                 end
-              else
+              else      // instructions I
                 begin
                   Rs1            = i_data_read[25:21];
                   Rs2            = i_data_read[20:16];
@@ -92,26 +91,28 @@ module decoder(input logic        clk,
                         I  = 5'd3;
                         Iv = {16'b0, i_data_read[15:0]};
                       end
-                    'h04 :
+                    'h04 : // BEQZ : Pc_add
                       begin
                         Pc_cmd_EX = 1;
-                        I      = 5'd16;
-                        Iv     = {{16{i_data_read[15]}},i_data_read[15:0]};
+                        Pc_add    = 1;
+                        I         = 5'd16;
+                        Iv        = {{16{i_data_read[15]}},i_data_read[15:0]};
                       end
-                    'h05 :
+                    'h05 : // BNEZ : Pc_add
                       begin
                         Pc_cmd_EX = 1;
-                        I      = 5'd17;
-                        Iv     = {{16{i_data_read[15]}},i_data_read[15:0]};
+                        Pc_add    = 1;
+                        I         = 5'd17;
+                        Iv        = {{16{i_data_read[15]}},i_data_read[15:0]};
                       end
-                    'h13 :
+                    'h13 : // JALR : pas de Pc_add
                       begin
-                        I      = 5'd15;
-                        Rd     = 5'd31;
+                        I         = 5'd15;
+                        Rd        = 5'd31;
                         Pc_cmd_ID = 1;
-                        Iv     = {16'b0, i_data_read[15:0]};
+                        Iv        = {16'b0, i_data_read[15:0]};
                       end
-                    'h12 :
+                    'h12 : // JR   : pas de Pc_add
                       begin
                         I      = 5'd0;
                         Pc_cmd_ID = 1;

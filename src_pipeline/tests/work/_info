@@ -9,10 +9,10 @@ z2
 cModel Technology
 Z0 d/cal/homes/mserandour/dlx/src_pipeline/tests
 T_opt
-!s110 1624870664
-V98;UlG[:c5L>KjWz<]]k52
+!s110 1624883452
+VcIJf`1>[faFEZKTiD8Ki01
 04 10 4 work DE1_SoC_tb fast 0
-=1-000ae431a4f1-60d98f08-5bbd2-2f65
+=1-000ae431a4f1-60d9c0fc-7d78f-4efe
 o-quiet -auto_acc_if_foreign -work work -debugdb
 tCvgOpt 0 Stats "none"
 n@_opt
@@ -20,24 +20,24 @@ OL;O;2020.3;71
 R0
 vALU
 Z1 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
-Z2 !s110 1624870979
+Z2 !s110 1624883584
 !i10b 1
-!s100 FN=iSfnFCNck1O13ijzhf0
+!s100 JVo13c<1L>n`Z0E<DV9Ub0
 Z3 !s11b Dg1SIo80bB@j0V0VzS_@n1
-IQ8>mYl[_fj3RGXPR>J`PF0
+IB<L_J^57<5GLl6zhK;^j@2
 S1
 R0
-w1624632174
+w1624881324
 8../ALU.sv
 F../ALU.sv
-!i122 3
+!i122 21
 L0 1 49
 Z4 VDg1SIo80bB@j0V0VzS_@n1
 Z5 OL;L;2020.3;71
 r1
 !s85 0
 31
-Z6 !s108 1624870979.000000
+Z6 !s108 1624883584.000000
 !s107 ../WB.sv|../rom.sv|../regs.sv|../ram.sv|../pc.sv|../MEM.sv|../IF.sv|../ID.sv|../gene_reset.sv|../EX.sv|../DLX.sv|../decodeur7seg.sv|../decoder.sv|../DE1_SoC.sv|../ALU.sv|DE1_SoC_tb.sv|
 Z7 !s90 +acc|+define+SIMULATION|DE1_SoC_tb.sv|../ALU.sv|../DE1_SoC.sv|../decoder.sv|../decodeur7seg.sv|../DLX.sv|../EX.sv|../gene_reset.sv|../ID.sv|../IF.sv|../MEM.sv|../pc.sv|../ram.sv|../regs.sv|../rom.sv|../WB.sv|
 !i113 0
@@ -57,7 +57,7 @@ R0
 Z11 w1624606698
 8../DE1_SoC.sv
 F../DE1_SoC.sv
-!i122 3
+!i122 21
 L0 1 86
 R4
 R5
@@ -84,7 +84,7 @@ R0
 Z13 w1624606699
 8DE1_SoC_tb.sv
 FDE1_SoC_tb.sv
-!i122 3
+!i122 21
 L0 1 67
 R4
 R5
@@ -103,16 +103,16 @@ vdecoder
 R1
 R2
 !i10b 1
-!s100 >czTnIgTM5@T:M7>>Tn7I3
+!s100 <hJSmQHLe5lhN8P>_^6k<1
 R3
-IY@V^;<hlHbBemUe2S_A8T2
+I2j4LU^K?FPX?C_Z0agIIm2
 S1
 R0
-w1624810308
+w1624879014
 8../decoder.sv
 F../decoder.sv
-!i122 3
-L0 1 191
+!i122 21
+L0 1 192
 R4
 R5
 r1
@@ -137,7 +137,7 @@ R0
 R11
 8../decodeur7seg.sv
 F../decodeur7seg.sv
-!i122 3
+!i122 21
 L0 1 24
 R4
 R5
@@ -155,16 +155,16 @@ vDLX
 R1
 R2
 !i10b 1
-!s100 e;3=e^1;IizNJRVnEW7N11
+!s100 d:38gEbalb4>2RM7J=DW[2
 R3
-I4h^NY?5<Vl0@In`a27g=H3
+I5XaMVR6@Ud?dCRLh`1_Qz0
 S1
 R0
-w1624870655
+w1624883425
 8../DLX.sv
 F../DLX.sv
-!i122 3
-L0 1 175
+!i122 21
+L0 1 174
 R4
 R5
 r1
@@ -182,16 +182,16 @@ vEX
 R1
 R2
 !i10b 1
-!s100 :?VoYUm0WUGXcli;U3n<H2
+!s100 HCm?a?QPF0=g82d:;zT062
 R3
-IS>HBG7oVXX0`QK;?WzD>n3
+I1bZYl]lHRMW7o2hJdPJO[0
 S1
 R0
-w1624867164
+w1624877371
 8../EX.sv
 F../EX.sv
-!i122 3
-L0 1 108
+!i122 21
+L0 1 111
 R4
 R5
 r1
@@ -217,7 +217,7 @@ R0
 R11
 8../gene_reset.sv
 F../gene_reset.sv
-!i122 3
+!i122 21
 L0 1 16
 R4
 R5
@@ -235,16 +235,16 @@ vID
 R1
 R2
 !i10b 1
-!s100 :VBf_GSE<PM@i_<SenVB92
+!s100 aN>K:UAHfMYd5W76^W=f_2
 R3
-InF@:W8bF5gX1HzLfMdX3j2
+I>6:5T0EGzg?XiTU7FG4kh3
 S1
 R0
-w1624870563
+w1624880801
 8../ID.sv
 F../ID.sv
-!i122 3
-L0 1 119
+!i122 21
+L0 1 104
 R4
 R5
 r1
@@ -270,7 +270,7 @@ R0
 w1624630563
 8../IF.sv
 F../IF.sv
-!i122 3
+!i122 21
 L0 1 44
 R4
 R5
@@ -297,7 +297,7 @@ R0
 w1624868931
 8../MEM.sv
 F../MEM.sv
-!i122 3
+!i122 21
 L0 1 56
 R4
 R5
@@ -324,7 +324,7 @@ R0
 w1624809518
 8../pc.sv
 F../pc.sv
-!i122 3
+!i122 21
 L0 1 25
 R4
 R5
@@ -350,7 +350,7 @@ R0
 R13
 8../ram.sv
 F../ram.sv
-!i122 3
+!i122 21
 L0 5 77
 R4
 R5
@@ -368,15 +368,15 @@ vregs
 R1
 R2
 !i10b 1
-!s100 jce9@KV9cFmbKmza=RUBg0
+!s100 DM=9<9aoRYz<zcWn7M2@<3
 R3
-ISTRYIAaBE`aIjM@TOMXX>0
+IPBOl<nbd3?LeG[_9i_2Ha3
 S1
 R0
-w1624811414
+w1624881782
 8../regs.sv
 F../regs.sv
-!i122 3
+!i122 21
 L0 1 45
 R4
 R5
@@ -402,7 +402,7 @@ R0
 R13
 8../rom.sv
 F../rom.sv
-!i122 3
+!i122 21
 L0 1 30
 R4
 R5
@@ -428,7 +428,7 @@ R0
 w1624809103
 8../WB.sv
 F../WB.sv
-!i122 3
+!i122 21
 L0 1 14
 R4
 R5

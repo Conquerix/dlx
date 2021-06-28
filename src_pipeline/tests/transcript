@@ -14,7 +14,7 @@
 # //
 # ** Warning: License feature 'msimviewer' will expire in 2 days.
 # vsim -debugDB DE1_SoC_tb 
-# Start time: 11:03:02 on Jun 28,2021
+# Start time: 14:33:07 on Jun 28,2021
 # ** Note: (vsim-8009) Loading existing optimized design _opt
 # ** Warning: License feature 'msimhdlsim' will expire in 2 days.
 # Loading sv_std.std
@@ -34,15 +34,12 @@
 # Loading work.MEM(fast)
 # Loading work.WB(fast)
 # ** Note: (vsim-8716) Reusing existing debug database vsim.dbg.
-add wave -position insertpoint sim:/DE1_SoC_tb/SoC1/dlx/*
 add wave -position insertpoint  \
 sim:/DE1_SoC_tb/SoC1/dlx/regs1/regs
 run
 # ** Warning: (vsim-7) Failed to open readmem file "ram_data.txt" in read mode.
 # No such file or directory. (errno = ENOENT)    : ../ram.sv(62)
 #    Time: 0 ns  Iteration: 0  Instance: /DE1_SoC_tb/SoC1/ram_data
-run
-run
 run
 run
 run
