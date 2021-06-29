@@ -1,42 +1,16 @@
-	# Test 4, jouons un peu avec les sauts
-	# Stress test pipeline
-	# À la fin : Aucun des registres R10 à R19 et R31 ne doit contenir 0xDEAD
-	# 	     + R20 = 1 et R21 = 1
 
-debut:XOR	$1, $0, $0  	# R1 = 0
-	ADDI	$1, $1, 1   	# R1 = 1
-	BNEZ	$1, e1# Branchement avec dépendance sur les deux dernières instructions
-	ORI	$10, $0, 0xDEAD # Branchement non effectué !
-	XOR	$0, $0, $0
-	XOR	$0, $0, $0
-	ORI	$11, $0, 0xDEAD # Si R10 != 0xDEAD, le branchement est arrivé trop tôt !
+debut:
+	ADDI	$1, $0, 1  # 0010.00 00.000 0.0001 0000 0000 0000 0001
+	SW	$1, $0, 0  # 1010.11 00.000 0.0001 0000 0000 0000 0000
+	SW	$1, $0, 4  # 1010.11 00.000 0.0001 0000 0000 0000 0100
+	SLLI	$4, $1, 3  # 0101.00 00.001 0.0100 0000 0000 0000 0011
 
-e1:	
-	BNEZ	$1, e2# Branchement suivant immédiatement un branchement + dépendance WB
-	ORI	$12, $0, 0xDEAD # Branchement non effectué !
-	XOR	$0, $0, $0
-	XOR	$0, $0, $0
-
-e2:	
-	ORI	$31, $0, 0xDEAD
-	JAL	e3
-	ORI	$13, $0, 0xDEAD # Branchement non effectué (ou retour à la mauvaise adresse) !
-	ORI	$20, $0, 1
-	J	e4
-	ORI	$14, $0, 0xDEAD # Branchement non effectué !
-
-e3:	
-	ADDI	$31, $31, 4	# On modifie volontairement R31 (+ dépendance)
-	JR	$31		# On doit revenir deux lignes après le JAL e3 (+ dépendance)
-	ORI	$15, $0, 0xDEAD # Branchement non effectué !
-
-e4:	
-	ADDI	$21, $0, 1
-
-	XOR	$0, $0, $0
-	XOR	$0, $0, $0
-	XOR	$0, $0, $0
-	XOR	$0, $0, $0
-	XOR	$0, $0, $0
-
-end:	J	end
+loop:
+	LW	$1, $4, -8 # 1000.11 00.100 0.0001 1111 1111 1111 1000
+	LW	$2, $4, -4 # 1000.11 00.100 0.0010 1111 1111 1111 1100
+	AND	$0, $0, $0 # 0000.00 00.000 0.0000 0000.0 000.00 10.0100
+	ADD	$1, $2, $1 # 0000.00 00.010 0.0001 0000.1 000.00 10.0000
+	SW	$1, $4, 0  # 1010.11 00.100 0.0001 0000 0000 0000 0000
+	ADDI	$4, $4, 4  # 0010.00 00.100 0.0100 0000 0000 0000 0100
+	J	loop       # 0000.10 11 1111 1111 1111 1111 1110 1100
+	AND	$0, $0, $0 # 0000.00 00.000 0.0000 0000.0 000.00 10.0100
