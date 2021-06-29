@@ -60,10 +60,12 @@ module ID(input logic         clk,
     always@(*)
       begin
         if(load_word_wait_enable_d)
-          if(i_data_read[31:26] == '0)
-            jmp = (i_data_read[25:21] != '0 && i_data_read[25:21] == register_store_d) || (i_data_read[20:16] != '0 && i_data_read[20:16] == register_store_d);
-          else if(i_data_read[31:27] != 5'b00001)
-            jmp = (i_data_read[25:21] != '0 && i_data_read[25:21] == register_store_d);
+          begin
+            if(i_data_read[31:26] == '0)
+              jmp = (i_data_read[25:21] != '0 && i_data_read[25:21] == register_store_d) || (i_data_read[20:16] != '0 && i_data_read[20:16] == register_store_d);
+            else if(i_data_read[31:27] != 5'b00001)
+              jmp = (i_data_read[25:21] != '0 && i_data_read[25:21] == register_store_d);
+          end
         else
           jmp = 0;
       end
