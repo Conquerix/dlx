@@ -8,7 +8,7 @@ simu:
 	vsim -debugDB $(TB)
 
 compile:
-	../../dlxasm ../../tests_asm/code2.asm ../../rom/rom_data.txt
+	../../dlxasm ../../tests_asm/prog.asm ../../rom/rom_data.txt
 	vlog +acc +define+SIMULATION $(TB).sv ../*.sv
 
 work:

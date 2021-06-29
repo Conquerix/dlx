@@ -9,7 +9,7 @@ module driver_leds(input logic       clk,
                    output logic[9:0] ledr);
 
     always@(posedge clk) begin
-        if(reset_n)
+        if(!reset_n)
             ledr <= 0;
         else if(chip_select & write_enable)
             ledr <= data_write[9:0];

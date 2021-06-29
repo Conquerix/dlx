@@ -5,7 +5,7 @@ module chip_select (input logic [31:0] address,
 
             always@(*)
               begin
-                if(address == 0'b1)
+                if(address == 'b1)
                   begin
                     cs_led = 1;
                     cs_ram = 0;
