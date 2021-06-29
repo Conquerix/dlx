@@ -83,4 +83,10 @@
       .i_data_valid   ( rom_rdata_valid )
       );
 
+   led led1(.cs(led_cs),
+            .clk(clock_50),
+            .write_enable(d_write_enable),
+            .data_write(d_data_write),
+            .data_read(d_data_read));
+
 endmodule
