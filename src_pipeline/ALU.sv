@@ -44,6 +44,11 @@ always@(*) begin
         17: res =  op1 != 32'b0  ? op2    : 32'b100;
     endcase
     
-    ZF = (I == 0);
+    ZF = (res == 0);
+    
+    if(I == 8)
+        ZF = (op1 != 0);
+    else if(I == 9)
+        ZF = (op1 == 0);
 end
 endmodule

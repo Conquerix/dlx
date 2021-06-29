@@ -16,16 +16,15 @@ module DLX
    output logic [31:0] i_address
    );
 
-// signaux des registres
+// signaux des registres 
 
 // signaux ID
   logic [31:0] PC_ID;
   logic [4:0]  Rs1_ID;
   logic [4:0]  Rs2_ID;
-  logic [31:0] S1_ID;
-  logic [31:0] S2_ID;
   logic [31:0] pc_in_ID;
   logic pc_cmd_ID;
+  logic reset_n2;
 
 // signaux EX
   logic        Pc_cmd_ex_EX;
@@ -42,6 +41,7 @@ module DLX
   logic [4:0] Rs2_EX;
   logic [31:0] PC_EX;
   logic        pc_cmd_EX;
+  logic        Pc_add_EX;
   logic [31:0] pc_in_EX;
 
 // signaux MEM
@@ -50,6 +50,7 @@ module DLX
   logic        d_write_enable_MEM;
   logic        d_load_enable_MEM;
   logic [4:0]  Rd_MEM;
+  logic [4:0]  Rs2_MEM;
   logic [4:0]  Rs3_MEM;
   logic [31:0] S3_MEM;
 
@@ -60,18 +61,16 @@ module DLX
   logic [31:0] reg_in_WB;
 
 // signaux WB
-  logic        d_write_enable_WB;
   logic        d_load_enable_WB;
   logic [4:0]  Rd_WB;
-  logic [31:0] S3_WB;
   logic [31:0] ALU_out_WB;
 
     regs regs1(.clk(clk),
-               .Rs1(Rs1_ID),
-               .Rs2(Rs2_ID),
+               .Rs1(Rs1_EX),
+               .Rs2(Rs2_EX),
                .Rs3(Rs3_MEM),
-               .S1(S1_ID),
-               .S2(S2_ID),
+               .S1(S1_EX),
+               .S2(S2_EX),
                .S3(S3_MEM),
                .Rd(Rd_WB),
                .reg_in(reg_in_WB));
@@ -85,6 +84,7 @@ module DLX
 
     ID ID1(.clk(clk),
            .reset_n(reset_n),
+           .reset_n2(reset_n2), // il faut attendre d'avoir fetch l'instruction après avoir reset : sinon on l'execute 2 fois
            .i_data_read(i_data_read),
 
            // l'instruction doit etre nullifiée si on se rend compte qu'il faut jump 
@@ -97,10 +97,9 @@ module DLX
            .pc_in_ID(pc_in_ID),
            .Rs1_ID(Rs1_ID),
            .Rs2_ID(Rs2_ID),
-           .S1_ID(S1_ID),
-           .S2_ID(S2_ID),
-           .PC_ID(PC_ID), 
-           .pc_cmd_ex_ex(Pc_cmd_ex_EX),
+           .Pc_add_EX(Pc_add_EX),
+           .PC_ID(PC_ID),
+           .Pc_cmd_ex_EX(Pc_cmd_ex_EX),
            .d_write_enable_EX(d_write_enable_EX),
            .d_load_enable_EX(d_load_enable_EX),
            .Iv_alu_EX(Iv_alu_EX),
@@ -109,9 +108,7 @@ module DLX
            .Rd_EX(Rd_EX),
            .Rs1_EX(Rs1_EX),
            .Rs2_EX(Rs2_EX),
-           .Iv_EX(Iv_EX),
-           .S1_EX(S1_EX),
-           .S2_EX(S2_EX));
+           .Iv_EX(Iv_EX));
 
     EX EX1(.clk(clk),
            .reset_n(reset_n),
@@ -122,12 +119,14 @@ module DLX
            .d_load_enable_EX(d_load_enable_EX),
            .Iv_alu_EX(Iv_alu_EX),
            .Pc_alu_EX(Pc_alu_EX),
+           .Pc_add_EX(Pc_add_EX),
            .I_EX(I_EX),
            .Rd_EX(Rd_EX),
            .Iv_EX(Iv_EX),
            .S1_EX(S1_EX),
            .S2_EX(S2_EX),
            .PC_EX(PC_EX),
+           .Rs2_MEM(Rs2_MEM),
            .ALU_out_MEM(ALU_out_MEM),
            .ALU_out_MEM_backward(ALU_out_MEM_backward),
            .Rd_MEM_backward(Rd_MEM_backward),
@@ -151,6 +150,7 @@ module DLX
              .Rd_MEM(Rd_MEM),            
              .d_load_enable_WB(d_load_enable_WB),
              .Rd_WB(Rd_WB),
+             .Rs2_MEM(Rs2_MEM),
              .Rs3_MEM(Rs3_MEM),
              .S3_MEM(S3_MEM),
              .ALU_out_WB(ALU_out_WB));
@@ -165,8 +165,10 @@ module DLX
     if(!reset_n) begin
       PC_EX <= 0;
       PC_ID <= 0;
+      reset_n2 <= 0;
     end
     else begin
+      reset_n2 <= reset_n;
       PC_ID <= i_address;
       PC_EX <= PC_ID;
     end

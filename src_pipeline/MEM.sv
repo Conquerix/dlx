@@ -17,6 +17,7 @@ module MEM(input  logic clk,
            input  logic [31:0] ALU_out_MEM,
            input  logic        d_write_enable_MEM,
            input  logic        d_load_enable_MEM,
+           input  logic [4:0]  Rs2_MEM,
            input  logic [4:0]  Rd_MEM,
            
             
@@ -30,7 +31,7 @@ always@(*) begin
     d_address    = ALU_out_MEM;
     
     d_data_write   = S3_MEM;
-    Rs3_MEM        = Rd_MEM;
+    Rs3_MEM        = Rs2_MEM;
     d_write_enable = d_write_enable_MEM;
 
     ALU_out_MEM_backward  = ALU_out_MEM;
@@ -47,8 +48,9 @@ always @(posedge clk) begin
     end
     else begin
         d_load_enable_WB  <= d_load_enable_MEM;
-        Rd_WB             <= Rd_MEM;
         ALU_out_WB        <= ALU_out_MEM;
+
+        Rd_WB         <= Rd_MEM;
     end
 end
 

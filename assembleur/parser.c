@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 
 #include "instructions.h"
@@ -110,10 +111,16 @@ char* remove_indents_and_comments(char* str) {
 
   if(end != NULL)   *end = '\0';
 
-
-
   while(*begin == ' ' || *begin == '\t')
     begin++;
+
+  end = str + strlen(str) - 1;
+  char* _end = end;
+  while(*end == ' ' || *end == '\t' && end > begin)
+    end--;
+
+  if(end != _end)  
+    *(end+1) = '\0';
   
   return begin;
 }
@@ -130,6 +137,8 @@ op_t parse_op(char* str_op, int instruction_pointer, int line) {
   char* str = str_op;
   // supprimer les eventuels espaces apres l'op
   char* s = strchr(str, ' ');
+  if(s) *s = 0;
+  s = strchr(str, '\t');
   if(s) *s = 0;
 
   int value = 0;
@@ -151,7 +160,15 @@ op_t parse_op(char* str_op, int instruction_pointer, int line) {
       return make_op(value, type, line);
     }
   }
-  if(!sscanf(str, "%d", &value)) {
+
+  const char* format = "%d";
+
+  if(strlen(str) > 2 && str[0] == '0' && tolower(str[1]) == 'x') {
+    format = "%x";
+    str += 2;
+  }
+
+  if(!sscanf(str, format, &value)) {
     fprintf(stderr, "erreur a la ligne %d: operande '%s' invalide\n", line, str_op);
     return INVALID_OPERAND;
   }
@@ -174,7 +191,10 @@ void countInstructions(FILE* file) {
   int line_c = 0;
   
   while(fgets(buffer, 1023, file) != NULL) {
+    
+    line_c++;
     char* line = remove_indents_and_comments(buffer);
+
     
     // lire le 1er mot de la ligne
     char firstword[512];
@@ -183,13 +203,19 @@ void countInstructions(FILE* file) {
     if(n <= 0) // ligne vide
       continue;
 
-    if(firstword[strlen(firstword) - 1] == ':') {
+    char* ptr = strchr(firstword, ':');
+
+    if(ptr != NULL) {
       // label
       n_labels++;
 
+      line = remove_indents_and_comments(line + strlen(firstword) - strlen(ptr) + 1);
+      
+
+
+
       // il peut y avoir une instruction sur la meme ligne
       // donc on ne peut pas passer a la ligne suivante
-      line = remove_indents_and_comments(line + strlen(firstword));
       n = sscanf(line, "%s", firstword);
       
       if(n <= 0) // ligne vide
@@ -223,17 +249,24 @@ int fillLabelTable(FILE* file) {
     if(n <= 0) // ligne vide
       continue;
 
-    int firstword_size = strlen(firstword);
 
-    if(firstword[firstword_size - 1] == ':') {
+
+    char* ptr = strchr(firstword, ':');
+
+    if(ptr != NULL) {
+      // label
+      n_labels++;
+
+
       // c'est un label
-      firstword[firstword_size - 1] = '\0';
+      *ptr = '\0';
 
       // label
       errors += label_push_back(firstword, instruction_pointer, line_c);
       // il peut y avoir une instruction sur la meme ligne
       // donc on ne peut pas passer a la ligne suivante
       line = remove_indents_and_comments(line + strlen(firstword));
+
       n = sscanf(line, "%s", firstword);
       
       if(n <= 0) // ligne vide
@@ -271,12 +304,14 @@ int read_instructions(FILE* file, Instruction* list) {
       continue;
   // 3eme phase : on ignore les labels
     
-    if(firstword[strlen(firstword) - 1] == ':') {
+    char* ptr = strchr(firstword, ':');
+
+    if(ptr != NULL) {
       // label
 
       // il peut y avoir une instruction sur la meme ligne
       // donc on ne peut pas passer a la ligne suivante
-      line = remove_indents_and_comments(line + strlen(firstword));
+      line = remove_indents_and_comments(line + strlen(firstword) - strlen(ptr) + 1);
       n = sscanf(line, "%s", firstword);
       
       if(n <= 0) // ligne vide

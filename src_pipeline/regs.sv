@@ -15,7 +15,7 @@ module regs(input  logic clk,
 
       always@(*)
       begin
-        if(Rs1 != '0)
+        if(Rs1 == '0)
           S1 = 0;
         else if(Rd == Rs1)
           S1 = reg_in;
@@ -23,7 +23,7 @@ module regs(input  logic clk,
           S1 = regs[Rs1];
 
 
-        if(Rs2 != '0)
+        if(Rs2 == '0)
           S2 = 0;
         else if(Rd == Rs2)
           S2 = reg_in;
@@ -31,7 +31,7 @@ module regs(input  logic clk,
           S2 = regs[Rs2];
 
 
-        if(Rs3 != '0)
+        if(Rs3 == '0)
           S3 = 0;
         else if(Rd == Rs3)
           S3 = reg_in;
@@ -41,5 +41,5 @@ module regs(input  logic clk,
 
 
       always@(posedge clk)
-          regs[Rd] <= reg_in;
+          regs[Rd] = reg_in;
 endmodule

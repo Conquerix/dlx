@@ -74,7 +74,7 @@ int main(int argc, const char** argv) {
     FILE* input  = fopen(argv[1], "r");
 
     if(!input) {
-        fprintf(stderr, "%s: fichier introuvable\n");
+        fprintf(stderr, "%s: fichier introuvable\n", argv[1]);
         exit(0);
     }
 
@@ -85,11 +85,10 @@ int main(int argc, const char** argv) {
 
     if(errors) {
         printf("parsage effectue, %d instructions lues, %d erreurs\n", n_instructions, errors);
+        return 1;
     }
 
 
-    if(errors)
-        return 1;
 
 // decodage et ecriture
     FILE* output;
@@ -110,12 +109,12 @@ int main(int argc, const char** argv) {
                 fprintf(output, "%.8x\n", instruction);
             else
                 fwrite(&instruction, 1,4, output);
-            //printf("%x",i);
+            
         }
     }
     fclose(output);
 
-    printf("assemblage termine (%d erreurs, %.3f ms)\n", errors, (clock()-begin_time) / 1000.f);
+    printf("assemblage termine (%d erreurs, %.3f ms, %d instructions lues)\n", errors, (clock()-begin_time) / 1000.f, n_instructions);
 
     return errors != 0;
 

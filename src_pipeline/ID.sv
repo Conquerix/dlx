@@ -1,13 +1,15 @@
 module ID(input logic         clk,
           input logic         reset_n,
+          input logic         reset_n2,
           input logic [31:0]  i_data_read,
 
 /////////////////////////////////////// signaux qui remontent le temps
-          input logic         pc_cmd_EX,
+
           /// ce signal indique qu'un saut 
           /// est pris à partir du bloc EX
           ///
           /// il faut donc nullifier l'instruction en cours de decodage
+          input logic         nullify,
 
 
           input logic [4:0]   Rd_MEM,
@@ -19,8 +21,6 @@ module ID(input logic         clk,
 /////////////////////////////////////// registres
           output logic [4:0]  Rs1_ID,
           output logic [4:0]  Rs2_ID,
-          input  logic [31:0] S1_ID,
-          input  logic [31:0] S2_ID,
 
 /////////////////////////////////////// signaux qui redescendent le temps
           input  logic [31:0] PC_ID,
@@ -34,8 +34,7 @@ module ID(input logic         clk,
           output logic [4:0]  Rs1_EX,
           output logic [4:0]  Rs2_EX,
           output logic [31:0] Iv_EX,
-          output logic [31:0] S1_EX,
-          output logic [31:0] S2_EX);
+          output logic        Pc_add_EX);
 
     logic        Pc_cmd_ex_ID;
     logic        Pc_add;
@@ -52,7 +51,7 @@ module ID(input logic         clk,
 
 
     decoder decoder1(.clk(clk),
-                .reset_n(reset_n),
+                .reset_n(reset_n & reset_n2),
                 .i_data_read(i_data_read),
                 .d_write_enable(d_write_enable_ID),
                 .d_load_enable(d_load_enable_ID),
@@ -67,10 +66,9 @@ module ID(input logic         clk,
                 .Rd(Rd_ID),
                 .Iv(Iv_ID));
 
-
     /// bascule D sur tous les signaux...
     always @(posedge clk) begin
-        if(!reset_n || pc_cmd_EX) begin
+        if(!reset_n || !reset_n2 || nullify) begin
             d_write_enable_EX   <= 0;
             d_load_enable_EX    <= 0;
             Iv_alu_EX           <= 0;
@@ -81,7 +79,7 @@ module ID(input logic         clk,
             Pc_cmd_ex_EX        <= 0;
             Rs1_EX              <= 0;
             Rs2_EX              <= 0;
-            
+            Pc_add_EX           <= 0;
         end
         else begin
             d_write_enable_EX   <= d_write_enable_ID;
@@ -94,17 +92,13 @@ module ID(input logic         clk,
             Pc_cmd_ex_EX        <= Pc_cmd_ex_ID;
             Rs1_EX              <= Rs1_ID;
             Rs2_EX              <= Rs2_ID;
+            Pc_add_EX           <=Pc_add;
         end
     end
 
     always@(*) begin
-        /// additionneur
-        if(Pc_add)
-            pc_in_ID = PC_ID + Iv_ID;
-        else
-            pc_in_ID = S1_ID;
-
-
+        // nouvelle valeur de PC ssi l'instruction est un saut inconditionnel
+        pc_in_ID = PC_ID + Iv_ID;
     end
 
 endmodule

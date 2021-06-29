@@ -1,2 +1,6 @@
 src/tests/transcript
 src/tests/work/
+src_pipeline/tests/transcript
+src_pipeline/tests/work
+src_pipeline/tests/vsim.wlf
+src_pipeline/tests/vsim.dbg
