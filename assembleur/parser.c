@@ -265,10 +265,11 @@ int fillLabelTable(FILE* file) {
       errors += label_push_back(firstword, instruction_pointer, line_c);
       // il peut y avoir une instruction sur la meme ligne
       // donc on ne peut pas passer a la ligne suivante
-      line = remove_indents_and_comments(line + strlen(firstword));
+      line = remove_indents_and_comments(line + strlen(firstword) + 1);
+
 
       n = sscanf(line, "%s", firstword);
-      
+ 
       if(n <= 0) // ligne vide
         continue;
     }
