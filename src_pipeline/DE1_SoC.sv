@@ -40,14 +40,17 @@
 
    // Instantication de la RAM pour les données
    logic [31:0] 		    ram_addr;
-   logic [31:0] 		    ram_rdata;
    logic [31:0] 		    d_data_write;
+   logic [31:0]       d_data_read;
    logic 			    write_enable;
    logic 			    ram_rdata_valid;
 
 
    // periferiques
-   logic leds_cs, switches_cs;
+   logic leds_cs, switches_cs, cs_ram;
+   logic [31:0] ram_rdata;
+   logic [31:0] sw_rdata;
+   logic [31:0] leds_rdata;
 
    ram #(.ADDR_WIDTH(RAM_ADDR_WIDTH)) ram_data
      (
@@ -79,7 +82,7 @@
       .clk            ( clock_50        ),
       .reset_n        ( reset_n         ),
       .d_address      ( ram_addr        ),
-      .d_data_read    ( ram_rdata       ),
+      .d_data_read    ( d_data_read     ),
       .d_data_write   ( d_data_write    ),
       .d_write_enable (write_enable),
       .d_data_valid   ( ram_rdata_valid ),
@@ -93,7 +96,22 @@
             .reset_n(reset_n),
             .write_enable(write_enable),
             .data_write(d_data_write), 
-            .data_read(d_data_read),
+            .data_read(leds_rdata),
             .ledr(ledr));
 
+  driver_switches sw1(.data(sw_rdata), .sw(sw));
+
+  chip_select chip_select1(
+    .address(ram_addr),
+    .cs_led(leds_cs),
+    .cs_ram(cs_ram)
+  );
+
+  always@(posedge clock_50) begin
+    casez ({leds_cs, cs_ram})
+      2'b10:   d_data_read <= leds_rdata;
+      2'b01:   d_data_read <= ram_rdata;
+      default: d_data_read <= sw_rdata;
+    endcase
+  end
 endmodule
