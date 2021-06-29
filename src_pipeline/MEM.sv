@@ -1,7 +1,7 @@
 module MEM(input  logic clk,
            input  logic reset_n,
 
-           input  logic 	   d_data_valid,
+           input  logic 	     d_data_valid,
            output logic [31:0] d_address,
            output logic [31:0] d_data_write,
            output logic        d_write_enable,
@@ -12,15 +12,15 @@ module MEM(input  logic clk,
 
 
            output logic [4:0]  Rs3_MEM,
-           input  logic [31:0] S3_MEM, 
+           input  logic [31:0] S3_MEM,
 
            input  logic [31:0] ALU_out_MEM,
            input  logic        d_write_enable_MEM,
            input  logic        d_load_enable_MEM,
            input  logic [4:0]  Rs2_MEM,
            input  logic [4:0]  Rd_MEM,
-           
-            
+
+
            output logic        d_load_enable_WB,
            output logic [4:0]  Rd_WB,
            output logic [31:0] ALU_out_WB);
@@ -29,7 +29,7 @@ module MEM(input  logic clk,
 
 always@(*) begin
     d_address    = ALU_out_MEM;
-    
+
     d_data_write   = S3_MEM;
     Rs3_MEM        = Rs2_MEM;
     d_write_enable = d_write_enable_MEM;

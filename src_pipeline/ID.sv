@@ -5,7 +5,7 @@ module ID(input logic         clk,
 
 /////////////////////////////////////// signaux qui remontent le temps
 
-          /// ce signal indique qu'un saut 
+          /// ce signal indique qu'un saut
           /// est pris à partir du bloc EX
           ///
           /// il faut donc nullifier l'instruction en cours de decodage
@@ -49,10 +49,33 @@ module ID(input logic         clk,
 
     logic [31:0] S1_EX0,S2_EX0;/// S1,S2 avant correction avec la phase MEM
 
+    logic [4:0] register_store;
+    logic [4:0] register_store_d;
+    logic load_word_wait_enable;
+    logic load_word_wait_enable_d;
+    logic jmp;
+    logic [31:0] i_data_read_dec;
+
+
+    always@(*)
+      if(load_word_wait_enable_d)
+        if(i_data_read[31:26] == '0)
+          jmp = (i_data_read[25:21] != '0 && i_data_read[25:21] == register_store_d) || (i_data_read[20:16] != '0 && i_data_read[20:16] == register_store_d);
+        else if(i_data_read[31:27] != 5'b00001)
+          jmp = (i_data_read[25:21] != '0 && i_data_read[25:21] == register_store_d);
+
+    always @(*)
+      register_store <= Rd_ID;
+
+    always@(*)
+      if(jmp)
+        i_data_read_dec <= 32'h08000000;
+      else
+        i_data_read_dec <= i_data_read;
 
     decoder decoder1(.clk(clk),
                 .reset_n(reset_n & reset_n2),
-                .i_data_read(i_data_read),
+                .i_data_read(i_data_read_dec),
                 .d_write_enable(d_write_enable_ID),
                 .d_load_enable(d_load_enable_ID),
                 .Iv_alu(Iv_alu_ID),
@@ -60,6 +83,7 @@ module ID(input logic         clk,
                 .Pc_cmd_ID(Pc_cmd_id),
                 .Pc_cmd_EX(Pc_cmd_ex_ID),
                 .Pc_add(Pc_add),
+                .load_word_wait_enable(load_word_wait_enable),
                 .I(I_ID),
                 .Rs1(Rs1_ID),
                 .Rs2(Rs2_ID),
@@ -92,7 +116,7 @@ module ID(input logic         clk,
             Pc_cmd_ex_EX        <= Pc_cmd_ex_ID;
             Rs1_EX              <= Rs1_ID;
             Rs2_EX              <= Rs2_ID;
-            Pc_add_EX           <=Pc_add;
+            Pc_add_EX           <= Pc_add;
         end
     end
 
@@ -101,4 +125,12 @@ module ID(input logic         clk,
         pc_in_ID = PC_ID + Iv_ID;
     end
 
+    always@(posedge clk)
+      begin
+        load_word_wait_enable_d <= load_word_wait_enable;
+        if(!reset_n || !load_word_wait_enable)
+          register_store_d <= 0;
+        else
+          register_store_d <= register_store;
+      end
 endmodule
