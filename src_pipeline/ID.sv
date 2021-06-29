@@ -58,20 +58,24 @@ module ID(input logic         clk,
 
 
     always@(*)
-      if(load_word_wait_enable_d)
-        if(i_data_read[31:26] == '0)
-          jmp = (i_data_read[25:21] != '0 && i_data_read[25:21] == register_store_d) || (i_data_read[20:16] != '0 && i_data_read[20:16] == register_store_d);
-        else if(i_data_read[31:27] != 5'b00001)
-          jmp = (i_data_read[25:21] != '0 && i_data_read[25:21] == register_store_d);
+      begin
+        if(load_word_wait_enable_d)
+          if(i_data_read[31:26] == '0)
+            jmp = (i_data_read[25:21] != '0 && i_data_read[25:21] == register_store_d) || (i_data_read[20:16] != '0 && i_data_read[20:16] == register_store_d);
+          else if(i_data_read[31:27] != 5'b00001)
+            jmp = (i_data_read[25:21] != '0 && i_data_read[25:21] == register_store_d);
+        else
+          jmp = 0;
+      end
 
     always @(*)
-      register_store <= Rd_ID;
+    register_store = Rd_ID;
 
     always@(*)
       if(jmp)
-        i_data_read_dec <= 32'h08000000;
+        i_data_read_dec = 32'h08000000;
       else
-        i_data_read_dec <= i_data_read;
+        i_data_read_dec = i_data_read;
 
     decoder decoder1(.clk(clk),
                 .reset_n(reset_n & reset_n2),
