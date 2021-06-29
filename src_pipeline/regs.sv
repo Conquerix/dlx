@@ -40,6 +40,6 @@ module regs(input  logic clk,
       end
 
 
-      always@(*)
+      always@(posedge clk)
           regs[Rd] = reg_in;
 endmodule
