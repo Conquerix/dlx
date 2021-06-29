@@ -40,16 +40,21 @@
 
    // Instantication de la RAM pour les données
    logic [31:0] 		    ram_addr;
-   logic [31:0] 		    ram_rdata, ram_wdata;
-   logic 			    ram_we;
+   logic [31:0] 		    ram_rdata;
+   logic [31:0] 		    d_data_write;
+   logic 			    write_enable;
    logic 			    ram_rdata_valid;
+
+
+   // periferiques
+   logic leds_cs, switches_cs;
 
    ram #(.ADDR_WIDTH(RAM_ADDR_WIDTH)) ram_data
      (
       .clk         ( clock_50                         ),
       .addr        ( ram_addr[(RAM_ADDR_WIDTH-1)+2:2] ),
-      .we          ( ram_we                           ),
-      .wdata       ( ram_wdata                        ),
+      .we          ( write_enable                     ),
+      .wdata       ( d_data_write                     ),
       .rdata       ( ram_rdata                        ),
       .rdata_valid ( ram_rdata_valid                  )
       );
@@ -75,18 +80,20 @@
       .reset_n        ( reset_n         ),
       .d_address      ( ram_addr        ),
       .d_data_read    ( ram_rdata       ),
-      .d_data_write   ( ram_wdata       ),
-      .d_write_enable ( ram_we          ),
+      .d_data_write   ( d_data_write    ),
+      .d_write_enable (write_enable),
       .d_data_valid   ( ram_rdata_valid ),
       .i_address      ( rom_addr        ),
       .i_data_read    ( rom_rdata       ),
       .i_data_valid   ( rom_rdata_valid )
       );
 
-   led led1(.cs(led_cs),
+   driver_leds led1(.chip_select(leds_cs),
             .clk(clock_50),
-            .write_enable(d_write_enable),
-            .data_write(d_data_write),
-            .data_read(d_data_read));
+            .reset_n(reset_n),
+            .write_enable(write_enable),
+            .data_write(d_data_write), 
+            .data_read(d_data_read),
+            .ledr(ledr));
 
 endmodule
