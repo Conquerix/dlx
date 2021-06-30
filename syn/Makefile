@@ -2,7 +2,7 @@
 
 QUARTUS_CMD = @quartus_sh -t DoQuartus.tcl -revision
 
-all: syn
+all: syn rom
 
 rom: update program
 

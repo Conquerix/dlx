@@ -10,15 +10,16 @@ module chip_select (input logic [31:0] address,
               begin
                 {cs_led,cs_switches,cs_ram,cs_buttons, cs_7seg} = 5'b0;
 
-                case(address)
-                  0: cs_switches = 1;
-                  1: cs_buttons  = 1;
-                  2: cs_led      = 1;
-                  default:
-                      if(address <= 6+2)
-                        cs_7seg  = 1;
-                      else
-                        cs_ram   = 1;
-                endcase
+                if(address == 0)
+                  cs_switches = 1;
+                else if(address == 1)
+                  cs_buttons  = 1;
+                else if(address == 2)
+                  cs_led      = 1;
+                else if(address <= 7)
+                  cs_7seg  = 1;
+                else
+                  cs_ram   = 1;
+                  
               end
 endmodule
