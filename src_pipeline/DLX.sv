@@ -16,7 +16,7 @@ module DLX
    output logic [31:0] i_address
    );
 
-// signaux des registres 
+// signaux des registres
 
 // signaux ID
   logic [31:0] PC_ID;
@@ -56,7 +56,7 @@ module DLX
 
   logic [4:0]  Rd_MEM_backward;
   logic [31:0] ALU_out_MEM_backward;
-  
+
 // signaux WB
   logic [31:0] reg_in_WB;
 
@@ -87,7 +87,7 @@ module DLX
            .reset_n2(reset_n2), // il faut attendre d'avoir fetch l'instruction après avoir reset : sinon on l'execute 2 fois
            .i_data_read(i_data_read),
 
-           // l'instruction doit etre nullifiée si on se rend compte qu'il faut jump 
+           // l'instruction doit etre nullifiée si on se rend compte qu'il faut jump
            // lors de l'EX
            .nullify(pc_cmd_EX),
 
@@ -147,7 +147,7 @@ module DLX
              .Rd_MEM_backward(Rd_MEM_backward),
              .d_load_enable_MEM(d_load_enable_MEM),
              .d_write_enable_MEM(d_write_enable_MEM),
-             .Rd_MEM(Rd_MEM),            
+             .Rd_MEM(Rd_MEM),
              .d_load_enable_WB(d_load_enable_WB),
              .Rd_WB(Rd_WB),
              .Rs2_MEM(Rs2_MEM),

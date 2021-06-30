@@ -15,6 +15,7 @@ void no_args() {
     exit(0);
 }
 
+
 void checkargs(int argc, const char** argv) {
 /// arguments...
     if(argc == 1)
@@ -42,7 +43,7 @@ void checkargs(int argc, const char** argv) {
 
 }
 
-
+const char* tmp_file = "/tmp/dlxasm.asm";
 
 //char* printnumber(int n) {
 //    static FILE* file =NULL;
@@ -70,8 +71,24 @@ int main(int argc, const char** argv) {
     Instruction* instruction_list;
     int n_instructions;
 
+/// preprocesseur gcc
+    if(fork() == 0) {
+        execl("gcc", "gcc", "-E", argv[1], tmp_file, NULL);
+    }
+    else {
+        int state;
+        wait(&state);
+        int ret = state >> 8;
+        
+        if(ret != 0)
+            return ret;
+    }
+    
+    
+    
 /// fichier source 
-    FILE* input  = fopen(argv[1], "r");
+    FILE* input  = fopen("argv[1]", "r");
+
 
     if(!input) {
         fprintf(stderr, "%s: fichier introuvable\n", argv[1]);

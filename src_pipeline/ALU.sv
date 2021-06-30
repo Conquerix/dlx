@@ -23,6 +23,7 @@ module ALU(
 **/
 
 always@(*) begin
+    res = 0;
     case(I)
          0: res =  op2 << 16;
          1: res =  op1+op2;

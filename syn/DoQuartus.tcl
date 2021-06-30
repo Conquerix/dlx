@@ -57,12 +57,25 @@ if [file exists ${MyProj}.rbf]  {
 
 
 # ---- Project Assignments (Verilog source files)
-set_global_assignment -name SYSTEMVERILOG_FILE ../src/DE1_SoC.sv
-set_global_assignment -name SYSTEMVERILOG_FILE ../src/gene_reset.sv
-set_global_assignment -name SYSTEMVERILOG_FILE ../src/DLX.sv
-set_global_assignment -name SYSTEMVERILOG_FILE ../src/ram.sv
-set_global_assignment -name SYSTEMVERILOG_FILE ../src/rom.sv
-set_global_assignment -name SYSTEMVERILOG_FILE ../src/seven_seg.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/ALU.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/decodeur7seg.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/gene_reset.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/MEM.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/regs.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/DE1_SoC.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/DLX.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/ID.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/pc.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/rom.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/decoder.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/EX.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/IF.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/ram.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/WB.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/driver_leds.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/driver_switches.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/chip_select.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/driver_7seg.sv
 
 # TODO: Ajouter ici tous les fichiers SystemVerilog de votre projet
 

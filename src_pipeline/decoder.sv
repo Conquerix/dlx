@@ -11,6 +11,7 @@ module decoder(input logic        clk,
                output logic Pc_cmd_EX,
                output logic Pc_add,
 
+               output logic load_word_wait_enable,
 
                output logic [4:0] I,
 
@@ -33,6 +34,7 @@ module decoder(input logic        clk,
               Rs2            = '0;
               Rd             = '0;
               Iv             = '0;
+              load_word_wait_enable = '0;
             if(!reset_n) begin
               // garder les valeurs par defaut
             end
@@ -128,6 +130,7 @@ module decoder(input logic        clk,
                         I             = 5'd1;
                         d_load_enable = 1;
                         Iv            = {{16{i_data_read[15]}},i_data_read[15:0]};
+                        load_word_wait_enable = 1;
                       end
                     'h0d :
                       begin

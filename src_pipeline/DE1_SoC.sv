@@ -30,7 +30,6 @@
      output logic [7:0] VGA_G,
      output logic [7:0] VGA_B,
      output logic 	VGA_SYNC
-
      );
 
 
@@ -40,16 +39,26 @@
 
    // Instantication de la RAM pour les données
    logic [31:0] 		    ram_addr;
-   logic [31:0] 		    ram_rdata, ram_wdata;
-   logic 			    ram_we;
+   logic [31:0] 		    d_data_write;
+   logic [31:0]       d_data_read;
+   logic 			    write_enable;
    logic 			    ram_rdata_valid;
+
+
+   // periferiques
+   logic cs_leds, cs_ram, cs_switches, cs_keys, cs_7seg;
+   logic [31:0] ram_rdata;
+   logic [31:0] sw_rdata;
+   logic [31:0] leds_rdata;
+   logic [31:0] seg7_rdata;
+   logic [31:0] keys_rdata;
 
    ram #(.ADDR_WIDTH(RAM_ADDR_WIDTH)) ram_data
      (
       .clk         ( clock_50                         ),
       .addr        ( ram_addr[(RAM_ADDR_WIDTH-1)+2:2] ),
-      .we          ( ram_we                           ),
-      .wdata       ( ram_wdata                        ),
+      .we          ( write_enable                     ),
+      .wdata       ( d_data_write                     ),
       .rdata       ( ram_rdata                        ),
       .rdata_valid ( ram_rdata_valid                  )
       );
@@ -74,13 +83,56 @@
       .clk            ( clock_50        ),
       .reset_n        ( reset_n         ),
       .d_address      ( ram_addr        ),
-      .d_data_read    ( ram_rdata       ),
-      .d_data_write   ( ram_wdata       ),
-      .d_write_enable ( ram_we          ),
+      .d_data_read    ( d_data_read     ),
+      .d_data_write   ( d_data_write    ),
+      .d_write_enable (write_enable),
       .d_data_valid   ( ram_rdata_valid ),
       .i_address      ( rom_addr        ),
       .i_data_read    ( rom_rdata       ),
       .i_data_valid   ( rom_rdata_valid )
       );
 
+   driver_leds led1(.chip_select(cs_leds),
+            .clk(clock_50),
+            .reset_n(reset_n),
+            .write_enable(write_enable),
+            .data_write(d_data_write),
+            .data_read(leds_rdata),
+            .ledr(ledr));
+
+  driver_7seg driver_7seg1(.hex0(hex0),
+                           .hex1(hex1),
+                           .hex2(hex2),
+                           .hex3(hex3),
+                           .hex4(hex4),
+                           .hex5(hex5),
+                           .cs_7seg(cs_7seg),
+                           .address(ram_addr),
+                           .clk(clock_50),
+                           .reset_n(reset_n),
+                           .write_enable(write_enable),
+                           .data_write(d_data_write),
+                           .data_read(seg7_rdata));
+
+  driver_switches sw1(.data(sw_rdata), .sw(sw));
+
+  chip_select chip_select1(
+    .address(ram_addr),
+    .cs_led(cs_leds),
+    .cs_ram(cs_ram),
+    .cs_switches(cs_switches),
+    .cs_7seg(cs_7seg),
+    .cs_keys(cs_keys)
+  );
+
+  always@(posedge clock_50) begin
+    casez ({cs_leds, cs_ram,cs_switches, cs_keys, cs_7seg, cs_keys})
+      5'b10000:   d_data_read <= leds_rdata;
+      5'b01000:   d_data_read <= ram_rdata;
+      5'b00100:   d_data_read <= sw_rdata;
+      5'b00010:   d_data_read <= keys_rdata;
+      5'b00001:   d_data_read <= seg7_rdata;
+      default:    d_data_read <= 0;
+    endcase
+  end
 endmodule
