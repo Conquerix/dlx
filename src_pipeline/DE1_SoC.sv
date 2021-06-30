@@ -125,8 +125,11 @@
     .cs_keys(cs_keys)
   );
 
+  driver_keys driver_keys1(.data(keys_rdata),
+                           .key(key));
+
   always@(posedge clock_50) begin
-    casez ({cs_leds, cs_ram,cs_switches, cs_keys, cs_7seg, cs_keys})
+    casez ({cs_leds, cs_ram,cs_switches, cs_keys, cs_7seg})
       5'b10000:   d_data_read <= leds_rdata;
       5'b01000:   d_data_read <= ram_rdata;
       5'b00100:   d_data_read <= sw_rdata;
