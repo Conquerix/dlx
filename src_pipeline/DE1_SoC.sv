@@ -46,12 +46,12 @@
 
 
    // periferiques
-   logic leds_cs, switches_cs, cs_ram, cs_switches, cs_buttons, cs_7seg;
+   logic cs_leds, cs_ram, cs_switches, cs_keys, cs_7seg;
    logic [31:0] ram_rdata;
    logic [31:0] sw_rdata;
    logic [31:0] leds_rdata;
    logic [31:0] seg7_rdata;
-   logic [31:0] buttons_rdata;
+   logic [31:0] keys_rdata;
 
    ram #(.ADDR_WIDTH(RAM_ADDR_WIDTH)) ram_data
      (
@@ -92,11 +92,11 @@
       .i_data_valid   ( rom_rdata_valid )
       );
 
-   driver_leds led1(.chip_select(leds_cs),
+   driver_leds led1(.chip_select(cs_leds),
             .clk(clock_50),
             .reset_n(reset_n),
             .write_enable(write_enable),
-            .data_write(d_data_write), 
+            .data_write(d_data_write),
             .data_read(leds_rdata),
             .ledr(ledr));
 
@@ -111,26 +111,26 @@
                            .clk(clock_50),
                            .reset_n(reset_n),
                            .write_enable(write_enable),
-                           .data_write(d_data_write), 
+                           .data_write(d_data_write),
                            .data_read(seg7_rdata));
 
   driver_switches sw1(.data(sw_rdata), .sw(sw));
 
   chip_select chip_select1(
     .address(ram_addr),
-    .cs_led(leds_cs),
+    .cs_led(cs_leds),
     .cs_ram(cs_ram),
     .cs_switches(cs_switches),
     .cs_7seg(cs_7seg),
-    .cs_buttons(cs_buttons)
+    .cs_keys(cs_keys)
   );
 
   always@(posedge clock_50) begin
-    casez ({leds_cs, cs_ram,cs_switches, cs_buttons, cs_7seg})
+    casez ({cs_leds, cs_ram,cs_switches, cs_keys, cs_7seg, cs_keys})
       5'b10000:   d_data_read <= leds_rdata;
       5'b01000:   d_data_read <= ram_rdata;
       5'b00100:   d_data_read <= sw_rdata;
-      5'b00010:   d_data_read <= sw_rdata;
+      5'b00010:   d_data_read <= keys_rdata;
       5'b00001:   d_data_read <= seg7_rdata;
       default:    d_data_read <= 0;
     endcase
