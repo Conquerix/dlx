@@ -75,6 +75,7 @@ set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/WB.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/driver_leds.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/driver_switches.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/chip_select.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src_pipeline/driver_7seg.sv
 
 # TODO: Ajouter ici tous les fichiers SystemVerilog de votre projet
 

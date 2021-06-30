@@ -4,6 +4,8 @@ QUARTUS_CMD = @quartus_sh -t DoQuartus.tcl -revision
 
 all: syn
 
+rom: update program
+
 syn:
 	$(QUARTUS_CMD) dlx
 
@@ -14,6 +16,7 @@ program: dlx.sof
 	@quartus_pgm -c DE-SoC  -m JTAG -oP\;$<@2 -oS\;SOCVHPS@1
 
 update:
+	cd ../rom/ && make clean && make all
 	quartus_cdb --update_mif dlx
 	quartus_asm dlx
 
