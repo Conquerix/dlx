@@ -3,6 +3,7 @@
     (
      ///////// clock /////////
      input logic 	clock_50,
+     input logic  clock_pix,
 
      ///////// hex  /////////
      output logic [6:0] hex0,
@@ -45,8 +46,8 @@
    logic 			    ram_rdata_valid;
 
 
-   // periferiques
-   logic cs_leds, cs_ram, cs_switches, cs_keys, cs_7seg;
+   // peripheriques
+   logic cs_leds, cs_ram, cs_switches, cs_keys, cs_7seg, cs_vga;
    logic [31:0] ram_rdata;
    logic [31:0] sw_rdata;
    logic [31:0] leds_rdata;
@@ -85,7 +86,7 @@
       .d_address      ( ram_addr        ),
       .d_data_read    ( d_data_read     ),
       .d_data_write   ( d_data_write    ),
-      .d_write_enable (write_enable),
+      .d_write_enable (write_enable     ),
       .d_data_valid   ( ram_rdata_valid ),
       .i_address      ( rom_addr        ),
       .i_data_read    ( rom_rdata       ),
@@ -116,14 +117,28 @@
 
   driver_switches sw1(.data(sw_rdata), .sw(sw));
 
+  driver_vga vga1(.clock_50(clock_50),
+                  .reset_n(reset_n),
+                  .data(d_data_write),
+                  .chip_select(cs_vga),
+                  .write_enable(write_enable),
+                  .VGA_CLK(VGA_CLK),
+                  .VGA_HS(VGA_HS),
+                  .VGA_VS(VGA_VS),
+                  .VGA_BLANK(VGA_BLANK),
+                  .VGA_R(VGA_R),
+                  .VGA_G(VGA_G),
+                  .VGA_B(VGA_B),
+                  .VGA_SYNC(VGA_SYNC));
+
   chip_select chip_select1(
     .address(ram_addr),
     .cs_led(cs_leds),
     .cs_ram(cs_ram),
     .cs_switches(cs_switches),
     .cs_7seg(cs_7seg),
-    .cs_keys(cs_keys)
-  );
+    .cs_keys(cs_keys),
+    .cs_vga(cs_vga));
 
   driver_keys driver_keys1(.data(keys_rdata),
                            .key(key));
